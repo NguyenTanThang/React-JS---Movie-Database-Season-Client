@@ -34,7 +34,7 @@ class MovieDetailsPage extends Component {
     renderRNGMovieItems = () => {
         const {movies} = this.props;
 
-        if (movies.length > 0) {
+        if (movies.length > 6) {
             let currentMovies = getRandom(movies, 6);
         
             return currentMovies.map(movieItem => {
@@ -44,7 +44,19 @@ class MovieDetailsPage extends Component {
                     </div>
                 )
             })
-        } else {
+        } 
+        else if (movies.length <= 6) {
+            let currentMovies = getRandom(movies, movies.length);
+        
+            return currentMovies.map(movieItem => {
+                return (
+                    <div className="col-6 col-sm-4 col-lg-6">
+                        <MovieItem movieItem={movieItem} key={movieItem._Id}/>
+                    </div>
+                )
+            })
+        }
+        else {
             return (
                 <div className="col-12 text-center pb-4">
                     <Empty description="No Movie"/>
