@@ -1,0 +1,94 @@
+/**
+* Shows how you can use CSS to style your Element's container.
+* These classes are added to your Stripe Element by default.
+* You can override these classNames by using the options passed
+* to the CardElement component.
+* https://stripe.com/docs/js/elements_object/create_element?type=card#elements_create-options-classes
+*/
+
+.StripeElement {
+    height: 40px;
+    padding: 10px 12px;
+    width: 100%;
+    color: #32325d;
+    background-color: white;
+    border: 1px solid transparent;
+    border-radius: 4px;
+
+    box-shadow: 0 1px 3px 0 #e6ebf1;
+    -webkit-transition: box-shadow 150ms ease;
+    transition: box-shadow 150ms ease;
+}
+
+.StripeElement--focus {
+    box-shadow: 0 1px 3px 0 #cfd7df;
+}
+
+.StripeElement--invalid {
+    border-color: #fa755a;
+}
+
+.StripeElement--webkit-autofill {
+    background-color: #fefde5 !important;
+}
+
+/*==============================
+	Plan Modal
+==============================*/
+
+.plan__btn {
+    padding: 15px;
+    color: #FFF;
+    border-radius: 10px;
+    opacity: 0.8;
+    transition: all 0.3s ease;
+}
+
+.plan__btn i {
+    margin-right: 10px;
+}
+
+.plan__btn:hover {
+    opacity: 1;
+}
+
+.momo__btn {
+    width: 100%;
+    margin-bottom: 10px;
+    background-color: #b0006d;
+}
+
+.stripe__btn {
+    width: 100%;
+    background-color: #1A1F71;
+}
+
+/*Loading*/
+.loader-container {
+    text-align: center;
+    width: 100%;
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+
+.loader {
+    border: 16px solid rgba(0, 0, 0, 0.3);
+    border-top: 16px solid #ff55a5;
+    border-bottom: 16px solid #ff55a5;
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin 2s linear infinite;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
