@@ -8,7 +8,6 @@ import {
   TimeDivider,
   PlaybackRateMenuButton,
   VolumeMenuButton,
-
  } from 'video-react';
 import {
     getScreenshot
@@ -26,10 +25,6 @@ export default class MovieVideo extends Component {
         return (
             <Player height="100%" poster={"https://wallpaperaccess.com/full/1512225.jpg"} width="100%" fluid={false} id="player">
                 <source src={videoSRC} />
-
-                <track label="English" kind="subtitles" srclang="en" src={sampleSub} default />
-                <track label="Deutsch" kind="subtitles" srclang="de" src={sampleSub} />
-                <track label="Español" kind="subtitles" srclang="es" src={sampleSub} />
 
                 <ControlBar>
                     <ReplayControl seconds={10} order={1.1} />
@@ -53,16 +48,18 @@ export default class MovieVideo extends Component {
 
     render() {
         const {videoSRC} = this.props;
+        // poster={"https://wallpaperaccess.com/full/1512225.jpg"}
 
         return (
-            <video controls height="100%" poster={"https://wallpaperaccess.com/full/1512225.jpg"} width="100%" crossorigin playsinline id="player">
-                <source src={videoSRC} type="video/mp4"/>
+                <video controls crossorigin playsinline id="player" height="100%" width="100%">
 
-                <track kind="captions" label="English" src={sampleSub} srclang="en" default />
-                <track kind="captions" label="Français" src={sampleSub} srclang="fr" />
+                    <source src={videoSRC} type="video/mp4"/>
 
-                <a href={videoSRC} download>Download</a>
-            </video>
+                    <track kind="captions" label="English" src={sampleSub} srclang="en" default />
+                    <track kind="captions" label="Français" src={sampleSub} srclang="fr" />
+
+                    <a href={videoSRC} download>Download</a>
+                </video>
         )
     }
 }

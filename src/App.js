@@ -2,6 +2,7 @@ import React from 'react';
 import "bootstrap/dist/css/bootstrap.css";
 import 'antd/dist/antd.css';
 import "video-react/dist/video-react.css";
+import "plyr/dist/plyr.css";
 import "./App.css";
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 
