@@ -7,13 +7,18 @@ import {
   CurrentTimeDisplay,
   TimeDivider,
   PlaybackRateMenuButton,
-  VolumeMenuButton
+  VolumeMenuButton,
+
  } from 'video-react';
 import {
     getScreenshot
 } from "../../config/jqueryCode";
-import ReactPlayer from 'react-player'
+import ReactPlayer from 'react-player';
+import { default as Video, Controls, Play, Mute, Seek, Fullscreen, Time, Overlay, Subtitles } from 'react-html5video';
+import sampleSub from "../../data/subtitles/sample.vtt";
+import Plyr from 'plyr';
 
+/*
 export default class MovieVideo extends Component {
     render() {
         const {videoSRC} = this.props;
@@ -21,6 +26,10 @@ export default class MovieVideo extends Component {
         return (
             <Player height="100%" poster={"https://wallpaperaccess.com/full/1512225.jpg"} width="100%" fluid={false} id="player">
                 <source src={videoSRC} />
+
+                <track label="English" kind="subtitles" srclang="en" src={sampleSub} default />
+                <track label="Deutsch" kind="subtitles" srclang="de" src={sampleSub} />
+                <track label="Español" kind="subtitles" srclang="es" src={sampleSub} />
 
                 <ControlBar>
                     <ReplayControl seconds={10} order={1.1} />
@@ -34,23 +43,26 @@ export default class MovieVideo extends Component {
         )
     }
 }
+*/
 
-/*
 export default class MovieVideo extends Component {
+
+    componentDidMount() {
+        const player = new Plyr('#player');
+    }
+
     render() {
         const {videoSRC} = this.props;
 
         return (
-            <ReactPlayer url={videoSRC} height="100%" width="100%" controls={true} 
-            config={{ file: {
-                tracks: [
-                  {kind: 'subtitles', src: 'subs/subtitles.en.vtt', srcLang: 'en', default: true},
-                  {kind: 'subtitles', src: 'subs/subtitles.ja.vtt', srcLang: 'ja'},
-                  {kind: 'subtitles', src: 'subs/subtitles.de.vtt', srcLang: 'de'}
-                ]
-              }}}
-            />
+            <video controls height="100%" poster={"https://wallpaperaccess.com/full/1512225.jpg"} width="100%" crossorigin playsinline id="player">
+                <source src={videoSRC} type="video/mp4"/>
+
+                <track kind="captions" label="English" src={sampleSub} srclang="en" default />
+                <track kind="captions" label="Français" src={sampleSub} srclang="fr" />
+
+                <a href={videoSRC} download>Download</a>
+            </video>
         )
     }
 }
-*/
