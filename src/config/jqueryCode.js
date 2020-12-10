@@ -1,6 +1,32 @@
 import $ from 'jquery';
 import Plyr from 'react-plyr';
 
+/**
+ * Takes a screenshot from video.
+ * @param videoEl {Element} Video element
+ * @param scale {Number} Screenshot scale (default = 1)
+ * @returns {Element} Screenshot image element
+ */
+export function getScreenshot(videoURL, scale) {
+    scale = scale || 1;
+
+	const videoEl = document.createElement("video");
+	const sourceEl = document.createElement("source");
+	sourceEl.setAttribute("src", videoURL);
+	sourceEl.setAttribute("type", "video/mp4");
+	videoEl.innerHTML += sourceEl;
+	console.log(videoEl);
+	console.log(sourceEl);
+    const canvas = document.createElement("canvas");
+    canvas.width = "100px" * scale;
+    canvas.height = "100px" * scale;
+    canvas.getContext('2d').drawImage(videoEl, 0, 0, canvas.width, canvas.height);
+
+    const image = new Image()
+    image.src = canvas.toDataURL();
+    return canvas.toDataURL();
+}
+
 export const initPlayer = () => {
 	/*==============================
 	Player
