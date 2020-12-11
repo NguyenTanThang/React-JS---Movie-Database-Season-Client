@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Let's Flix",
+  "name": "Let's Flix Movie Database",
   "icons": [
     {
       "src": "favicon.ico",
@@ -18,8 +18,16 @@
       "sizes": "512x512"
     }
   ],
+  "categories": ["entertainment", "movies", "chill"],
+  "screenshots" : [
+    {
+      "src": "https://i.pinimg.com/originals/42/81/a9/4281a9636ca343ef77207196b4af5be8.jpg",
+      "sizes": "1600x1200",
+      "type": "image/jpg"
+    }
+  ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#000000",
+  "theme_color": "#ff55a5",
   "background_color": "#ffffff"
 }
