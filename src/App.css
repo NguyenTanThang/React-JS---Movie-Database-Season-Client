@@ -1605,7 +1605,7 @@ input[type=range]::-ms-thumb {
 
 .card__cover img {
     width: 100%;
-    min-height: 220px;
+    min-height: 250px;
 }
 
 .card__cover:before {
@@ -1990,15 +1990,24 @@ input[type=range]::-ms-thumb {
     .card--list .card__content {
         height: 310px;
     }
+
+    .card__cover img {
+        min-height: 320px;
+    }
 }
 
 @media (min-width: 992px) {
     .card--list .card__content {
         height: 190px;
     }
+
 }
 
 @media (min-width: 1200px) {
+    .card__cover img {
+        min-height: 250px;
+    }
+
     .card--big .card__play {
         width: 80px;
         height: 80px;

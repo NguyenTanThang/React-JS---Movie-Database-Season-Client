@@ -11,11 +11,11 @@ import {
 
 const SEASON_URL = `${MAIN_PROXY_URL}/seasons`;
 
-export const getSeasonsBySeriesID = () => {
+export const getSeasonsBySeriesID = (seriesID) => {
     return async (dispatch) => {
         try {
             dispatch(setLoading());
-            const res = await axios.get(SEASON_URL);
+            const res = await axios.get(`${SEASON_URL}/seriesID/${seriesID}`);
     
             const seasons = res.data.data;
 
