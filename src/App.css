@@ -1392,7 +1392,7 @@ input[type=range]::-ms-thumb {
     transform: rotate(-45deg);
 }
 
-@media (min-width: 320px) { 
+@media (min-width: 320px) and (max-width: 767px) { 
     .header__logo h1 {
         padding-left: 0px;
         font-size: 1.8rem;
