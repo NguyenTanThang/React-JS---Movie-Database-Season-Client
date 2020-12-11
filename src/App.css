@@ -1392,12 +1392,18 @@ input[type=range]::-ms-thumb {
     transform: rotate(-45deg);
 }
 
-@media (min-width: 375px) {
+@media (min-width: 320px) { 
     .header__logo h1 {
         padding-left: 0px;
-        font-size: 2rem;
+        font-size: 1.8rem;
     }
 
+    .header__logo {
+        width: 150px;
+    }
+}
+
+@media (min-width: 375px) {
     .header__logo {
         width: 180px;
     }
