@@ -6,6 +6,7 @@ import Navbar from "../components/partials/Navbar";
 import {getSubStatus, getCurrentUser} from "../requests/authRequests";
 import {addWatchHistory, deleteWatchHistory} from "../requests/watchHistoryRequests";
 import {message} from "antd";
+import {Helmet} from "react-helmet";
 
 class WatchSeriesPage extends Component {
 

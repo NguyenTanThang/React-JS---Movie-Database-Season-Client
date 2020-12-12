@@ -6,6 +6,7 @@ import {login} from "../requests/authRequests";
 import Navbar from "../components/partials/Navbar";
 import {getAuthStatus} from "../requests/authRequests";
 import {message} from "antd";
+import {Helmet} from "react-helmet";
 
 export default class SignIn extends Component {
 
@@ -47,6 +48,11 @@ export default class SignIn extends Component {
 
         return (
             <>
+                <Helmet>
+                    <title>{`Let's Flix | Sign In`}</title>
+                    <meta name="description" content="Helmet application" />
+                </Helmet>
+
                 <Navbar/>
 
                 <div className="sign section--bg" data-bg={sectionBgImage}>

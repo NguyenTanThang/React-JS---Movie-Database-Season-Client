@@ -18,6 +18,7 @@ import HomeHeader from "../components/partials/HomeHeader";
 import TabGenerator from "../components/partials/TabGenerator";
 import {Link} from "react-router-dom";
 import Navbar from "../components/partials/Navbar";
+import {Helmet} from "react-helmet";
 
 class Home extends Component {
 
@@ -107,6 +108,11 @@ class Home extends Component {
 
         return (
             <>
+                <Helmet>
+                    <title>{`Let's Flix | Home`}</title>
+                    <meta name="description" content="Helmet application" />
+                </Helmet>
+
                 <Navbar/>
 
                 <HomeHeader/>

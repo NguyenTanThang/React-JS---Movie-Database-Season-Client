@@ -12,6 +12,7 @@ import SeasonItem from "../components/seasons/SeasonItem";
 import {getRandom} from "../utils/utils";
 import Navbar from "../components/partials/Navbar";
 import {getSeriesByIDAxios} from "../requests/seriesRequests";
+import {Helmet} from "react-helmet";
 
 class SeasonDetailsPage extends Component {
 
@@ -95,6 +96,11 @@ class SeasonDetailsPage extends Component {
 
         return (
             <>
+                <Helmet>
+                    <title>{`Let's Flix | ${seasonItem.name}`}</title>
+                    <meta name="description" content="Helmet application" />
+                </Helmet>
+
                 <Navbar/>
 
                 <div>

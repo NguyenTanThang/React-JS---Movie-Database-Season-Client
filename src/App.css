@@ -1472,6 +1472,11 @@ input[type=range]::-ms-thumb {
 }
 
 @media (min-width: 1200px) {
+    .header__logo h1 {
+        padding-left: 0;
+        font-size: 2.5rem;
+    }
+
     .header__sign-in {
         margin-left: 45px;
     }

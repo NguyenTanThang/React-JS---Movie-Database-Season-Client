@@ -11,6 +11,7 @@ import PlanList from "../components/plans/PlanList";
 import { Collapse } from 'antd';
 import {getAllPlans} from "../actions/planActions";
 import {connect} from "react-redux";
+import {Helmet} from "react-helmet";
 
 const { Panel } = Collapse;
 
@@ -55,6 +56,11 @@ class LandingPage extends Component {
 
         return (
             <>
+                <Helmet>
+                    <title>{`Let's Flix | Landing Page`}</title>
+                    <meta name="description" content="Helmet application" />
+                </Helmet>
+
                 <Navbar/>
 
                 <section id="header" className="landing-header">

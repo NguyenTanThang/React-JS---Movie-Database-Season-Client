@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PageTitle from "../components/partials/PageTitle";
 import Navbar from "../components/partials/Navbar";
+import {Helmet} from "react-helmet";
 
 const helpBreadcumbs = [
     {
@@ -17,6 +18,11 @@ export default class Help extends Component {
     render() {
         return (
             <>
+                <Helmet>
+                    <title>{`Let's Flix | Help`}</title>
+                    <meta name="description" content="Helmet application" />
+                </Helmet>
+
                 <Navbar/>
 
                 <div>

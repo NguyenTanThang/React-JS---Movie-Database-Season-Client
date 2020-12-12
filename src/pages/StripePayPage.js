@@ -3,6 +3,7 @@ import StripeApp from "../components/stripe/StripeApp";
 import Navbar from "../components/partials/Navbar";
 import {getSubStatus, getAuthStatus} from "../requests/authRequests";
 import {message} from "antd";
+import {Helmet} from "react-helmet";
 
 class StripePayPage extends Component {
 
@@ -21,6 +22,10 @@ class StripePayPage extends Component {
     render() {
         return (
             <>
+                <Helmet>
+                    <title>{`Let's Flix | Stripe Payment`}</title>
+                    <meta name="description" content="Helmet application" />
+                </Helmet>
                 <Navbar/>
                 <StripeApp/>
             </>

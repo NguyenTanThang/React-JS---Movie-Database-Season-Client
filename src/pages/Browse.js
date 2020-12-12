@@ -18,6 +18,7 @@ import Pagination from "../components/partials/Pagination";
 import {sortMoviesAndSeries} from "../utils/sorters";
 import {paginate} from "../utils/paginate";
 import Navbar from "../components/partials/Navbar";
+import {Helmet} from "react-helmet";
 
 const browseBreadcumbs = [
     {
@@ -117,6 +118,11 @@ class Browse extends Component {
 
         return (
             <>
+                <Helmet>
+                    <title>{`Let's Flix | Browse`}</title>
+                    <meta name="description" content="Helmet application" />
+                </Helmet>
+
                 <Navbar/>
 
                 <div>

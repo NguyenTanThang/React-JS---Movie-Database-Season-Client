@@ -5,6 +5,7 @@ import Navbar from "../components/partials/Navbar";
 import {getSubStatus, getCurrentUser} from "../requests/authRequests";
 import {addWatchHistory, deleteWatchHistory} from "../requests/watchHistoryRequests";
 import {message} from "antd";
+import {Helmet} from "react-helmet";
 
 class WatchMoviePage extends Component {
 
@@ -42,6 +43,11 @@ class WatchMoviePage extends Component {
 
         return (
             <>
+                <Helmet>
+                    <title>{`Let's Flix | Watch ${movieItem.name}`}</title>
+                    <meta name="description" content="Helmet application" />
+                </Helmet>
+
                 <Navbar/>
                 <div className="container movie-watch-container">
                     <MovieVideo videoSRC={movieURL}/>

@@ -6,6 +6,7 @@ import {getAllPlans} from "../actions/planActions";
 import PlanList from "../components/plans/PlanList";
 import {getSubStatus} from "../requests/authRequests";
 import {message} from "antd";
+import {Helmet} from "react-helmet";
 
 const pricingBreadcumbs = [
     {
@@ -36,6 +37,11 @@ class PricingPlan extends Component {
 
         return (
             <>
+                <Helmet>
+                    <title>{`Let's Flix | Pricing`}</title>
+                    <meta name="description" content="Helmet application" />
+                </Helmet>
+
                 <Navbar/>
 
                 <div>

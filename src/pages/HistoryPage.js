@@ -8,6 +8,7 @@ import {getAllWatchHistoryByCustomerID} from "../actions/historyActions";
 import Pagination from "../components/partials/Pagination";
 import {paginate} from "../utils/paginate";
 import TabGenerator from "../components/partials/TabGenerator";
+import {Helmet} from "react-helmet";
 
 const helpBreadcumbs = [
     {
@@ -109,6 +110,11 @@ class WatchHistory extends Component {
 
         return (
             <>
+                <Helmet>
+                    <title>{`Let's Flix | History`}</title>
+                    <meta name="description" content="Helmet application" />
+                </Helmet>
+
                 <Navbar/>
 
                 <div>

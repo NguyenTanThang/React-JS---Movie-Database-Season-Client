@@ -1,16 +1,19 @@
 import React, { Component } from 'react';
 import {getEpisodesBySeasonIDAxios} from "../requests/episodeRequests";
+import {getSeasonByIDAxios} from "../requests/seasonRequests";
 import MovieVideo from '../components/movies/MovieVideo';
 import TabGenerator from '../components/partials/TabGenerator';
 import Navbar from "../components/partials/Navbar";
 import {getSubStatus, getCurrentUser} from "../requests/authRequests";
 import {addWatchHistory, deleteWatchHistory} from "../requests/watchHistoryRequests";
 import {message} from "antd";
+import {Helmet} from "react-helmet";
 
 class WatchSeasonPage extends Component {
 
     state = {
-        episodeList: []
+        episodeList: [],
+        seasonItem: ""
     }
 
     async componentDidMount() {
@@ -18,6 +21,7 @@ class WatchSeasonPage extends Component {
         const seriesID = localStorage.getItem("currentSeriesID");
 
         const episodeList = await getEpisodesBySeasonIDAxios(seasonID);
+        const seasonItem = await getSeasonByIDAxios(seasonID);
         const subStatus = await getSubStatus();
 
         if (subStatus !== "active") {
@@ -30,7 +34,8 @@ class WatchSeasonPage extends Component {
         await addWatchHistory(userID, seriesID);
 
         this.setState({
-            episodeList
+            episodeList,
+            seasonItem
         })
     }
 
@@ -67,9 +72,14 @@ class WatchSeasonPage extends Component {
 
     render() {
         const {renderEpisodeListWatchItems} = this;
+        const {seasonItem} = this.state;
 
         return (
             <>
+                <Helmet>
+                    <title>{`Let's Flix | Watch ${seasonItem.name}`}</title>
+                    <meta name="description" content="Helmet application" />
+                </Helmet>
                 <Navbar/>
                 <div className="container episode-watch-tab-container">
                     <div className="row">

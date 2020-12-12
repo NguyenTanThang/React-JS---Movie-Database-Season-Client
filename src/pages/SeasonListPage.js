@@ -5,7 +5,9 @@ import SeasonList from "../components/seasons/SeasonList";
 import Pagination from "../components/partials/Pagination";
 import {paginate} from "../utils/paginate";
 import {getSeasonsBySeriesID} from "../actions/seasonActions";
+import {getSeriesByIDAxios} from "../requests/seriesRequests";
 import {connect} from "react-redux";
+import {Helmet} from "react-helmet";
 
 let seasonListBreadcumbs = [
     {
@@ -25,13 +27,15 @@ let seasonListBreadcumbs = [
 class SeasonListPage extends Component {
 
     state = {
-        seasonCurrentPage: 1
+        seasonCurrentPage: 1,
+        seriesItem: ""
     }
 
     async componentDidMount() {
         const seriesID = this.props.match.params.seriesID;
         localStorage.setItem("currentSeriesID", seriesID);
         this.props.getSeasonsBySeriesID(seriesID);
+        const seriesItem = await getSeriesByIDAxios(seriesID);
         seasonListBreadcumbs = [
             {
                 url: "/",
@@ -46,7 +50,9 @@ class SeasonListPage extends Component {
                 text: "Season List"
             }
         ]
-        
+        this.setState({
+            seriesItem
+        })
     }
 
     changeSeasonPageNumber = (pageNumber) => {
@@ -75,13 +81,19 @@ class SeasonListPage extends Component {
 
     render() {
         const {renderSeasonList} = this;
+        const {seriesItem} = this.state;
 
         return (
             <>
+                <Helmet>
+                    <title>{`Let's Flix | Seasons of ${seriesItem.name}`}</title>
+                    <meta name="description" content="Helmet application" />
+                </Helmet>
+
                 <Navbar/>
 
                 <div>
-                <PageTitle title="Seasons" breadcumbs={seasonListBreadcumbs}/>
+                <PageTitle title={`Seasons of ${seriesItem.name}`} breadcumbs={seasonListBreadcumbs}/>
 
                 <section className="content section-padding">
                     <div className="content__head">

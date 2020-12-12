@@ -8,6 +8,7 @@ import {getAllWatchLaterByCustomerID} from "../actions/watchLaterActions";
 import Pagination from "../components/partials/Pagination";
 import {paginate} from "../utils/paginate";
 import TabGenerator from "../components/partials/TabGenerator";
+import {Helmet} from "react-helmet";
 
 const helpBreadcumbs = [
     {
@@ -101,6 +102,11 @@ class WatchLater extends Component {
 
         return (
             <>
+                <Helmet>
+                    <title>{`Let's Flix | Watch Later`}</title>
+                    <meta name="description" content="Helmet application" />
+                </Helmet>
+
                 <Navbar/>
 
                 <div>

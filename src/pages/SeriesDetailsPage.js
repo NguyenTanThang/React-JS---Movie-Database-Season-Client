@@ -12,6 +12,7 @@ import SeriesItem from "../components/series/SeriesItem";
 import {getRandom} from "../utils/utils";
 import {Empty} from "antd";
 import Navbar from "../components/partials/Navbar";
+import {Helmet} from "react-helmet";
 
 class SeriesDetailsPage extends Component {
 
@@ -87,6 +88,11 @@ class SeriesDetailsPage extends Component {
 
         return (
             <>
+                <Helmet>
+                    <title>{`Let's Flix | ${seriesItem.name}`}</title>
+                    <meta name="description" content="Helmet application" />
+                </Helmet>
+
                 <Navbar/>
 
                 <div>
