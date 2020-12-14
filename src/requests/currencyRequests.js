@@ -3,6 +3,7 @@ import {message} from "antd"
 
 const CURRENCY_API = `https://openexchangerates.org/api/latest.json?app_id=0681618640d74ff18ed919c39bbb5649`;
 
+/*
 export const USDtoEuro = async (usd) => {
     try {
         const res = await axios.get(CURRENCY_API);
@@ -17,9 +18,7 @@ export const USDtoEuro = async (usd) => {
         return usd / usdRate;
     } catch (error) {
         console.log(error);
-        /*
-        message.error(error.message);
-        */
+        //message.error(error.message);
     }
 }
 
@@ -39,11 +38,10 @@ export const EurotoVND = async (euro) => {
         return parseInt(vnd);
     } catch (error) {
         console.log(error);
-        /*
-        message.error(error.message);
-        */
+        //message.error(error.message);
     }
 }
+*/
 
 export const USDtoVND = async (usd) => {
     try {
