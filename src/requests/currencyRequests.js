@@ -1,7 +1,7 @@
 import axios from "axios";
 import {message} from "antd"
 
-const CURRENCY_API = `http://data.fixer.io/api/latest?access_key=8979eef7f696eda5b948f4a96a2dbdaa&format=1`;
+const CURRENCY_API = `https://openexchangerates.org/api/latest.json?app_id=0681618640d74ff18ed919c39bbb5649`;
 
 export const USDtoEuro = async (usd) => {
     try {
@@ -47,9 +47,12 @@ export const EurotoVND = async (euro) => {
 
 export const USDtoVND = async (usd) => {
     try {
-        const euro = await USDtoEuro(usd);
-        const vnd = await EurotoVND(euro);
+        const res = await axios.get(CURRENCY_API);
 
+        const rates = res.data.rates;
+        const vndRate = rates.VND;
+        let vnd = usd * vndRate;
+        vnd = vnd.toFixed(0);
         return vnd;
     } catch (error) {
         console.log(error);
