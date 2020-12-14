@@ -8,6 +8,8 @@ import {getSubStatus, getCurrentUser} from "../requests/authRequests";
 import {addWatchHistory, deleteWatchHistory} from "../requests/watchHistoryRequests";
 import {message} from "antd";
 import {Helmet} from "react-helmet";
+import { motion } from "framer-motion";
+import {pageStyle, pageTransition, pageVariants} from "../config/animation";
 
 class WatchSeasonPage extends Component {
 
@@ -75,6 +77,14 @@ class WatchSeasonPage extends Component {
         const {seasonItem} = this.state;
 
         return (
+            <motion.div
+                style={pageStyle}
+                initial="initial"
+                animate="in"
+                exit="out"
+                variants={pageVariants}
+                transition={pageTransition}
+            >
             <>
                 <Helmet>
                     <title>{`Let's Flix | Watch ${seasonItem.name}`}</title>
@@ -89,7 +99,7 @@ class WatchSeasonPage extends Component {
                     </div>
                 </div>
             </>
-            
+            </motion.div>
         )
     }
 }

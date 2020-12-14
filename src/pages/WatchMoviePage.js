@@ -5,6 +5,8 @@ import Navbar from "../components/partials/Navbar";
 import {getSubStatus, getCurrentUser} from "../requests/authRequests";
 import {addWatchHistory, deleteWatchHistory} from "../requests/watchHistoryRequests";
 import {message} from "antd";
+import { motion } from "framer-motion";
+import {pageStyle, pageTransition, pageVariants} from "../config/animation";
 import {Helmet} from "react-helmet";
 
 class WatchMoviePage extends Component {
@@ -42,6 +44,14 @@ class WatchMoviePage extends Component {
         }
 
         return (
+            <motion.div
+                style={pageStyle}
+                initial="initial"
+                animate="in"
+                exit="out"
+                variants={pageVariants}
+                transition={pageTransition}
+            >
             <>
                 <Helmet>
                     <title>{`Let's Flix | Watch ${movieItem.name}`}</title>
@@ -53,6 +63,7 @@ class WatchMoviePage extends Component {
                     <MovieVideo videoSRC={movieURL}/>
                 </div>
             </>
+            </motion.div>
         )
     }
 }

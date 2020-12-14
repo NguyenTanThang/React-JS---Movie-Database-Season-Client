@@ -13,6 +13,8 @@ import {getRandom} from "../utils/utils";
 import Navbar from "../components/partials/Navbar";
 import {getSeriesByIDAxios} from "../requests/seriesRequests";
 import {Helmet} from "react-helmet";
+import { motion } from "framer-motion";
+import {pageStyle, pageTransition, pageVariants} from "../config/animation";
 
 class SeasonDetailsPage extends Component {
 
@@ -95,6 +97,14 @@ class SeasonDetailsPage extends Component {
         const seasonIDFromPage = this.props.match.params.seasonID;
 
         return (
+            <motion.div
+                style={pageStyle}
+                initial="initial"
+                animate="in"
+                exit="out"
+                variants={pageVariants}
+                transition={pageTransition}
+            >
             <>
                 <Helmet>
                     <title>{`Let's Flix | ${seasonItem.name}`}</title>
@@ -123,6 +133,7 @@ class SeasonDetailsPage extends Component {
                 </div>
             </div>
             </>
+            </motion.div>
         )
     }
 }

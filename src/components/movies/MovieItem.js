@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {Link} from "react-router-dom";
 import {parseDateMoment} from "../../utils/dateParser";
+import LazyLoad from 'react-lazyload';
 
 export default class MovieItem extends Component {
 
@@ -31,9 +32,12 @@ export default class MovieItem extends Component {
 
         return (
 							<div className="card">
-								<div className="card__cover">
-									<img src={posterURL} alt=""/>
-									<Link target={"_blank"} to={`/movies-details/${_id}`} className="card__play">
+                                <div className="card__cover">
+                                <LazyLoad height={200}>
+                                    <img src={posterURL} alt=""/>
+                                </LazyLoad>
+                                    <Link target={"_blank"} to={`/movies-details/${_id}`} 
+                                    className="card__play">
 										<i className="fas fa-play" aria-hidden="true"></i>
 									</Link>
 								</div>

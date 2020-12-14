@@ -8,6 +8,8 @@ import {getSeasonsBySeriesID} from "../actions/seasonActions";
 import {getSeriesByIDAxios} from "../requests/seriesRequests";
 import {connect} from "react-redux";
 import {Helmet} from "react-helmet";
+import { motion } from "framer-motion";
+import {pageStyle, pageTransition, pageVariants} from "../config/animation";
 
 let seasonListBreadcumbs = [
     {
@@ -84,6 +86,14 @@ class SeasonListPage extends Component {
         const {seriesItem} = this.state;
 
         return (
+            <motion.div
+                style={pageStyle}
+                initial="initial"
+                animate="in"
+                exit="out"
+                variants={pageVariants}
+                transition={pageTransition}
+            >
             <>
                 <Helmet>
                     <title>{`Let's Flix | Seasons of ${seriesItem.name}`}</title>
@@ -108,8 +118,7 @@ class SeasonListPage extends Component {
                 </section>
             </div>
             </>
-
-            
+            </motion.div>
         )
     }
 }

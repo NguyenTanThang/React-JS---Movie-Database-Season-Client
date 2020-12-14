@@ -6,8 +6,8 @@ import {
     getAllSeries
 } from "../actions/seriesActions";
 import {
-    getMoviesByGenre
-} from "../requests/movieRequests";
+    getAllGenres
+} from "../actions/genreActions";
 import {
     filterRecommendationSection
 } from "../utils/utils";
@@ -19,19 +19,27 @@ import TabGenerator from "../components/partials/TabGenerator";
 import {Link} from "react-router-dom";
 import Navbar from "../components/partials/Navbar";
 import {Helmet} from "react-helmet";
+import { motion } from "framer-motion";
+import {pageStyle, pageTransition, pageVariants} from "../config/animation";
+import {Reveal, Tween} from "react-gsap";
 
 class Home extends Component {
 
     componentDidMount() {
         this.props.getAllMovies();
         this.props.getAllSeries();
+        this.props.getAllGenres();
     }
 
     renderRecommendationSec = () => {
         const {generateRecommendationSection} = this;
-        const {movies, series} = this.props;
+        const {movies, series, genres} = this.props;
 
-        const recommendedGenres = ["Action", "Crime", "Drama", "Thriller", "Science Fiction", "Adventure"];
+        // ["Action", "Crime", "Drama", "Thriller", "Science Fiction", "Adventure"]
+
+        const recommendedGenres = genres.map(genreItem => {
+            return genreItem.name;
+        });
 
         let recMovieList = filterRecommendationSection(recommendedGenres, movies);
         let recSeriesList = filterRecommendationSection(recommendedGenres, series);
@@ -46,13 +54,17 @@ class Home extends Component {
             const recSeriesItem = recSeriesList[index];
 
             return (
-                <div className="row home-sec">
-                    <div className="col-12">
-                        <h2 className="content__title">{recMovieItem.currentGenre}</h2>
+                <Reveal key={index}>
+                    <Tween from={{ opacity: 0 }} duration={0.8}>
+                        <div className="row home-sec">
+                            <div className="col-12">
+                                <h2 className="content__title">{recMovieItem.currentGenre}</h2>
 
-                        {generateTabs(recMovieItem.movieList, recSeriesItem.movieList)}
-                    </div>
-                </div>
+                                {generateTabs(recMovieItem.movieList, recSeriesItem.movieList)}
+                            </div>
+                        </div>
+                    </Tween>
+                </Reveal>
             )
         })
     }
@@ -107,6 +119,14 @@ class Home extends Component {
         const {renderTabGen, renderRecommendationSec} = this;
 
         return (
+            <motion.div
+                style={pageStyle}
+                initial="initial"
+                animate="in"
+                exit="out"
+                variants={pageVariants}
+                transition={pageTransition}
+            >
             <>
                 <Helmet>
                     <title>{`Let's Flix | Home`}</title>
@@ -122,11 +142,15 @@ class Home extends Component {
                         <div className="container">
 
                             <div className="row home-sec">
-                                <div className="col-12">
-                                    <h2 className="content__title">New Releases</h2>
+                            <Reveal key={"New Releases"}>
+                                <Tween from={{ opacity: 0 }} duration={0.8}>
+                                    <div className="col-12">
+                                        <h2 className="content__title">New Releases</h2>
 
-                                    {renderTabGen()}
-                                </div>
+                                        {renderTabGen()}
+                                    </div>
+                                </Tween>
+                            </Reveal>
                             </div>
 
                             {renderRecommendationSec()}
@@ -134,6 +158,7 @@ class Home extends Component {
                     </div>
                 </section>
             </>
+            </motion.div>
         )
     }
 }
@@ -145,6 +170,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         getAllSeries: () => {
             dispatch(getAllSeries())
+        },
+        getAllGenres: () => {
+            dispatch(getAllGenres())
         }
     }
 }
@@ -153,6 +181,7 @@ const mapStateToProps = (state) => {
     return {
         movies: state.movieReducer.movies,
         series: state.seriesReducer.series,
+        genres: state.genreReducer.genres,
         loading: state.loadingReducer.loading
     }
 }

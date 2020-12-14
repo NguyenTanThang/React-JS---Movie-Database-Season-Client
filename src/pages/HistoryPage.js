@@ -9,6 +9,8 @@ import Pagination from "../components/partials/Pagination";
 import {paginate} from "../utils/paginate";
 import TabGenerator from "../components/partials/TabGenerator";
 import {Helmet} from "react-helmet";
+import { motion } from "framer-motion";
+import {pageStyle, pageTransition, pageVariants} from "../config/animation";
 
 const helpBreadcumbs = [
     {
@@ -109,6 +111,14 @@ class WatchHistory extends Component {
         const {renderWatchHistory} = this;
 
         return (
+            <motion.div
+                style={pageStyle}
+                initial="initial"
+                animate="in"
+                exit="out"
+                variants={pageVariants}
+                transition={pageTransition}
+            >
             <>
                 <Helmet>
                     <title>{`Let's Flix | History`}</title>
@@ -127,8 +137,7 @@ class WatchHistory extends Component {
                     </section>
                 </div>
             </>
-
-            
+            </motion.div>
         )
     }
 }

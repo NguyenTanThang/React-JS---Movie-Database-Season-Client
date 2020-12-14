@@ -4,6 +4,8 @@ import Navbar from "../components/partials/Navbar";
 import {getSubStatus, getAuthStatus} from "../requests/authRequests";
 import {message} from "antd";
 import {Helmet} from "react-helmet";
+import { motion } from "framer-motion";
+import {pageStyle, pageTransition, pageVariants} from "../config/animation";
 
 class StripePayPage extends Component {
 
@@ -21,6 +23,14 @@ class StripePayPage extends Component {
 
     render() {
         return (
+            <motion.div
+                style={pageStyle}
+                initial="initial"
+                animate="in"
+                exit="out"
+                variants={pageVariants}
+                transition={pageTransition}
+            >
             <>
                 <Helmet>
                     <title>{`Let's Flix | Stripe Payment`}</title>
@@ -29,6 +39,7 @@ class StripePayPage extends Component {
                 <Navbar/>
                 <StripeApp/>
             </>
+            </motion.div>
         )
     }
 }

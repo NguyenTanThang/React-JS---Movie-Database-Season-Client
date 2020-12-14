@@ -12,6 +12,8 @@ import { Collapse } from 'antd';
 import {getAllPlans} from "../actions/planActions";
 import {connect} from "react-redux";
 import {Helmet} from "react-helmet";
+import { motion } from "framer-motion";
+import {pageStyle, pageTransition, pageVariants} from "../config/animation";
 
 const { Panel } = Collapse;
 
@@ -55,6 +57,14 @@ class LandingPage extends Component {
         const planList = this.props.plans;
 
         return (
+            <motion.div
+                style={pageStyle}
+                initial="initial"
+                animate="in"
+                exit="out"
+                variants={pageVariants}
+                transition={pageTransition}
+            >
             <>
                 <Helmet>
                     <title>{`Let's Flix | Landing Page`}</title>
@@ -64,16 +74,19 @@ class LandingPage extends Component {
                 <Navbar/>
 
                 <section id="header" className="landing-header">
-                    <div className="landing-header__content">
-                        <h1>Watch your favorite movies</h1>
-                        <h2>Anytime. Any place</h2>
-                        <p>For a reasonable price</p>
-                        <div className="landing-header-content__start">
-                            <Link to="/sign-up" className="section__btn">
-                                Sign Up Now
-                            </Link>
+                
+                    
+                        <div className="landing-header__content">
+                            <h1>Watch your favorite movies</h1>
+                            <h2>Anytime. Any place</h2>
+                            <p>For a reasonable price</p>
+                            <div className="landing-header-content__start">
+                                <Link to="/sign-up" className="section__btn">
+                                    Sign Up Now
+                                </Link>
+                            </div>
                         </div>
-                    </div>
+
                     <video autoPlay muted loop className="landing-header__bg">
                         <source src={videoBgURL} type="video/mp4" />
                         Your browser does not support HTML5 video.
@@ -135,8 +148,8 @@ class LandingPage extends Component {
                         </div>
                     </div>
                 </section>
-
             </>
+            </motion.div>
         )
     }
 }

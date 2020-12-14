@@ -7,6 +7,8 @@ import Navbar from "../components/partials/Navbar";
 import {getAuthStatus} from "../requests/authRequests";
 import {message} from "antd";
 import {Helmet} from "react-helmet";
+import { motion } from "framer-motion";
+import {pageStyle, pageTransition, pageVariants} from "../config/animation";
 
 export default class SignUp extends Component {
 
@@ -46,6 +48,14 @@ export default class SignUp extends Component {
 		const {onSubmit, onChange} = this;
 
         return (
+            <motion.div
+                style={pageStyle}
+                initial="initial"
+                animate="in"
+                exit="out"
+                variants={pageVariants}
+                transition={pageTransition}
+            >
             <>
                 <Helmet>
                     <title>{`Let's Flix | Sign Up`}</title>
@@ -86,6 +96,7 @@ export default class SignUp extends Component {
 		</div>
 	</div>
             </>
+            </motion.div>
         )
     }
 }

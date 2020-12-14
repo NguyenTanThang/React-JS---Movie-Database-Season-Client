@@ -13,6 +13,8 @@ import {getRandom} from "../utils/utils";
 import {Empty} from "antd";
 import Navbar from "../components/partials/Navbar";
 import {Helmet} from "react-helmet";
+import { motion } from "framer-motion";
+import {pageStyle, pageTransition, pageVariants} from "../config/animation";
 
 class SeriesDetailsPage extends Component {
 
@@ -87,6 +89,14 @@ class SeriesDetailsPage extends Component {
         const seriesIDFromPage = this.props.match.params.seriesID;
 
         return (
+            <motion.div
+                style={pageStyle}
+                initial="initial"
+                animate="in"
+                exit="out"
+                variants={pageVariants}
+                transition={pageTransition}
+            >
             <>
                 <Helmet>
                     <title>{`Let's Flix | ${seriesItem.name}`}</title>
@@ -115,6 +125,7 @@ class SeriesDetailsPage extends Component {
                 </div>
             </div>
             </>
+            </motion.div>
         )
     }
 }

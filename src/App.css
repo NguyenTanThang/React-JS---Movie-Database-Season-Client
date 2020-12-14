@@ -16,6 +16,7 @@ body {
     background-color: #2b2b31;
     font-weight: normal;
     -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
 }
 
 button {

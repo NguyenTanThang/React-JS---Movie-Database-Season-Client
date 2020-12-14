@@ -7,6 +7,8 @@ import PlanList from "../components/plans/PlanList";
 import {getSubStatus} from "../requests/authRequests";
 import {message} from "antd";
 import {Helmet} from "react-helmet";
+import { motion } from "framer-motion";
+import {pageStyle, pageTransition, pageVariants} from "../config/animation";
 
 const pricingBreadcumbs = [
     {
@@ -36,6 +38,14 @@ class PricingPlan extends Component {
         const planList = this.props.plans;
 
         return (
+            <motion.div
+                style={pageStyle}
+                initial="initial"
+                animate="in"
+                exit="out"
+                variants={pageVariants}
+                transition={pageTransition}
+            >
             <>
                 <Helmet>
                     <title>{`Let's Flix | Pricing`}</title>
@@ -46,12 +56,6 @@ class PricingPlan extends Component {
 
                 <div>
                 <PageTitle title="Pricing" breadcumbs={pricingBreadcumbs}/>
-
-                <div className="section">
-                    <div className="container">
-                        <PlanList planList={planList}/>
-                    </div>
-                </div>
 
                 <section className="section section--dark">
                     <div className="container">
@@ -110,8 +114,15 @@ class PricingPlan extends Component {
                         </div>
                     </div>
                 </section>
+                
+                <div className="section">
+                    <div className="container">
+                        <PlanList planList={planList}/>
+                    </div>
+                </div>
             </div>
             </>
+            </motion.div>
         )
     }
 }

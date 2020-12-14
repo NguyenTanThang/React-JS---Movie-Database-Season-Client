@@ -19,6 +19,8 @@ import {sortMoviesAndSeries} from "../utils/sorters";
 import {paginate} from "../utils/paginate";
 import Navbar from "../components/partials/Navbar";
 import {Helmet} from "react-helmet";
+import { motion } from "framer-motion";
+import {pageStyle, pageTransition, pageVariants} from "../config/animation";
 
 const browseBreadcumbs = [
     {
@@ -117,6 +119,14 @@ class Browse extends Component {
         const {genres} = this.props;
 
         return (
+            <motion.div
+                style={pageStyle}
+                initial="initial"
+                animate="in"
+                exit="out"
+                variants={pageVariants}
+                transition={pageTransition}
+            >
             <>
                 <Helmet>
                     <title>{`Let's Flix | Browse`}</title>
@@ -146,6 +156,7 @@ class Browse extends Component {
                 </section>
             </div>
             </>
+            </motion.div>
         )
     }
 }

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {Link} from "react-router-dom";
 import {parseDateMoment} from "../../utils/dateParser";
+import LazyLoad from 'react-lazyload';
 
 export default class SeriesItem extends Component {
 
@@ -31,8 +32,10 @@ export default class SeriesItem extends Component {
 
         return (
 							<div className="card">
-								<div className="card__cover">
-									<img src={posterURL} alt=""/>
+                                <div className="card__cover">
+                                    <LazyLoad height={200}>
+                                        <img src={posterURL} alt=""/>
+                                    </LazyLoad>
                                     <Link to={`/series-details/${_id}`} className="card__play">
 										<i className="fas fa-play" aria-hidden="true"></i>
 									</Link>

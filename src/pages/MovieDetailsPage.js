@@ -13,6 +13,8 @@ import {getRandom} from "../utils/utils";
 import {Empty} from "antd";
 import Navbar from "../components/partials/Navbar";
 import {Helmet} from "react-helmet";
+import { motion } from "framer-motion";
+import {pageStyle, pageTransition, pageVariants} from "../config/animation";
 
 class MovieDetailsPage extends Component {
 
@@ -100,6 +102,14 @@ class MovieDetailsPage extends Component {
         const {name} = movieItem;
 
         return (
+            <motion.div
+                style={pageStyle}
+                initial="initial"
+                animate="in"
+                exit="out"
+                variants={pageVariants}
+                transition={pageTransition}
+            >
             <>
                 <Helmet>
                     <title>{`Let's Flix | ${name}`}</title>
@@ -128,6 +138,7 @@ class MovieDetailsPage extends Component {
                 </div>
             </div>
             </>
+            </motion.div>
         )
     }
 }

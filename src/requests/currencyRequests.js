@@ -16,8 +16,8 @@ export const USDtoEuro = async (usd) => {
         
         return usd / usdRate;
     } catch (error) {
-        /*
         console.log(error);
+        /*
         message.error(error.message);
         */
     }
@@ -38,8 +38,8 @@ export const EurotoVND = async (euro) => {
         
         return parseInt(vnd);
     } catch (error) {
-        /*
         console.log(error);
+        /*
         message.error(error.message);
         */
     }
