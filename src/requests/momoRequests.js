@@ -19,5 +19,6 @@ export const getPayURL = async (customerID, obj) => {
         return payURL;
     } catch (error) {
         message.error(error.message, 5);
+        console.log(error);
     }
 }

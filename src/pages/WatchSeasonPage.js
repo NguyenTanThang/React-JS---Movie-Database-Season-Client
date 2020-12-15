@@ -15,7 +15,9 @@ class WatchSeasonPage extends Component {
 
     state = {
         episodeList: [],
-        seasonItem: ""
+        seasonItem: "",
+        currentEpisode: "",
+        currentEpisodeNum: 1
     }
 
     async componentDidMount() {
@@ -37,8 +39,97 @@ class WatchSeasonPage extends Component {
 
         this.setState({
             episodeList,
-            seasonItem
+            seasonItem,
+            currentEpisode: episodeList[0]
         })
+    }
+
+    changeCurrentEpisode = (currentEpisode) => {
+        this.setState({
+            currentEpisode,
+            currentEpisodeNum: currentEpisode.episodeNum
+        })
+    }
+
+    renderEpisodeContainerTabs = () => {
+        const {episodeList, currentEpisodeNum} = this.state;
+        const {changeCurrentEpisode} = this;
+        const numberOfEp = episodeList.length;
+        const numberOfTabs = Math.ceil(numberOfEp / 10);
+        let tabHeaders = [];
+        let tabContents = [];
+        
+        if (!episodeList || numberOfEp === 0) {
+            return(<></>);
+        }
+
+        for (let i = 0; i < numberOfTabs; i++) {
+            let epCounter = i * 10;
+            let maxEp = (i + 1) * 10;
+            let beginEp = maxEp - 9;
+            let episodeTabs = [];
+            if (maxEp > numberOfEp) {
+                maxEp = numberOfEp;
+            }
+            for (let j = epCounter; j < maxEp; j++) {
+                const currentEpisode = episodeList[j];
+                if (currentEpisodeNum === currentEpisode.episodeNum) {
+                    episodeTabs.push(
+                        <div className="episode-tab active" onClick={() => changeCurrentEpisode(currentEpisode)}>
+                            <p>Episode {currentEpisode.episodeNum}</p>
+                        </div>
+                    )
+                } else {
+                    episodeTabs.push(
+                        <div className="episode-tab" onClick={() => changeCurrentEpisode(currentEpisode)}>
+                            <p>Episode {currentEpisode.episodeNum}</p>
+                        </div>
+                    )
+                }
+            }
+            tabContents.push(
+                <div className="episode-row">
+                    {episodeTabs}
+                </div>
+            );
+            episodeTabs = [];
+            if (maxEp === numberOfEp) {
+                beginEp += 1;
+                tabHeaders.push(`Ep. ${beginEp} - Ep. ${maxEp + 1}`);
+            } else {
+                tabHeaders.push(`Ep. ${beginEp} - Ep. ${maxEp + 1}`);
+            }
+            console.log("episodeTabs");
+            console.log(episodeTabs);
+        }
+
+        /*
+        const tabContents = episodeList.map(episodeItem => {
+            const {_id, episodeURL} = episodeItem;
+            return (
+                <div key={_id} className="series-watch-container">
+                    <MovieVideo videoSRC={episodeURL}/>
+                </div>
+            )
+        })
+
+        */
+
+       console.log(tabContents);
+
+        /*
+        const tabHeaders = episodeList.map(episodeItem => {
+            const {episodeNum} = episodeItem;
+            return (
+                `Ep. ${episodeNum}`
+            )
+        })
+
+        */
+
+       console.log(tabHeaders);
+
+        return <TabGenerator tabContents={tabContents} tabHeaders={tabHeaders}/>
     }
 
     renderEpisodeListWatchItems = () => {
@@ -73,8 +164,8 @@ class WatchSeasonPage extends Component {
     }
 
     render() {
-        const {renderEpisodeListWatchItems} = this;
-        const {seasonItem} = this.state;
+        const {renderEpisodeListWatchItems, renderEpisodeContainerTabs} = this;
+        const {seasonItem, currentEpisode} = this.state;
 
         return (
             <motion.div
@@ -94,7 +185,12 @@ class WatchSeasonPage extends Component {
                 <div className="container episode-watch-tab-container">
                     <div className="row">
                         <div className="col-12">
-                            {renderEpisodeListWatchItems()}
+                            <div key={currentEpisode._id}className="series-watch-container">
+                                <MovieVideo videoSRC={currentEpisode.episodeURL}/>
+                            </div>
+                        </div>
+                        <div className="col-12">
+                            {renderEpisodeContainerTabs()}
                         </div>
                     </div>
                 </div>

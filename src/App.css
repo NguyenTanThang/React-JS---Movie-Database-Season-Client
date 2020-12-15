@@ -3248,3 +3248,38 @@ input[type=range]::-ms-thumb {
 .plyr--video .plyr__control svg {
     filter: none;
 }
+
+/*==============================
+	Episode
+==============================*/
+
+.episode-row {
+    display: flex;
+    align-items: center;
+    flex-wrap:wrap;
+    padding-bottom: 50px;
+}
+
+.episode-tab {
+    padding: 0;
+    padding-top: 15px;
+    padding-left: 20px;
+    padding-right: 20px;
+    border: 1px solid #FFF;
+    color: #FFF;
+    flex: 19%;
+    max-width: 19%;
+    text-align: center;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.episode-tab.active {
+    background: none;
+    background-image: -moz-linear-gradient(90deg, #ff55a5 0%, #ff5860 100%);
+    background-image: -webkit-linear-gradient(90deg, #ff55a5 0%, #ff5860 100%);
+    background-image: -ms-linear-gradient(90deg, #ff55a5 0%, #ff5860 100%);
+    background-image: linear-gradient(90deg, #ff55a5 0%, #ff5860 100%);
+}
