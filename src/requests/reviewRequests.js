@@ -20,6 +20,18 @@ export const getReviewByCustomerIDAndMovieIDAxios = async (movieID, customerID) 
     }
 }
 
+export const getReviewByCustomerID = async (customerID) => {
+    try {
+        const res = await axios.get(`${REVIEW_URL}/customerID/${customerID}`);
+
+        const review = res.data.data;
+
+        return review;
+    } catch (error) {
+        message.error(error.message, 5);
+    }
+}
+
 export const addRating = async ({customerID, movieID, grading}) => {
     try {
         message.loading("Sending your ratings...", 0);

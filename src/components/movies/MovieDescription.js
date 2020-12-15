@@ -6,7 +6,7 @@ export default class MovieDescription extends Component {
         const {description} = this.props;
 
         return (
-            <div>
+            <div className="description-html-container">
                 {
                     parse(description || "123")
                 }

@@ -4,50 +4,38 @@ import {
   isObjectEmpty
 } from "../../utils/validate";
 import {
-  getReviewByCustomerIDAndMovieIDAxios,
   addRating,
   editRating
 } from "../../requests/reviewRequests";
-import {getAuthStatus} from "../../requests/authRequests";
 import {message} from "antd";
 import {withRouter} from "react-router-dom";
 
 const customerID = localStorage.getItem("userID")
 
-class RateMovieModal extends Component {
+class RateMovieModalSync extends Component {
   state = { 
     visible: false, 
     grading: 0, 
-    isRated: false, 
-    reviewID: "" ,
-    loggedIn: ""
+    isRated: false
   };
 
-  async componentDidMount() {
-    let {movieID} = this.props;
-
-    const review = await getReviewByCustomerIDAndMovieIDAxios(movieID, customerID);
-
-    const loggedIn = await getAuthStatus();
+  componentDidMount() {
+    let {review} = this.props;
 
     if (!review) {
-      this.setState({
-        loggedIn
-      })
+      
     } else {
       if (review || !isObjectEmpty(review)) {
         this.setState({
           grading: review.grading,
           isRated: true,
-          reviewID: review._id,
-          loggedIn
         })
       }
     }
   }
 
   showModal = () => {
-    const {loggedIn} = this.state;
+    const {loggedIn} = this.props;
     if (!loggedIn) {
       this.props.history.push("/sign-in");
       message.error("You can rate after logging in");
@@ -69,9 +57,10 @@ class RateMovieModal extends Component {
 
   onSubmit = async (e) => {
     e.preventDefault();
-    const {movieID} = this.props;
-    const {grading, isRated, reviewID} = this.state;
-    if (isRated) {
+    const {review, movieID} = this.props;
+    const {grading, isRated} = this.state;
+    if (isRated && review) {
+        const reviewID = review._id;
       await editRating(reviewID, {movieID, grading, customerID})
       this.setState({
         visible: false
@@ -121,4 +110,4 @@ class RateMovieModal extends Component {
   }
 }
 
-export default withRouter(RateMovieModal);
+export default withRouter(RateMovieModalSync);

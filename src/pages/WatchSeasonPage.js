@@ -4,12 +4,19 @@ import {getSeasonByIDAxios} from "../requests/seasonRequests";
 import MovieVideo from '../components/movies/MovieVideo';
 import TabGenerator from '../components/partials/TabGenerator';
 import Navbar from "../components/partials/Navbar";
-import {getSubStatus, getCurrentUser} from "../requests/authRequests";
+import {getSubStatus, getCurrentUser, getAuthStatus} from "../requests/authRequests";
 import {addWatchHistory, deleteWatchHistory} from "../requests/watchHistoryRequests";
 import {message} from "antd";
 import {Helmet} from "react-helmet";
 import { motion } from "framer-motion";
 import {pageStyle, pageTransition, pageVariants} from "../config/animation";
+import RateMovieModalSync from "../components/movies/RateMovieModalSync";
+import MovieDescription from "../components/movies/MovieDescription";
+import {
+    getReviewByCustomerID,
+} from "../requests/reviewRequests";
+
+const customerID = localStorage.getItem("userID")
 
 class WatchSeasonPage extends Component {
 
@@ -17,13 +24,15 @@ class WatchSeasonPage extends Component {
         episodeList: [],
         seasonItem: "",
         currentEpisode: "",
-        currentEpisodeNum: 1
+        currentEpisodeNum: 1,
+        ratingEpisodeList: []
     }
 
     async componentDidMount() {
         const seasonID = this.props.match.params.seasonID;
         const seriesID = localStorage.getItem("currentSeriesID");
-
+        
+        const loggedIn = await getAuthStatus();
         const episodeList = await getEpisodesBySeasonIDAxios(seasonID);
         const seasonItem = await getSeasonByIDAxios(seasonID);
         const subStatus = await getSubStatus();
@@ -33,18 +42,51 @@ class WatchSeasonPage extends Component {
             message.error("You need to subscribe before watching");
         }
 
+        let ratingEpisodeList = [];
+
         const userID = getCurrentUser();
         await deleteWatchHistory(userID, seriesID);
         await addWatchHistory(userID, seriesID);
 
+        const reviews = await getReviewByCustomerID(customerID);
+        console.log("reviews");
+        console.log(reviews);
+
+        for (let i = 0; i < episodeList.length; i++) {
+            const episodeItem = episodeList[i];
+            
+            let review = {};
+            let filterReviews = reviews.filter(reviewItem => {
+                return reviewItem.movieID === episodeItem._id
+            });
+            if (filterReviews.length === 0) {
+                review = null;
+            } else {
+                review = filterReviews[0];
+            }
+
+            ratingEpisodeList.push(
+                {
+                    episodeNum: episodeItem.episodeNum,
+                    content: (
+                        <div key={episodeItem._id}className="episode-details__rating">
+                            <RateMovieModalSync movieID={episodeItem._id} loggedIn={loggedIn} review={review} />
+                        </div>
+                    )
+                }
+            )
+        }
+
         this.setState({
             episodeList,
             seasonItem,
-            currentEpisode: episodeList[0]
+            currentEpisode: episodeList[0],
+            ratingEpisodeList
         })
     }
 
     changeCurrentEpisode = (currentEpisode) => {
+        localStorage.setItem("ratingMovieID", currentEpisode._id);
         this.setState({
             currentEpisode,
             currentEpisodeNum: currentEpisode.episodeNum
@@ -75,13 +117,13 @@ class WatchSeasonPage extends Component {
                 const currentEpisode = episodeList[j];
                 if (currentEpisodeNum === currentEpisode.episodeNum) {
                     episodeTabs.push(
-                        <div className="episode-tab active" onClick={() => changeCurrentEpisode(currentEpisode)}>
+                        <div key={currentEpisode._id} className="episode-tab active" onClick={() => changeCurrentEpisode(currentEpisode)}>
                             <p>Episode {currentEpisode.episodeNum}</p>
                         </div>
                     )
                 } else {
                     episodeTabs.push(
-                        <div className="episode-tab" onClick={() => changeCurrentEpisode(currentEpisode)}>
+                        <div className="episode-tab" key={currentEpisode._id} onClick={() => changeCurrentEpisode(currentEpisode)}>
                             <p>Episode {currentEpisode.episodeNum}</p>
                         </div>
                     )
@@ -93,11 +135,14 @@ class WatchSeasonPage extends Component {
                 </div>
             );
             episodeTabs = [];
-            if (maxEp === numberOfEp) {
-                beginEp += 1;
-                tabHeaders.push(`Ep. ${beginEp} - Ep. ${maxEp + 1}`);
-            } else {
-                tabHeaders.push(`Ep. ${beginEp} - Ep. ${maxEp + 1}`);
+            if (maxEp === numberOfEp && numberOfEp < 11) {
+                tabHeaders.push(`Ep. ${beginEp} - Ep. ${maxEp}`);
+            } 
+            else if (maxEp === numberOfEp) {
+                tabHeaders.push(`Ep. ${beginEp} - Ep. ${maxEp}`);
+            }
+            else {
+                tabHeaders.push(`Ep. ${beginEp} - Ep. ${maxEp}`);
             }
             console.log("episodeTabs");
             console.log(episodeTabs);
@@ -165,7 +210,15 @@ class WatchSeasonPage extends Component {
 
     render() {
         const {renderEpisodeListWatchItems, renderEpisodeContainerTabs} = this;
-        const {seasonItem, currentEpisode} = this.state;
+        const {seasonItem, currentEpisode, ratingEpisodeList} = this.state;
+        const {rating} = currentEpisode;
+        const ratingEpisodeItem = ratingEpisodeList.filter(item => {
+            return item.episodeNum === currentEpisode.episodeNum
+        })[0];
+
+        if (!currentEpisode) {
+            return (<></>)
+        }
 
         return (
             <motion.div
@@ -187,6 +240,26 @@ class WatchSeasonPage extends Component {
                         <div className="col-12">
                             <div key={currentEpisode._id}className="series-watch-container">
                                 <MovieVideo videoSRC={currentEpisode.episodeURL}/>
+                            </div>
+                            <div className="episode-details">
+                                <div className="episode-details__content">
+                                <div className="episode-details-content__header">
+                                    <h1 className="details__title">
+                                        {currentEpisode.name}
+                                    </h1>
+                                    <span className="card__rate"><i className="fas fa-star" aria-hidden="true"></i> {rating.toFixed(1)}/10</span>
+                                </div>
+
+                                <div className="episode-details-content__sub-header">
+                                    <h6>Episode {currentEpisode.episodeNum}</h6>
+                                </div>
+                                    
+                                    {ratingEpisodeItem.content}
+
+                                    <div>
+                                        <MovieDescription description={currentEpisode.description} />
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div className="col-12">

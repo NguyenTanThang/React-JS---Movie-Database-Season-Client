@@ -51,12 +51,12 @@ export default class MovieVideo extends Component {
         // poster={"https://wallpaperaccess.com/full/1512225.jpg"}
 
         return (
-                <video controls crossorigin playsinline id="player" height="100%" width="100%">
+                <video controls playsInline={true} id="player" height="100%" width="100%">
 
                     <source src={videoSRC} type="video/mp4"/>
 
-                    <track kind="captions" label="English" src={sampleSub} srclang="en" default />
-                    <track kind="captions" label="Français" src={sampleSub} srclang="fr" />
+                    <track kind="captions" label="English" src={sampleSub} srcLang="en" default />
+                    <track kind="captions" label="Français" src={sampleSub} srcLang="fr" />
 
                     <a href={videoSRC} download>Download</a>
                 </video>
