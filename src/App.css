@@ -507,6 +507,7 @@ ul {
     }
 }
 
+
 @media screen and (min-width: 768px) and (max-width: 1024px) {
     .landing-header {
         height: 41vh;
@@ -534,6 +535,16 @@ ul {
 
     .feature-item:hover .face.face2 {
         max-width: 100%;
+    }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+    .landing-header {
+        height: 66.5vh;
+    }
+
+    .feature-item {
+        width: 300px;
     }
 }
 
@@ -2644,6 +2655,9 @@ input[type=range]::-ms-thumb {
     height: 400px;
     z-index: 1;
     opacity: 0.07;
+    background-image: url("https://i.imgur.com/6pEt4hs.jpg");
+    background-size: cover;
+    background-position: top;
 }
 
 .details:before {
@@ -3253,6 +3267,12 @@ input[type=range]::-ms-thumb {
 	Episode
 ==============================*/
 
+.watch-section {
+    margin-top: 0;
+    padding-top: 0;
+    padding-bottom: 30px;
+}
+
 .episode-details-content__sub-header h6 {
     margin-bottom: 20px;
     color: #FFF;
@@ -3292,7 +3312,6 @@ input[type=range]::-ms-thumb {
     display: flex;
     align-items: center;
     flex-wrap:wrap;
-    padding-bottom: 50px;
 }
 
 .episode-tab {
@@ -3317,4 +3336,29 @@ input[type=range]::-ms-thumb {
     background-image: -webkit-linear-gradient(90deg, #ff55a5 0%, #ff5860 100%);
     background-image: -ms-linear-gradient(90deg, #ff55a5 0%, #ff5860 100%);
     background-image: linear-gradient(90deg, #ff55a5 0%, #ff5860 100%);
+}
+
+@media (min-width: 320px) and (max-width: 767px) {
+    .episode-tab {
+        flex: 43%;
+        max-width: 43%;
+        margin-left: 10px;
+    }
+
+    .series-watch-container, .movie-watch-container {
+        height: 40vh;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+    .episode-tab {
+        flex: 18%;
+        max-width: 18%;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
+    .series-watch-container, .movie-watch-container {
+        height: 50vh;
+    }
 }

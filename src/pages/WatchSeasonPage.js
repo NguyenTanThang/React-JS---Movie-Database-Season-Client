@@ -235,38 +235,42 @@ class WatchSeasonPage extends Component {
                     <meta name="description" content="Helmet application" />
                 </Helmet>
                 <Navbar/>
-                <div className="container episode-watch-tab-container">
-                    <div className="row">
-                        <div className="col-12">
-                            <div key={currentEpisode._id}className="series-watch-container">
-                                <MovieVideo videoSRC={currentEpisode.episodeURL}/>
-                            </div>
-                            <div className="episode-details">
-                                <div className="episode-details__content">
-                                <div className="episode-details-content__header">
-                                    <h1 className="details__title">
-                                        {currentEpisode.name}
-                                    </h1>
-                                    <span className="card__rate"><i className="fas fa-star" aria-hidden="true"></i> {rating.toFixed(1)}/10</span>
-                                </div>
 
-                                <div className="episode-details-content__sub-header">
-                                    <h6>Episode {currentEpisode.episodeNum}</h6>
+                <section className="section details watch-section">
+                <div className="details__bg"></div>
+                    <div className="container episode-watch-tab-container">
+                        <div className="row">
+                            <div className="col-12">
+                                <div key={currentEpisode._id}className="series-watch-container">
+                                    <MovieVideo videoSRC={currentEpisode.episodeURL}/>
                                 </div>
-                                    
-                                    {ratingEpisodeItem.content}
+                                <div className="episode-details">
+                                    <div className="episode-details__content">
+                                    <div className="episode-details-content__header">
+                                        <h1 className="details__title">
+                                            {currentEpisode.name}
+                                        </h1>
+                                        <span className="card__rate"><i className="fas fa-star" aria-hidden="true"></i> {rating.toFixed(1)}/10</span>
+                                    </div>
 
-                                    <div>
-                                        <MovieDescription description={currentEpisode.description} />
+                                    <div className="episode-details-content__sub-header">
+                                        <h6>Episode {currentEpisode.episodeNum}</h6>
+                                    </div>
+                                        
+                                        {ratingEpisodeItem.content}
+
+                                        <div>
+                                            <MovieDescription description={currentEpisode.description} />
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div className="col-12">
-                            {renderEpisodeContainerTabs()}
+                            <div className="col-12">
+                                {renderEpisodeContainerTabs()}
+                            </div>
                         </div>
                     </div>
-                </div>
+                </section>
             </>
             </motion.div>
         )

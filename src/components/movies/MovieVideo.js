@@ -10,7 +10,8 @@ import {
   VolumeMenuButton,
  } from 'video-react';
 import {
-    getScreenshot
+    getScreenshot,
+    getCurrentVideoTime
 } from "../../config/jqueryCode";
 import ReactPlayer from 'react-player';
 import { default as Video, Controls, Play, Mute, Seek, Fullscreen, Time, Overlay, Subtitles } from 'react-html5video';
@@ -44,6 +45,7 @@ export default class MovieVideo extends Component {
 
     componentDidMount() {
         const player = new Plyr('#player');
+        getCurrentVideoTime();
     }
 
     render() {
@@ -55,8 +57,10 @@ export default class MovieVideo extends Component {
 
                     <source src={videoSRC} type="video/mp4"/>
 
+                    {/*
                     <track kind="captions" label="English" src={sampleSub} srcLang="en" default />
                     <track kind="captions" label="Français" src={sampleSub} srcLang="fr" />
+                    */}
 
                     <a href={videoSRC} download>Download</a>
                 </video>

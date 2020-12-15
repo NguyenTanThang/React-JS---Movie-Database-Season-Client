@@ -27,6 +27,31 @@ export function getScreenshot(videoURL, scale) {
     return canvas.toDataURL();
 }
 
+export const getCurrentVideoTime = () => {
+	$("#player").on(
+		"timeupdate", 
+		function(event){
+		  const {currentTime, duration} = this;
+		  console.log({currentTime, duration})
+	});
+}
+
+export const detailBg = () => {
+	/*==============================
+	Section bg
+	==============================*/
+	$('.details .details__bg').each( function() {
+		if ($(this).attr("databg")){
+			$(this).css({
+				'background': 'url(' + $(this).data('bg') + ')',
+				'background-position': 'center center',
+				'background-repeat': 'no-repeat',
+				'background-size': 'cover'
+			});
+		}
+	});
+}
+
 export const initPlayer = () => {
 	/*==============================
 	Player
@@ -60,7 +85,7 @@ export const sectionBG = () => {
 	/*==============================
 	Section bg
 	==============================*/
-	$('.section--bg, .details__bg').each( function() {
+	$('.section--bg').each( function() {
 		if ($(this).attr("data-bg")){
 			$(this).css({
 				'background': 'url(' + $(this).data('bg') + ')',

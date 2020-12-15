@@ -42,8 +42,8 @@ class MovieDetailsPage extends Component {
         
             return currentMovies.map(movieItem => {
                 return (
-                    <div className="col-6 col-sm-4 col-lg-6">
-                        <MovieItem movieItem={movieItem} key={movieItem._Id}/>
+                    <div key={movieItem._id} className="col-6 col-sm-4 col-lg-6">
+                        <MovieItem movieItem={movieItem}/>
                     </div>
                 )
             })
@@ -53,8 +53,8 @@ class MovieDetailsPage extends Component {
         
             return currentMovies.map(movieItem => {
                 return (
-                    <div className="col-6 col-sm-4 col-lg-6">
-                        <MovieItem movieItem={movieItem} key={movieItem._Id}/>
+                    <div key={movieItem._id} className="col-6 col-sm-4 col-lg-6">
+                        <MovieItem movieItem={movieItem}/>
                     </div>
                 )
             })

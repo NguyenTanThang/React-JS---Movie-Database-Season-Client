@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import homeBg from '../../images/home__bg.jpg';
-import {sectionBG} from "../../config/jqueryCode";
+//import homeBg from '../../images/home__bg.jpg';
+import {sectionBG, detailBg} from "../../config/jqueryCode";
 import MovieVideo from "./MovieVideo";
 import RateMovieModal from "./RateMovieModal";
 import {Link} from "react-router-dom";
@@ -9,7 +9,7 @@ import {addWatchLater, deleteWatchLater, getWatchLaterByCustomerIDAndMovieID} fr
 import {isObjectEmpty} from '../../utils/validate';
 import {getSubStatus, getAuthStatus} from "../../requests/authRequests";
 
-const customerID = localStorage.getItem("userID")
+const customerID = localStorage.getItem("userID");
 
 class MovieDetails extends Component {
 
@@ -20,8 +20,6 @@ class MovieDetails extends Component {
     }
 
     async componentDidMount() {
-        sectionBG();
-
         const subStatus = await getSubStatus();
         const loggedIn = await getAuthStatus();
 
@@ -126,7 +124,7 @@ class MovieDetails extends Component {
         return (
             <div>
 	<section className="section details">
-    <div className="details__bg" data-bg={homeBg}></div>
+    <div className="details__bg"></div>
 
     <div className="container">
         <div className="row">

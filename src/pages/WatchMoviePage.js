@@ -53,15 +53,20 @@ class WatchMoviePage extends Component {
                 transition={pageTransition}
             >
             <>
+            
                 <Helmet>
                     <title>{`Let's Flix | Watch ${movieItem.name}`}</title>
                     <meta name="description" content="Helmet application" />
                 </Helmet>
 
                 <Navbar/>
-                <div className="container movie-watch-container">
-                    <MovieVideo videoSRC={movieURL}/>
-                </div>
+
+                <section className="section details watch-section">
+                    <div className="details__bg"></div>
+                    <div className="container movie-watch-container">
+                        <MovieVideo videoSRC={movieURL}/>
+                    </div>
+                </section>
             </>
             </motion.div>
         )
