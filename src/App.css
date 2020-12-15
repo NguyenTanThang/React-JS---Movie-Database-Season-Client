@@ -3350,6 +3350,32 @@ input[type=range]::-ms-thumb {
     }
 }
 
+@media (min-width: 320px) and (max-width: 767px) {
+    .series-watch-container, .movie-watch-container {
+        height: 80vh;
+    }
+
+    .episode-tab {
+        flex: 28%;
+        max-width: 28%;
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+}
+
+@media (min-width: 320px) and (max-width: 767px) and (orientation: portrait) {
+    .series-watch-container, .movie-watch-container {
+        height: 40vh;
+    }
+
+    .episode-tab {
+        flex: 43%;
+        max-width: 43%;
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+}
+
 @media (min-width: 768px) and (max-width: 1024px) {
     .episode-tab {
         flex: 18%;
