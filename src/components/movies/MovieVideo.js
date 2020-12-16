@@ -1,21 +1,9 @@
 import React, { Component } from 'react';
-import { 
-    Player,
-  ControlBar,
-  ReplayControl,
-  ForwardControl,
-  CurrentTimeDisplay,
-  TimeDivider,
-  PlaybackRateMenuButton,
-  VolumeMenuButton,
- } from 'video-react';
 import {
-    getScreenshot,
     getCurrentVideoTime
 } from "../../config/jqueryCode";
-import ReactPlayer from 'react-player';
-import { default as Video, Controls, Play, Mute, Seek, Fullscreen, Time, Overlay, Subtitles } from 'react-html5video';
 import sampleSub from "../../data/subtitles/sample.vtt";
+import ipSub from "../../data/subtitles/[SubtitleTools.com] Ip.Man.4.The.Finale.2019.720p.BluRay.x264.AAC-[YTS.MX]_EN and CH.vtt";
 import Plyr from 'plyr';
 
 /*
@@ -44,7 +32,7 @@ export default class MovieVideo extends Component {
 export default class MovieVideo extends Component {
 
     componentDidMount() {
-        const player = new Plyr('#player');
+        new Plyr('#player');
         getCurrentVideoTime();
     }
 
@@ -61,6 +49,9 @@ export default class MovieVideo extends Component {
                     <track kind="captions" label="English" src={sampleSub} srcLang="en" default />
                     <track kind="captions" label="Français" src={sampleSub} srcLang="fr" />
                     */}
+
+                    <track kind="captions" label="English" src={ipSub} srcLang="en" default />
+                    <track kind="captions" label="Français" src={sampleSub} srcLang="fr" />
 
                     <a href={videoSRC} download>Download</a>
                 </video>
