@@ -2,58 +2,76 @@ import React, { Component } from 'react';
 import {
     getCurrentVideoTime
 } from "../../config/jqueryCode";
-import sampleSub from "../../data/subtitles/sample.vtt";
-import ipSub from "../../data/subtitles/[SubtitleTools.com] Ip.Man.4.The.Finale.2019.720p.BluRay.x264.AAC-[YTS.MX]_EN and CH.vtt";
 import Plyr from 'plyr';
+import {
+    blobFromURL,
+    blobFromURLStandard
+} from "../../utils/utils";
 
-/*
 export default class MovieVideo extends Component {
-    render() {
-        const {videoSRC} = this.props;
 
-        return (
-            <Player height="100%" poster={"https://wallpaperaccess.com/full/1512225.jpg"} width="100%" fluid={false} id="player">
-                <source src={videoSRC} />
-
-                <ControlBar>
-                    <ReplayControl seconds={10} order={1.1} />
-                    <ForwardControl seconds={10} order={1.2} />
-                    <CurrentTimeDisplay order={4.1} />
-                    <TimeDivider order={4.2} />
-                    <PlaybackRateMenuButton rates={[5, 2, 1.5, 1, 0.5, 0.1]} order={7.1} />
-                    <VolumeMenuButton />
-                </ControlBar>
-            </Player>
-        )
+    state = {
+        videoBlobURL: "",
+        base64SubtitlesURL: []
     }
-}
-*/
 
-export default class MovieVideo extends Component {
-
-    componentDidMount() {
+    async componentDidMount() {
         new Plyr('#player');
+        const {subtitles} = this.props;
         getCurrentVideoTime();
+        const {videoSRC} = this.props;
+        let base64SubtitlesURL = [];
+        const videoBlobURL = await blobFromURL(videoSRC);
+        if (subtitles) {
+            for (let i = 0; i < subtitles.length; i++) {
+                const subtitleItem = subtitles[i];
+                base64SubtitlesURL.push(
+                    await blobFromURLStandard("data:text/vtt;base64,", subtitleItem.subtitleURL)
+                    //await blobFromURL(subtitleItem.subtitleURL)
+                );
+            }
+        }
+        this.setState({
+            videoBlobURL,
+            base64SubtitlesURL
+        })
+    }
+
+    renderSubtitlesTrack = () => {
+        const {subtitles} = this.props;
+        const {base64SubtitlesURL} = this.state;
+        console.log(!subtitles);
+
+        if (!subtitles) {
+            return (<></>)
+        }
+
+        return subtitles.map((subtitleItem, index) => {
+            const {languageLabel, _id} = subtitleItem;
+            if (index === 0) {
+                return (
+                    <track kind="captions" key={_id} label={languageLabel} src={base64SubtitlesURL[index]} default />
+                )
+            }
+            return (
+                <track kind="captions" key={_id} label={languageLabel} src={base64SubtitlesURL[index]} />
+            )
+        })
     }
 
     render() {
-        const {videoSRC} = this.props;
+        const {renderSubtitlesTrack} = this;
+        const {videoBlobURL} = this.state;
         // poster={"https://wallpaperaccess.com/full/1512225.jpg"}
 
         return (
-                <video controls playsInline={true} id="player" height="100%" width="100%">
+                <video controls src={videoBlobURL} playsInline={true} id="player" height="100%" width="100%">
 
-                    <source src={videoSRC} type="video/mp4"/>
-
-                    {/*
-                    <track kind="captions" label="English" src={sampleSub} srcLang="en" default />
-                    <track kind="captions" label="Français" src={sampleSub} srcLang="fr" />
+                    {/*<source src={videoSRC} type="video/mp4"/>
+                    <source src={videoBlobURL} type="video/mp4"/>
                     */}
 
-                    <track kind="captions" label="English" src={ipSub} srcLang="en" default />
-                    <track kind="captions" label="Français" src={sampleSub} srcLang="fr" />
-
-                    <a href={videoSRC} download>Download</a>
+                    {renderSubtitlesTrack()}
                 </video>
         )
     }

@@ -6,6 +6,7 @@ import TabGenerator from '../components/partials/TabGenerator';
 import Navbar from "../components/partials/Navbar";
 import {getSubStatus, getCurrentUser, getAuthStatus} from "../requests/authRequests";
 import {addWatchHistory, deleteWatchHistory} from "../requests/watchHistoryRequests";
+import {getSubtitlesByEpisodeID} from "../requests/subtitleRequests";
 import {message} from "antd";
 import {Helmet} from "react-helmet";
 import { motion } from "framer-motion";
@@ -25,7 +26,8 @@ class WatchSeasonPage extends Component {
         seasonItem: "",
         currentEpisode: "",
         currentEpisodeNum: 1,
-        ratingEpisodeList: []
+        ratingEpisodeList: [],
+        subtitles: []
     }
 
     async componentDidMount() {
@@ -77,11 +79,22 @@ class WatchSeasonPage extends Component {
             )
         }
 
+        const subtitles = await getSubtitlesByEpisodeID(episodeList.filter(episodeItem => {
+            console.log(episodeItem.episodeNum === this.state.currentEpisodeNum)
+            return episodeItem.episodeNum === this.state.currentEpisodeNum
+        })[0]._id);
+        console.log(episodeList.filter(episodeItem => {
+            console.log(episodeItem.episodeNum === this.state.currentEpisodeNum)
+            return episodeItem.episodeNum === this.state.currentEpisodeNum
+        })[0]._id);
+        console.log(subtitles)
+      
         this.setState({
             episodeList,
             seasonItem,
             currentEpisode: episodeList[0],
-            ratingEpisodeList
+            ratingEpisodeList,
+            subtitles
         })
     }
 
@@ -178,8 +191,9 @@ class WatchSeasonPage extends Component {
     }
 
     renderEpisodeListWatchItems = () => {
-        const {episodeList} = this.state;
+        const {episodeList, subtitles} = this.state;
         console.log(episodeList);
+        console.log(subtitles);
         
         if (!episodeList || episodeList.length === 0) {
             return(<></>);
@@ -189,7 +203,7 @@ class WatchSeasonPage extends Component {
             const {_id, episodeURL} = episodeItem;
             return (
                 <div key={_id} className="series-watch-container">
-                    <MovieVideo videoSRC={episodeURL}/>
+                    <MovieVideo videoSRC={episodeURL} subtitles={subtitles}/>
                 </div>
             )
         })
@@ -210,7 +224,7 @@ class WatchSeasonPage extends Component {
 
     render() {
         const {renderEpisodeListWatchItems, renderEpisodeContainerTabs} = this;
-        const {seasonItem, currentEpisode, ratingEpisodeList} = this.state;
+        const {seasonItem, currentEpisode, ratingEpisodeList, subtitles} = this.state;
         const {rating} = currentEpisode;
         const ratingEpisodeItem = ratingEpisodeList.filter(item => {
             return item.episodeNum === currentEpisode.episodeNum
@@ -242,7 +256,7 @@ class WatchSeasonPage extends Component {
                         <div className="row">
                             <div className="col-12">
                                 <div key={currentEpisode._id}className="series-watch-container">
-                                    <MovieVideo videoSRC={currentEpisode.episodeURL}/>
+                                    <MovieVideo videoSRC={currentEpisode.episodeURL} subtitles={subtitles}/>
                                 </div>
                                 <div className="episode-details">
                                     <div className="episode-details__content">

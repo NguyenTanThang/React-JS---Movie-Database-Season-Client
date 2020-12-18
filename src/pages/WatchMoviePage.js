@@ -4,6 +4,7 @@ import MovieVideo from '../components/movies/MovieVideo';
 import Navbar from "../components/partials/Navbar";
 import {getSubStatus, getCurrentUser} from "../requests/authRequests";
 import {addWatchHistory, deleteWatchHistory} from "../requests/watchHistoryRequests";
+import {getSubtitlesByMovieID} from "../requests/subtitleRequests";
 import {message} from "antd";
 import { motion } from "framer-motion";
 import {pageStyle, pageTransition, pageVariants} from "../config/animation";
@@ -12,7 +13,8 @@ import {Helmet} from "react-helmet";
 class WatchMoviePage extends Component {
 
     state = {
-        movieItem: ""
+        movieItem: "",
+        subtitles: []
     }
 
     async componentDidMount() {
@@ -27,16 +29,21 @@ class WatchMoviePage extends Component {
         }
 
         const userID = getCurrentUser();
+        const subtitles = await getSubtitlesByMovieID(movieID);
         await deleteWatchHistory(userID, movieID);
         await addWatchHistory(userID, movieID);
 
+        console.log("subtitles-WatchMoviePage")
+        console.log(subtitles)
+
         this.setState({
-            movieItem
+            movieItem,
+            subtitles
         })
     }
 
     render() {
-        const {movieItem} = this.state;
+        const {movieItem, subtitles} = this.state;
         const {movieURL} = movieItem;
 
         if (!movieItem) {
@@ -64,7 +71,7 @@ class WatchMoviePage extends Component {
                 <section className="section details watch-section">
                     <div className="details__bg"></div>
                     <div className="container movie-watch-container">
-                        <MovieVideo videoSRC={movieURL}/>
+                        <MovieVideo subtitles={subtitles} videoSRC={movieURL}/>
                     </div>
                 </section>
             </>

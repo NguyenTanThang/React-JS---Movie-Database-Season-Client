@@ -1,3 +1,5 @@
+import axios from "axios";
+
 export function getRandom(arr, n) {
     var result = new Array(n),
         len = arr.length,
@@ -10,6 +12,49 @@ export function getRandom(arr, n) {
         taken[x] = --len in taken ? taken[len] : len;
     }
     return result;
+}
+
+export const encryptVideoURL = (url) => {
+
+}
+
+export const blobFromURL = async (url) => {
+    try {
+        const response = await axios.get(url, {
+            responseType: 'arraybuffer',
+            headers: {
+                //"Access-Control-Allow-Origin": "*"
+            }
+        })
+
+        const base64URL = Buffer.from(response.data, 'binary').toString('base64');
+
+        console.log(response);
+        console.log(`data:video/mp4;base64,${base64URL}`);
+
+        return `data:video/mp4;base64,${base64URL}`;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const blobFromURLStandard = async (prefix, url) => {
+    try {
+        const response = await axios.get(url, {
+            responseType: 'arraybuffer',
+            headers: {
+                //"Access-Control-Allow-Origin": "*"
+            }
+        })
+
+        const base64URL = Buffer.from(response.data, 'binary').toString('base64');
+
+        console.log(`${prefix}${base64URL}`);
+
+        return `${prefix}${base64URL}`;
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 export const filterRecommendationSection = (recommendedGenres, movies) => {
