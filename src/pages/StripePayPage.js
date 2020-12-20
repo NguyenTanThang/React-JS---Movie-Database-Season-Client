@@ -17,6 +17,7 @@ class StripePayPage extends Component {
             return this.props.history.push("/sign-in");
         }
         if (subStatus === "active") {
+            message.error("Your subscription is still valid")
             return this.props.history.push("/");
         }
     }

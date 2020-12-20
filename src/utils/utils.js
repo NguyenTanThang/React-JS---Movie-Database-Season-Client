@@ -67,7 +67,8 @@ export const filterRecommendationSection = (recommendedGenres, movies) => {
             }
         })
         recList.push({
-            movieList: currentArray.slice(0, 6),
+            //movieList: currentArray.slice(0, 6),
+            movieList: currentArray,
             currentGenre: recommendedGenre
         })
     })

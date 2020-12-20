@@ -17,9 +17,8 @@ export default class MovieVideo extends Component {
 
     async componentDidMount() {
         new Plyr('#player');
-        const {subtitles} = this.props;
-        getCurrentVideoTime();
-        const {videoSRC} = this.props;
+        const {subtitles, videoSRC} = this.props;
+        //getCurrentVideoTime();
         let base64SubtitlesURL = [];
         const videoBlobURL = await blobFromURL(videoSRC);
         if (subtitles) {
@@ -40,7 +39,6 @@ export default class MovieVideo extends Component {
     renderSubtitlesTrack = () => {
         const {subtitles} = this.props;
         const {base64SubtitlesURL} = this.state;
-        console.log(!subtitles);
 
         if (!subtitles) {
             return (<></>)
@@ -62,13 +60,16 @@ export default class MovieVideo extends Component {
     render() {
         const {renderSubtitlesTrack} = this;
         const {videoBlobURL} = this.state;
-        // poster={"https://wallpaperaccess.com/full/1512225.jpg"}
+        
 
         return (
-                <video controls src={videoBlobURL} playsInline={true} id="player" height="100%" width="100%">
+                <video 
+                poster={"https://wallpaperaccess.com/full/1512225.jpg"}
+                controls src={videoBlobURL} playsInline={true} id="player" height="100%" width="100%">
 
-                    {/*<source src={videoSRC} type="video/mp4"/>
-                    <source src={videoBlobURL} type="video/mp4"/>
+                    {/*
+                        <source src={videoSRC} type="video/mp4"/>
+                        <source src={videoBlobURL} type="video/mp4"/>
                     */}
 
                     {renderSubtitlesTrack()}

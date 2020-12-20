@@ -1611,9 +1611,14 @@ input[type=range]::-ms-thumb {
 	Card
 ==============================*/
 .card {
-    margin-bottom: 30px;
+    margin-bottom: 50px;
     background-color: transparent;
     border: none;
+}
+
+.card-carousel-item {
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 .card__cover {
@@ -3387,4 +3392,25 @@ input[type=range]::-ms-thumb {
     .series-watch-container, .movie-watch-container {
         height: 50vh;
     }
+}
+
+/*Slicks*/
+.slick-dots {
+    z-index: 9999;
+    bottom: -5px !important;
+    left: 0 !important;
+}
+
+.slick-dots li {
+    width: 100px;
+    height: 100px;
+    display: block;
+}
+
+.slick-dots li.slick-active button:before {
+    color: #ff55a5 !important;
+}
+
+.slick-dots li button:before {
+    color: white !important;
 }

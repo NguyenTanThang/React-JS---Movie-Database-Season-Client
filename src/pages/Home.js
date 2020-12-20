@@ -13,7 +13,9 @@ import {
 } from "../utils/utils";
 import {connect} from "react-redux";
 import MovieList from "../components/movies/MovieList";
+import MovieCarousel from "../components/movies/MovieCarousel";
 import SeriesList from "../components/series/SeriesList";
+import SeriesCarousel from "../components/series/SeriesCarousel";
 import HomeHeader from "../components/partials/HomeHeader";
 import TabGenerator from "../components/partials/TabGenerator";
 import {Link} from "react-router-dom";
@@ -72,25 +74,27 @@ class Home extends Component {
     generateTabs = (currentMovies, currentSeries) => {
         const {loading} = this.props;
 
+        const movieContent = currentMovies.length > 6 ? (
+            <MovieCarousel movies={currentMovies} loading={loading}/>
+        ) : (
+            <MovieList movies={currentMovies} loading={loading}/>
+        );
+
+        const seriesContent = currentSeries.length > 6 ? (
+            <SeriesCarousel series={currentSeries} loading={loading}/>
+        ) : (
+            <SeriesList series={currentSeries} loading={loading}/>
+        );
+
         const tabContents = [
             (
                 <>
-                    <MovieList movies={currentMovies} loading={loading}/>
-                    {/*
-                    <Link to="/browse" className="section__btn">
-                        Browse More
-                    </Link>
-                    */}
+                    {movieContent}
                 </>
             ),
             (
                 <>
-                    <SeriesList series={currentSeries} loading={loading}/>
-                    {/*
-                    <Link to="/browse" className="section__btn">
-                        Browse More
-                    </Link>
-                    */}
+                    {seriesContent}
                 </>
             )
         ]
@@ -103,14 +107,14 @@ class Home extends Component {
         return <TabGenerator tabContents={tabContents} tabHeaders={tabHeaders}/>
     }
 
-    renderTabGen = () => {
+    renderTabGen = (maxItemNumber) => {
         const {movies, series} = this.props;
         const {generateTabs} = this;
         let currentMovies = movies;
         let currentSeries = series;
 
-        currentMovies = currentMovies.slice(0, 6);
-        currentSeries = currentSeries.slice(0, 6);
+        currentMovies = currentMovies.slice(0, maxItemNumber);
+        currentSeries = currentSeries.slice(0, maxItemNumber);
 
         return generateTabs(currentMovies, currentSeries)
     }
@@ -147,7 +151,7 @@ class Home extends Component {
                                     <div className="col-12">
                                         <h2 className="content__title">New Releases</h2>
 
-                                        {renderTabGen()}
+                                        {renderTabGen(12)}
                                     </div>
                                 </Tween>
                             </Reveal>

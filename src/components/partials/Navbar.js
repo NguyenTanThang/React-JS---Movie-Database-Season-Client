@@ -35,8 +35,30 @@ export default class Navbar extends Component {
         }
     }
 
+    renderNavBarItems = () => {
+        const {customerID} = this.state;
+
+        if (customerID) {
+            return (
+                <>
+                    <li className="header__nav-item">
+                        <Link to="/history" className="header__nav-link">History</Link>
+                    </li>
+
+                    <li className="header__nav-item">
+                        <Link to="/watch-later" className="header__nav-link">Watch Later</Link>
+                    </li>
+                </>
+            )
+        } else {
+            return (
+                <></>
+            )
+        }
+    }
+
     render() {
-        const {renderAuthButton} = this;
+        const {renderAuthButton, renderNavBarItems} = this;
 
         return (
 	<header className="header">
@@ -63,13 +85,7 @@ export default class Navbar extends Component {
                                 <Link to="/pricing" className="header__nav-link">Pricing</Link>
                             </li>
 
-                            <li className="header__nav-item">
-                                <Link to="/history" className="header__nav-link">History</Link>
-                            </li>
-
-                            <li className="header__nav-item">
-                                <Link to="/watch-later" className="header__nav-link">Watch Later</Link>
-                            </li>
+                            {renderNavBarItems()}
 
                             <li className="header__nav-item">
                                 <Link to="/help" className="header__nav-link">Help</Link>
