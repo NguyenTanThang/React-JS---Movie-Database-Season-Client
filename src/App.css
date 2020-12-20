@@ -3399,12 +3399,12 @@ input[type=range]::-ms-thumb {
     z-index: 9999;
     bottom: -5px !important;
     left: 0 !important;
+
 }
 
 .slick-dots li {
-    width: 100px;
-    height: 100px;
-    display: block;
+    width: 10px;
+    height: 10px;
 }
 
 .slick-dots li.slick-active button:before {

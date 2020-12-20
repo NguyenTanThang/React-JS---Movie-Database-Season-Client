@@ -3,8 +3,6 @@ import Slider from "react-slick";
 import MovieItem from "./MovieItem";
 import { Empty } from 'antd';
 import Loading from "../partials/Loading";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
 
 class MovieCarousel extends Component {
 
