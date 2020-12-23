@@ -17,11 +17,11 @@ export default class MovieVideo extends Component {
 
     async componentDidMount() {
         new Plyr('#player');
-        /*
-        const {subtitles, videoSRC} = this.props;
+        //const {subtitles, videoSRC} = this.props;
+        const {subtitles} = this.props;
         //getCurrentVideoTime();
         let base64SubtitlesURL = [];
-        const videoBlobURL = await blobFromURL(videoSRC);
+        //const videoBlobURL = await blobFromURL(videoSRC);
         if (subtitles) {
             for (let i = 0; i < subtitles.length; i++) {
                 const subtitleItem = subtitles[i];
@@ -32,15 +32,14 @@ export default class MovieVideo extends Component {
             }
         }
         this.setState({
-            videoBlobURL,
+            //videoBlobURL,
             base64SubtitlesURL
         })
-        */
     }
 
     renderSubtitlesTrack = () => {
         const {subtitles} = this.props;
-        //const {base64SubtitlesURL} = this.state;
+        const {base64SubtitlesURL} = this.state;
 
         if (!subtitles) {
             return (<></>)
@@ -56,13 +55,14 @@ export default class MovieVideo extends Component {
 
         return subtitles.map((subtitleItem, index) => {
             const {languageLabel, _id, subtitleURL} = subtitleItem;
+            console.log(subtitleURL);
             if (index === 0) {
                 return (
-                    <track kind="captions" key={_id} label={languageLabel} src={subtitleURL} default />
+                    <track kind="captions" key={_id} label={languageLabel} src={base64SubtitlesURL[index]} default />
                 )
             }
             return (
-                <track kind="captions" key={_id} label={languageLabel} src={subtitleURL} />
+                <track kind="captions" key={_id} label={languageLabel} src={base64SubtitlesURL[index]} />
             )
         })
     }
