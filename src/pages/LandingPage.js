@@ -14,6 +14,7 @@ import {connect} from "react-redux";
 import {Helmet} from "react-helmet";
 import { motion } from "framer-motion";
 import {pageStyle, pageTransition, pageVariants} from "../config/animation";
+import {detectLeavePage} from "../utils/utils";
 
 const { Panel } = Collapse;
 
@@ -21,6 +22,7 @@ class LandingPage extends Component {
 
     componentDidMount() {
         this.props.getAllPlans();
+        detectLeavePage();
     }
 
     renderFaqItems = () => {

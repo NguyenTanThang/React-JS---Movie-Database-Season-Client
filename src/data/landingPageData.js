@@ -43,4 +43,4 @@ export const faqs = [
     },
 ]
 
-export const videoBgURL = `https://firebasestorage.googleapis.com/v0/b/movie-database-assets.appspot.com/o/modified-movie-bg.mp4?alt=media&token=1a541a5f-f163-4231-b50a-63763bd96e0a`
+export const videoBgURL = `https://firebasestorage.googleapis.com/v0/b/movie-database-assets.appspot.com/o/modified-movie-bg-compress-2.mp4?alt=media&token=adb90f0d-e72f-4fcb-8af1-c7d30d2bade3`

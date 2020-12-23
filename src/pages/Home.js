@@ -56,6 +56,8 @@ class Home extends Component {
             const recSeriesItem = recSeriesList[index];
 
             return (
+                <React.Fragment key={index}>
+                {/*
                 <Reveal key={index}>
                     <Tween from={{ opacity: 0 }} duration={0.8}>
                         <div className="row home-sec">
@@ -67,6 +69,15 @@ class Home extends Component {
                         </div>
                     </Tween>
                 </Reveal>
+                */}
+                    <div className="row home-sec">
+                        <div className="col-12">
+                            <h2 className="content__title">{recMovieItem.currentGenre}</h2>
+
+                            {generateTabs(recMovieItem.movieList, recSeriesItem.movieList)}
+                         </div>
+                    </div>
+                </React.Fragment>
             )
         })
     }
@@ -74,17 +85,28 @@ class Home extends Component {
     generateTabs = (currentMovies, currentSeries) => {
         const {loading} = this.props;
 
-        const movieContent = currentMovies.length > 6 ? (
-            <MovieCarousel movies={currentMovies} loading={loading}/>
-        ) : (
-            <MovieList movies={currentMovies} loading={loading}/>
-        );
+        let movieContent = [];
+        let seriesContent = [];
 
-        const seriesContent = currentSeries.length > 6 ? (
-            <SeriesCarousel series={currentSeries} loading={loading}/>
-        ) : (
-            <SeriesList series={currentSeries} loading={loading}/>
-        );
+        if (currentMovies.length > 6) {
+            if (currentMovies.length >= 12) {
+                movieContent = <MovieCarousel movies={currentMovies.slice(0, 10)} loading={loading}/>
+                return;
+            }
+            movieContent = <MovieCarousel movies={currentMovies} loading={loading}/>
+        } else {
+            movieContent = <MovieList movies={currentMovies} loading={loading}/>
+        }
+
+        if (currentSeries.length > 6) {
+            if (currentSeries.length >= 12) {
+                seriesContent = <SeriesCarousel series={currentSeries.slice(0, 10)} loading={loading}/>
+                return;
+            }
+            seriesContent = <SeriesCarousel series={currentSeries} loading={loading}/>
+        } else {
+            seriesContent = <SeriesList series={currentSeries} loading={loading}/>
+        }
 
         const tabContents = [
             (

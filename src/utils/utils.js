@@ -1,5 +1,33 @@
 import axios from "axios";
 
+export const detectLeavePage = () => {
+    console.log("detectLeavePage");
+    /*
+    window.addEventListener('beforeunload', (event) => {
+        // Cancel the event as stated by the standard.
+        event.preventDefault();
+        console.log(event);
+        // Older browsers supported custom message
+        event.returnValue = 'DO YOU really want to exit a fun page like this?';
+    });
+    */
+
+    document.addEventListener('mouseleave', e=>{
+        //do some async code
+        console.log(e);
+    });
+   
+    document.addEventListener('visibilitychange', e=>{
+        if (document.visibilityState === 'visible') {
+            console.log(e);
+            console.log(document);
+        } else {
+            console.log(e);
+            console.log(document);
+        }  
+    });
+}
+
 export function getRandom(arr, n) {
     var result = new Array(n),
         len = arr.length,

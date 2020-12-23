@@ -32,39 +32,42 @@ import SeasonDetailsPage from "./pages/SeasonDetailsPage";
 import SeasonListPage from "./pages/SeasonListPage";
 import Footer from "./components/partials/Footer";
 
-function App() {
-  return (
-    <div className="App">
-    <AnimatePresence exitBeforeEnter>
-      <Router>
-      <ScrollToTop>
-          <Switch>
-            <Route path="/" exact component={LandingPage}/>
-            <Route path="/home" exact component={Home}/>
-            <Route path="/browse" component={Browse}/>
-            <Route path="/help" component={Help}/>
-            <Route path="/pricing" component={PricingPlan}/>
-            <Route path="/stripe-pay" component={StripePayPage}/>
-            <Route path="/momo-pay" component={MomoPaymentPage}/>
-            <Route path="/sign-up" component={SignUp}/>
-            <Route path="/sign-in" component={SignIn}/>
-            <Route path="/logout" component={Logout}/>
-            <Route path="/watch-later" component={WatchLater}/>
-            <Route path="/history" component={HistoryPage}/>
-            <Route path="/season-list/:seriesID" component={SeasonListPage}/>
-            <Route path="/movies-details/:movieID" component={MovieDetailsPage}/>
-            <Route path="/series-details/:seriesID" component={SeriesDetailsPage}/>
-            <Route path="/season-details/:seasonID" component={SeasonDetailsPage}/>
-            <Route path="/watch-movie/:movieID" component={WatchMoviePage} exact/>
-            <Route path="/watch-series/:seriesID" component={WatchSeriesPage} exact/>
-            <Route path="/watch-season/:seasonID" component={WatchSeasonPage} exact/>
-          </Switch>
-        <Footer/>
-      </ScrollToTop>
-      </Router>
-      </AnimatePresence>
-    </div>
-  );
+class App extends React.Component {
+
+  render() {
+    return (
+      <div className="App">
+      <AnimatePresence exitBeforeEnter>
+        <Router>
+        <ScrollToTop>
+            <Switch>
+              <Route path="/" exact component={LandingPage}/>
+              <Route path="/home" exact component={Home}/>
+              <Route path="/browse" component={Browse}/>
+              <Route path="/help" component={Help}/>
+              <Route path="/pricing" component={PricingPlan}/>
+              <Route path="/stripe-pay" component={StripePayPage}/>
+              <Route path="/momo-pay" component={MomoPaymentPage}/>
+              <Route path="/sign-up" component={SignUp}/>
+              <Route path="/sign-in" component={SignIn}/>
+              <Route path="/logout" component={Logout}/>
+              <Route path="/watch-later" component={WatchLater}/>
+              <Route path="/history" component={HistoryPage}/>
+              <Route path="/season-list/:seriesID" component={SeasonListPage}/>
+              <Route path="/movies-details/:movieID" component={MovieDetailsPage}/>
+              <Route path="/series-details/:seriesID" component={SeriesDetailsPage}/>
+              <Route path="/season-details/:seasonID" component={SeasonDetailsPage}/>
+              <Route path="/watch-movie/:movieID" component={WatchMoviePage} exact/>
+              <Route path="/watch-series/:seriesID" component={WatchSeriesPage} exact/>
+              <Route path="/watch-season/:seasonID" component={WatchSeasonPage} exact/>
+            </Switch>
+          <Footer/>
+        </ScrollToTop>
+        </Router>
+        </AnimatePresence>
+      </div>
+    );
+  }
 }
 
 export default App;

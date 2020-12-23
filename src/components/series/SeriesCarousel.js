@@ -4,6 +4,28 @@ import SeriesItem from "./SeriesItem";
 import { Empty } from 'antd';
 import Loading from "../partials/Loading";
 
+function SampleNextArrow(props) {
+  const { className, style, onClick } = props;
+  return (
+    <div
+      className={className}
+      style={{ ...style}}
+      onClick={onClick}
+    />
+  );
+}
+
+function SamplePrevArrow(props) {
+  const { className, style, onClick } = props;
+  return (
+    <div
+      className={className}
+      style={{ ...style}}
+      onClick={onClick}
+    />
+  );
+}
+
 class SeriesCarousel extends Component {
 
     renderSeriesItems = () => {
@@ -42,6 +64,9 @@ class SeriesCarousel extends Component {
             speed: 500,
             slidesToShow: 6,
             slidesToScroll: 2,
+            swipeToSlide: true,
+            nextArrow: <SampleNextArrow />,
+            prevArrow: <SamplePrevArrow />,
             responsive: [
                 {
                   breakpoint: 1025,
@@ -68,7 +93,8 @@ class SeriesCarousel extends Component {
                   breakpoint: 380,
                   settings: {
                     slidesToShow: 2,
-                    slidesToScroll: 2
+                    slidesToScroll: 2,
+                    infinite: true,
                   }
                 }
               ]

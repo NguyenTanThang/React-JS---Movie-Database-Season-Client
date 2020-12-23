@@ -4,6 +4,28 @@ import MovieItem from "./MovieItem";
 import { Empty } from 'antd';
 import Loading from "../partials/Loading";
 
+function SampleNextArrow(props) {
+  const { className, style, onClick } = props;
+  return (
+    <div
+      className={className}
+      style={{ ...style}}
+      onClick={onClick}
+    />
+  );
+}
+
+function SamplePrevArrow(props) {
+  const { className, style, onClick } = props;
+  return (
+    <div
+      className={className}
+      style={{ ...style}}
+      onClick={onClick}
+    />
+  );
+}
+
 class MovieCarousel extends Component {
 
     renderMovieItems = () => {
@@ -42,6 +64,9 @@ class MovieCarousel extends Component {
             speed: 500,
             slidesToShow: 6,
             slidesToScroll: 2,
+            swipeToSlide: true,
+            nextArrow: <SampleNextArrow />,
+            prevArrow: <SamplePrevArrow />,
             responsive: [
                 {
                   breakpoint: 1025,
@@ -66,6 +91,7 @@ class MovieCarousel extends Component {
                 },
                 {
                   breakpoint: 380,
+                  infinite: true,
                   settings: {
                     slidesToShow: 2,
                     slidesToScroll: 2

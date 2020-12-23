@@ -7,7 +7,6 @@ import Loading from "../partials/Loading";
 class MovieList extends Component {
 
     componentDidMount() {
-        console.log(this.props);
     }
 
     renderMovieItems = () => {

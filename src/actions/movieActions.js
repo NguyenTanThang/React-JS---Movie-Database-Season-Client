@@ -19,8 +19,6 @@ export const getAllMovies = () => {
     
             const movies = res.data.data;
 
-            console.log(movies);
-    
             dispatch(clearLoading());
             return dispatch({
                 type: GET_ALL_MOVIES,
