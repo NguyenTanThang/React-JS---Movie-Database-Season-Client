@@ -37,11 +37,13 @@ class Home extends Component {
         const {generateRecommendationSection} = this;
         const {movies, series, genres} = this.props;
 
-        // ["Action", "Crime", "Drama", "Thriller", "Science Fiction", "Adventure"]
+        const recommendedGenres = ["Action", "Adventure", "Crime", "Drama", "Thriller"];
 
+        /*
         const recommendedGenres = genres.map(genreItem => {
             return genreItem.name;
         });
+        */
 
         let recMovieList = filterRecommendationSection(recommendedGenres, movies);
         let recSeriesList = filterRecommendationSection(recommendedGenres, series);
@@ -89,21 +91,21 @@ class Home extends Component {
         let seriesContent = [];
 
         if (currentMovies.length > 6) {
-            if (currentMovies.length >= 12) {
+            if (currentMovies.length >= 11) {
                 movieContent = <MovieCarousel movies={currentMovies.slice(0, 10)} loading={loading}/>
-                return;
+            } else {
+                movieContent = <MovieCarousel movies={currentMovies} loading={loading}/>
             }
-            movieContent = <MovieCarousel movies={currentMovies} loading={loading}/>
         } else {
             movieContent = <MovieList movies={currentMovies} loading={loading}/>
         }
 
         if (currentSeries.length > 6) {
-            if (currentSeries.length >= 12) {
+            if (currentSeries.length >= 11) {
                 seriesContent = <SeriesCarousel series={currentSeries.slice(0, 10)} loading={loading}/>
-                return;
+            } else {
+                seriesContent = <SeriesCarousel series={currentSeries} loading={loading}/>
             }
-            seriesContent = <SeriesCarousel series={currentSeries} loading={loading}/>
         } else {
             seriesContent = <SeriesList series={currentSeries} loading={loading}/>
         }

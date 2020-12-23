@@ -17,6 +17,7 @@ export default class MovieVideo extends Component {
 
     async componentDidMount() {
         new Plyr('#player');
+        /*
         const {subtitles, videoSRC} = this.props;
         //getCurrentVideoTime();
         let base64SubtitlesURL = [];
@@ -34,38 +35,48 @@ export default class MovieVideo extends Component {
             videoBlobURL,
             base64SubtitlesURL
         })
+        */
     }
 
     renderSubtitlesTrack = () => {
         const {subtitles} = this.props;
-        const {base64SubtitlesURL} = this.state;
+        //const {base64SubtitlesURL} = this.state;
 
         if (!subtitles) {
             return (<></>)
         }
 
+        /*
+        
+        <track kind="captions" key={_id} label={languageLabel} src={base64SubtitlesURL[index]} default />
+
+        <track kind="captions" key={_id} label={languageLabel} src={base64SubtitlesURL[index]} />
+
+        */
+
         return subtitles.map((subtitleItem, index) => {
-            const {languageLabel, _id} = subtitleItem;
+            const {languageLabel, _id, subtitleURL} = subtitleItem;
             if (index === 0) {
                 return (
-                    <track kind="captions" key={_id} label={languageLabel} src={base64SubtitlesURL[index]} default />
+                    <track kind="captions" key={_id} label={languageLabel} src={subtitleURL} default />
                 )
             }
             return (
-                <track kind="captions" key={_id} label={languageLabel} src={base64SubtitlesURL[index]} />
+                <track kind="captions" key={_id} label={languageLabel} src={subtitleURL} />
             )
         })
     }
 
     render() {
         const {renderSubtitlesTrack} = this;
-        const {videoBlobURL} = this.state;
+        const {videoSRC} = this.props;
+        //const {videoBlobURL} = this.state;
+        //poster={"https://wallpaperaccess.com/full/1512225.jpg"}
         
 
         return (
-                <video 
-                poster={"https://wallpaperaccess.com/full/1512225.jpg"}
-                controls src={videoBlobURL} playsInline={true} id="player" height="100%" width="100%">
+                <video
+                controls src={videoSRC} playsInline={true} id="player" height="100%" width="100%">
 
                     {/*
                         <source src={videoSRC} type="video/mp4"/>
