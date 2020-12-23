@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Collapse, Checkbox } from 'antd';
+import { Collapse } from 'antd';
 
 const { Panel } = Collapse;
 
@@ -20,11 +20,48 @@ export default class BrowseEngine extends Component {
 
     renderGenreCheckBoxes = () => {
         const {genres} = this.props;
+        const {setSearchObject} = this.props;
+        const {searchName, orderBy} = this.state;
+
+        /*
+            <div className="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-6 form-group" key={genre._id}>
+                    <Checkbox value={genre.name}>{genre.name}</Checkbox>
+                </div>
+        */
+
+        const addGenreToSortGenres = (genreName) => {
+            if (this.state.sortGenres.includes(genreName)) {
+                this.setState({
+                    sortGenres: this.state.sortGenres.filter(sortGenreItem => {
+                        return sortGenreItem != genreName
+                    })
+                })
+                setSearchObject({
+                    searchName, orderBy, sortGenres: this.state.sortGenres.filter(sortGenreItem => {
+                        return sortGenreItem != genreName
+                    })
+                })
+            } else {
+                this.setState({
+                    sortGenres: [...this.state.sortGenres, genreName]
+                })
+                setSearchObject({
+                    searchName, orderBy, sortGenres: [...this.state.sortGenres, genreName]
+                })
+            }
+        }
 
         return genres.map(genre => {
+            if (this.state.sortGenres.includes(genre.name)) {
+                return (
+                    <div className="genre-pill active" onClick={() => addGenreToSortGenres(genre.name)} key={genre._id}>
+                    {genre.name}
+                </div>
+                )
+            }
             return (
-                <div className="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-6 form-group" key={genre._id}>
-                    <Checkbox value={genre.name}>{genre.name}</Checkbox>
+                <div className="genre-pill" onClick={() => addGenreToSortGenres(genre.name)} key={genre._id}>
+                    {genre.name}
                 </div>
             )
         })
@@ -44,20 +81,8 @@ export default class BrowseEngine extends Component {
         })
     }
 
-    onChangeCheckBox = (sortGenresValues) => {
-        const {setSearchObject} = this.props;
-        const {searchName, orderBy} = this.state;
-
-        this.setState({
-            sortGenres: sortGenresValues
-        })
-        setSearchObject({
-            searchName, orderBy, sortGenres: sortGenresValues
-        })
-    }
-
     render() {
-        const {renderGenreCheckBoxes, onChangeInput, onChangeCheckBox} = this;
+        const {renderGenreCheckBoxes, onChangeInput} = this;
         const {searchName, orderBy} = this.state;
 
         return (
@@ -67,7 +92,7 @@ export default class BrowseEngine extends Component {
                         <div className="row">
                             <div className="col-lg-6 col-md-6 col-sm-12 form-group">
                                 <label htmlFor="searchName">Name:</label>
-                                <input type="text" className="sign__input" placeholder="Name, Director, Genres"
+                                <input type="text" className="sign__input" placeholder="Title, Actor, Director, Genre"
                                 name="searchName"
                                 onChange={onChangeInput}
                                 value={searchName}/>
@@ -87,11 +112,9 @@ export default class BrowseEngine extends Component {
                             </div>
                             <div className="col-12 form-group">
                                 <label htmlFor="genres">Genres:</label>
-                                <Checkbox.Group style={{ width: '100%' }} onChange={onChangeCheckBox}>
-                                    <div className="row">
-                                        {renderGenreCheckBoxes()}
-                                    </div>
-                                </Checkbox.Group>
+                                <div className="genre-clip-row row">
+                                    {renderGenreCheckBoxes()}
+                                </div>
                             </div>
                         </div>
                     </form>

@@ -64,7 +64,6 @@ class MovieCarousel extends Component {
             speed: 500,
             slidesToShow: 6,
             slidesToScroll: 2,
-            swipeToSlide: true,
             nextArrow: <SampleNextArrow />,
             prevArrow: <SamplePrevArrow />,
             responsive: [

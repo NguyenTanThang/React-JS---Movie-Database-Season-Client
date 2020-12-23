@@ -24,7 +24,10 @@ export const sortMoviesAndSeries = (list, searchObject) => {
 const sortMoviesAndSeriesByGenres = (list, sortGenres) => {
     let returnedList = [];
 
-    /*
+    if (sortGenres.includes("All")) {
+        return list;
+    }
+
     sortGenres.forEach(sortGenre => {
         list.forEach(item => {
             if (item.genres.includes(sortGenre)) {
@@ -34,7 +37,6 @@ const sortMoviesAndSeriesByGenres = (list, sortGenres) => {
             }
         })
     })
-    */
 
     /*
     list.forEach(item => {
@@ -46,6 +48,7 @@ const sortMoviesAndSeriesByGenres = (list, sortGenres) => {
     })
     */
 
+    /*
     list.forEach(item => {
         let matchCounter = 0;
         sortGenres.forEach(sortGenre => {
@@ -57,6 +60,7 @@ const sortMoviesAndSeriesByGenres = (list, sortGenres) => {
             }
         })
     })
+    */
 
     return returnedList;
 }

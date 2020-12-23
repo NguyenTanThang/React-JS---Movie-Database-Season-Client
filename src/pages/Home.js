@@ -24,10 +24,13 @@ import {Helmet} from "react-helmet";
 import { motion } from "framer-motion";
 import {pageStyle, pageTransition, pageVariants} from "../config/animation";
 import {Reveal, Tween} from "react-gsap";
+import {shuffleArray, measureDeviceWidth} from "../utils/utils";
+
+const deviceType = measureDeviceWidth();
 
 class Home extends Component {
 
-    componentDidMount() {
+    componentWillMount() {
         this.props.getAllMovies();
         this.props.getAllSeries();
         this.props.getAllGenres();
@@ -35,7 +38,7 @@ class Home extends Component {
 
     renderRecommendationSec = () => {
         const {generateRecommendationSection} = this;
-        const {movies, series, genres} = this.props;
+        const {movies, series} = this.props;
 
         const recommendedGenres = ["Action", "Adventure", "Crime", "Drama", "Thriller"];
 
@@ -86,13 +89,25 @@ class Home extends Component {
 
     generateTabs = (currentMovies, currentSeries) => {
         const {loading} = this.props;
+        let maxItemNumber = 10;
+
+        if (deviceType === "mobile") {
+            maxItemNumber = 6;
+        }
+
+        currentMovies = shuffleArray(currentMovies);
+        currentSeries = shuffleArray(currentSeries);
+
+        console.log(currentMovies.length);
 
         let movieContent = [];
         let seriesContent = [];
 
         if (currentMovies.length > 6) {
-            if (currentMovies.length >= 11) {
-                movieContent = <MovieCarousel movies={currentMovies.slice(0, 10)} loading={loading}/>
+            console.log(currentMovies.length >= maxItemNumber + 1);
+            console.log(currentMovies.slice(0, maxItemNumber));
+            if (currentMovies.length >= maxItemNumber + 1) {
+                movieContent = <MovieCarousel movies={currentMovies.slice(0, maxItemNumber)} loading={loading}/>
             } else {
                 movieContent = <MovieCarousel movies={currentMovies} loading={loading}/>
             }
@@ -101,8 +116,8 @@ class Home extends Component {
         }
 
         if (currentSeries.length > 6) {
-            if (currentSeries.length >= 11) {
-                seriesContent = <SeriesCarousel series={currentSeries.slice(0, 10)} loading={loading}/>
+            if (currentSeries.length >= maxItemNumber + 1) {
+                seriesContent = <SeriesCarousel series={currentSeries.slice(0, maxItemNumber)} loading={loading}/>
             } else {
                 seriesContent = <SeriesCarousel series={currentSeries} loading={loading}/>
             }
@@ -175,7 +190,7 @@ class Home extends Component {
                                     <div className="col-12">
                                         <h2 className="content__title">New Releases</h2>
 
-                                        {renderTabGen(12)}
+                                        {renderTabGen(10)}
                                     </div>
                                 </Tween>
                             </Reveal>

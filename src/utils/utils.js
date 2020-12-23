@@ -1,5 +1,62 @@
 import axios from "axios";
 
+export const measureDeviceWidth = () => {
+    let device;
+    let screenWidth = document.documentElement.clientWidth;
+    let screenHeight = document.documentElement.clientHeight;
+    device = indicateDeviceType(screenWidth, screenHeight);
+    /*
+    window.addEventListener("resize", (e) => {
+        screenWidth = document.documentElement.clientWidth;
+        screenHeight = document.documentElement.clientWidth;
+        device = indicateDeviceType(screenWidth, screenHeight);
+    })
+    */
+    console.log(device);
+    return device;
+}
+
+export const indicateDeviceType = (screenWidth, screenHeight) => {
+    if (screenWidth >= 320 && screenWidth <= 767) {
+        return "mobile";
+    } 
+    /*
+    else if (screenHeight >= 320 && screenHeight <= 767) {
+        return "mobile";
+    } 
+    */
+    else if (screenWidth >= 768 && screenWidth <= 1024) {
+        return "tablet";
+    } 
+    /*
+    else if (screenHeight >= 768 && screenHeight <= 1024) {
+        return "tablet";
+    } 
+    */
+    else if (screenWidth > 1024 || screenHeight > 1024) {
+        return "desktop";
+    }
+}
+
+export const shuffleArray = (array) => {
+    var currentIndex = array.length, temporaryValue, randomIndex;
+  
+    // While there remain elements to shuffle...
+    while (0 !== currentIndex) {
+  
+      // Pick a remaining element...
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex -= 1;
+  
+      // And swap it with the current element.
+      temporaryValue = array[currentIndex];
+      array[currentIndex] = array[randomIndex];
+      array[randomIndex] = temporaryValue;
+    }
+  
+    return array;
+  }
+
 export const detectLeavePage = () => {
     console.log("detectLeavePage");
     /*

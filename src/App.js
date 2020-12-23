@@ -1,7 +1,7 @@
 import React from 'react';
-import "bootstrap/dist/css/bootstrap.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 import 'antd/dist/antd.css';
-import "video-react/dist/video-react.css";
+//import "video-react/dist/video-react.css";
 import "plyr/dist/plyr.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";

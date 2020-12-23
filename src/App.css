@@ -551,6 +551,7 @@ ul {
 /*==============================
 	Browse Engine Checkbox
 ==============================*/
+/*
 .browse-engine form .ant-checkbox-wrapper span {
     color: #FFF;
 }
@@ -559,6 +560,7 @@ ul {
     background-color: #ff55a5;
     border-color: #ff55a5;
 }
+*/
 
 .browse-engine form .select {
     position: relative;
@@ -613,6 +615,25 @@ ul {
 
 .browse-engine form .select select:disabled~.select_arrow {
     border-top-color: #cccccc;
+}
+
+.genre-clip-row {
+    padding-left: 10px;
+}
+
+.genre-pill {
+    padding: 5px 10px;
+    border: 1px solid #FFF;
+    color: #FFF;
+    border-radius: 30px;
+    margin-right: 5px;
+    margin: 5px;
+    cursor: pointer;
+}
+
+.genre-pill.active {
+    border: 1px solid #ff55a5;
+    color: #ff55a5;
 }
 
 /*==============================
@@ -3398,7 +3419,6 @@ input[type=range]::-ms-thumb {
 
 /*Slicks*/
 .slick-dots {
-    z-index: 9999;
     bottom: -5px !important;
     left: 0 !important;
 }
