@@ -443,7 +443,7 @@ ul {
 }
 
 #cta {
-    background-image: url(https://hdwallsource.com/img/2018/9/avengers-infinity-war-movie-wallpaper-background-hd-63587-65677-hd-wallpapers.jpg);
+    background-image: url(https://i.imgur.com/m4exLNf.jpg);
     background-size: cover;
     background-attachment: fixed;
     position: relative;
@@ -1023,9 +1023,9 @@ input[type=range]::-ms-thumb {
 ==============================*/
 
 .home-header {
-    height: 100vh;
+    height: 80vh;
     width: 100%;
-    background-image: url(https://i.imgur.com/ZTYsGPG.jpg);
+    background-image: url(https://i.imgur.com/VKNeSQB.jpg);
     background-size: cover;
     background-attachment: fixed;
     position: relative;
@@ -1059,7 +1059,7 @@ input[type=range]::-ms-thumb {
 .header-content h4 {
     color: #ff55a5;
     font-size: 1.5em;
-    margin-bottom: 50px;
+    margin-bottom: 30px;
 }
 
 /*==============================

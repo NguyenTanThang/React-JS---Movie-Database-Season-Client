@@ -196,15 +196,11 @@ class Home extends Component {
                         <div className="container">
 
                             <div className="row home-sec">
-                            <Reveal key={"New Releases"}>
-                                <Tween from={{ opacity: 0 }} duration={0.8}>
-                                    <div className="col-12">
+                                    <div className="col-12" key={"New Releases"}>
                                         <h2 className="content__title">New Releases</h2>
 
                                         {renderTabGen(10)}
                                     </div>
-                                </Tween>
-                            </Reveal>
                             </div>
 
                             {renderRecommendationSec()}
