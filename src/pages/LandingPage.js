@@ -31,6 +31,13 @@ class LandingPage extends Component {
     renderFaqItems = () => {
         return faqs.map((faqItem, index) => {
             const {title, answer} = faqItem;
+            if (index === 0) {
+                return (
+                    <Panel header={title} key={index + 1}>
+                        <p>{answer}</p>
+                    </Panel>
+                )
+            }
             return (
                 <Panel header={title} key={index + 1}>
                     <p>{answer}</p>
@@ -103,7 +110,7 @@ class LandingPage extends Component {
                     <div className="container">
                         <div className="row">
                             <div className="col-lg-6 col-md-12 col-sm-12 about__image">
-                                <img className="img-fluid" src="https://i.imgur.com/0JrZDWL.jpg" alt=""/>
+                                <img className="img-fluid" src="https://i.imgur.com/hApDHhy.png" alt=""/>
                             </div>
                             <div className="col-lg-6 col-md-12 col-sm-12 about__content">
                                 <h2>Bring you the best of movies</h2>
@@ -137,7 +144,7 @@ class LandingPage extends Component {
                         <div className="section-header">
                             <h2>Frequently Asked Questions</h2>
                         </div>
-                        <Collapse accordion>
+                        <Collapse accordion defaultActiveKey={['1']}>
                             {renderFaqItems()}
                         </Collapse>
                     </div>
