@@ -103,7 +103,7 @@ class LandingPage extends Component {
                     <div className="container">
                         <div className="row">
                             <div className="col-lg-6 col-md-12 col-sm-12 about__image">
-                                <img className="img-fluid" src="https://i.imgur.com/1LQifBo.jpg" alt=""/>
+                                <img className="img-fluid" src="https://i.imgur.com/0JrZDWL.jpg" alt=""/>
                             </div>
                             <div className="col-lg-6 col-md-12 col-sm-12 about__content">
                                 <h2>Bring you the best of movies</h2>
