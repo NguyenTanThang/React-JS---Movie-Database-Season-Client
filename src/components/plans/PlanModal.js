@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {Modal} from "antd";
 import {withRouter} from "react-router-dom";
-import {USDtoVND} from "../../requests/currencyRequests";
+import {USDtoVNDWithRate} from "../../requests/currencyRequests";
 
 class PlanModal extends Component {
 
@@ -10,10 +10,10 @@ class PlanModal extends Component {
         vndPrice: ""
      };
 
-    async componentDidMount() {
-        const {planItem} = this.props;
+    componentDidMount() {
+        const {vndRate, planItem} = this.props;
         const {price} = planItem;
-        const vndPrice = await USDtoVND(price);
+        const vndPrice = USDtoVNDWithRate(price, vndRate);
         
         this.setState({
             vndPrice

@@ -18,13 +18,24 @@ import SeriesList from "../components/series/SeriesList";
 import SeriesCarousel from "../components/series/SeriesCarousel";
 import HomeHeader from "../components/partials/HomeHeader";
 import TabGenerator from "../components/partials/TabGenerator";
-import {Link} from "react-router-dom";
 import Navbar from "../components/partials/Navbar";
+import {Link} from "react-router-dom";
 import {Helmet} from "react-helmet";
 import { motion } from "framer-motion";
 import {pageStyle, pageTransition, pageVariants} from "../config/animation";
 import {Reveal, Tween} from "react-gsap";
 import {shuffleArray, measureDeviceWidth} from "../utils/utils";
+import loadable from '@loadable/component';
+
+/*
+const MovieCarousel = loadable(() => import('../components/movies/MovieCarousel'));
+const MovieList = loadable(() => import('../components/movies/MovieList'));
+const Navbar = loadable(() => import('../components/partials/Navbar'));
+const SeriesList = loadable(() => import('../components/series/SeriesList'));
+const SeriesCarousel = loadable(() => import('../components/series/SeriesCarousel'));
+const HomeHeader = loadable(() => import("../components/partials/HomeHeader"));
+const TabGenerator = loadable(() => import("../components/partials/TabGenerator"));
+*/
 
 const deviceType = measureDeviceWidth();
 

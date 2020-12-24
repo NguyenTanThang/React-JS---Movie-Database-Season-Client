@@ -48,6 +48,15 @@
     -->
 
     <div id="fb-root"></div>
+    <script>
+      // Check that service workers are supported
+      if ('serviceWorker' in navigator) {
+        // Use the window load event to keep the page load performant
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/service-worker.js');
+        });
+      }
+    </script>
     <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v8.0&appId=763684077493968&autoLogAppEvents=1" nonce="PjPQS4RU"></script>
   </body>
 </html>

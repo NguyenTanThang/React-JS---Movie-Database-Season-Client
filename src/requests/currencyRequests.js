@@ -43,6 +43,19 @@ export const EurotoVND = async (euro) => {
 }
 */
 
+export const getVNDRate = async () => {
+    try {
+        const res = await axios.get(CURRENCY_API);
+
+        const rates = res.data.rates;
+        const vndRate = rates.VND;
+        return vndRate;
+    } catch (error) {
+        console.log(error);
+        message.error(error.message);
+    }
+}
+
 export const USDtoVND = async (usd) => {
     try {
         const res = await axios.get(CURRENCY_API);
@@ -56,4 +69,10 @@ export const USDtoVND = async (usd) => {
         console.log(error);
         message.error(error.message);
     }
+}
+
+export const USDtoVNDWithRate = (usd, vndRate) => {
+    let vnd = usd * vndRate;
+    vnd = vnd.toFixed(0);
+    return vnd; 
 }

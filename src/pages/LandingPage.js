@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Navbar from "../components/partials/Navbar";
 import {Link} from "react-router-dom";
 import {
     videoBgURL,
@@ -7,16 +6,20 @@ import {
     faqs
 } from "../data/landingPageData";
 import parse from "html-react-parser";
-import PlanList from "../components/plans/PlanList";
 import { Collapse } from 'antd';
 import {getAllPlans} from "../actions/planActions";
 import {connect} from "react-redux";
 import {Helmet} from "react-helmet";
 import { motion } from "framer-motion";
 import {pageStyle, pageTransition, pageVariants} from "../config/animation";
-import {detectLeavePage, measureDeviceWidth} from "../utils/utils";
+//import {detectLeavePage, measureDeviceWidth} from "../utils/utils";
+import LazyLoad from 'react-lazyload';
+import loadable from '@loadable/component';
 
 const { Panel } = Collapse;
+
+const Navbar = loadable(() => import('../components/partials/Navbar'));
+const PlanList = loadable(() => import('../components/plans/PlanList'));
 
 class LandingPage extends Component {
 
@@ -76,7 +79,6 @@ class LandingPage extends Component {
                 <Navbar/>
 
                 <section id="header" className="landing-header">
-                
                     
                         <div className="landing-header__content">
                             <h1>Watch your favorite movies</h1>
@@ -89,10 +91,12 @@ class LandingPage extends Component {
                             </div>
                         </div>
 
+                        {/*
                     <video autoPlay muted loop className="landing-header__bg">
                         <source src={videoBgURL} type="video/mp4" />
                         Your browser does not support HTML5 video.
                     </video>
+                    */}
                 </section>
 
                 <section id="about" className="section-padding">
@@ -139,17 +143,19 @@ class LandingPage extends Component {
                     </div>
                 </section>
 
-                <section id="cta" className="section-padding">
-                    <div className="cta__content">
-                        <h2>Already on board with us</h2>
-                        <h3>What are you waiting for?</h3>
-                        <div className="cta-content__start">
-                            <Link to="/sign-in" className="section__btn">
-                                Sign In Now
-                            </Link>
+                <LazyLoad height={200}>
+                    <section id="cta" className="section-padding">
+                        <div className="cta__content">
+                            <h2>Already on board with us</h2>
+                            <h3>What are you waiting for?</h3>
+                            <div className="cta-content__start">
+                                <Link to="/sign-in" className="section__btn">
+                                    Sign In Now
+                                </Link>
+                            </div>
                         </div>
-                    </div>
-                </section>
+                    </section>
+                </LazyLoad>
             </>
             </motion.div>
         )

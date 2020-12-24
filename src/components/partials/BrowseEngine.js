@@ -88,7 +88,7 @@ export default class BrowseEngine extends Component {
         return (
             <Collapse defaultActiveKey={['1']}>
                 <Panel header="Search" key="1">
-                    <form autoComplete="off" onSubmit={e => e.preventDefault()}>
+                    <form autoComplete="off" onSubmit={e => e.preventDefault()} className="search-form">
                         <div className="row">
                             <div className="col-lg-6 col-md-6 col-sm-12 form-group">
                                 <label htmlFor="searchName">Name:</label>
