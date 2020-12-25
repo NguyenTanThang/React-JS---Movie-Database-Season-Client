@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import homeBg from '../../images/home__bg.jpg';
 import {sectionBG} from "../../config/jqueryCode";
-import MovieVideo from "../movies/MovieVideo";
 import RateMovieModal from "../movies/RateMovieModal";
 import {Link} from "react-router-dom";
 import { Tooltip } from 'antd';
 import {addWatchLater, deleteWatchLater, getWatchLaterByCustomerIDAndMovieID} from "../../requests/watchLaterRequests";
 import {isObjectEmpty} from '../../utils/validate';
 import {getSubStatus, getAuthStatus} from "../../requests/authRequests";
+import MovieTrailer from "../movies/MovieTrailer";
 
 const customerID = localStorage.getItem("userID")
 
@@ -189,7 +189,7 @@ class SeasonDetails extends Component {
             </div>
 
             <div class="col-12 col-xl-6 video-player-container">
-                <MovieVideo videoSRC={trailerURL}/>
+                <MovieTrailer videoSRC={trailerURL}/>
             </div>
 
             <div class="col-12" style={{marginTop: "50px"}}>

@@ -27,13 +27,79 @@ export function getScreenshot(videoURL, scale) {
     return canvas.toDataURL();
 }
 
-export const getCurrentVideoTime = () => {
+export const getCurrentVideoTime = (movieID) => {
 	$("#player").on(
 		"timeupdate", 
 		function(event){
 		  const {currentTime, duration} = this;
-		  console.log({currentTime, duration})
+		  setRecord({currentTime, movieID});
+		  console.log({currentTime, duration});
 	});
+}
+
+export const secondsToHms = (d) => {
+    d = Number(d);
+    var h = Math.floor(d / 3600);
+    var m = Math.floor(d % 3600 / 60);
+    var s = Math.floor(d % 3600 % 60);
+
+    var hDisplay = h > 0 ? h + (h == 1 ? " hour, " : " hours, ") : "";
+    var mDisplay = m > 0 ? m + (m == 1 ? " minute, " : " minutes, ") : "";
+    var sDisplay = s > 0 ? s + (s == 1 ? " second" : " seconds") : "";
+    return hDisplay + mDisplay + sDisplay; 
+}
+
+export const playVideo = () => {
+	var vid = document.getElementById("player");
+	vid.play();
+}
+
+export const setCurrentVideoTime = (movieID) => {
+	const record = getRecord(movieID);
+	if (record) {
+		var vid = document.getElementById("player");
+		vid.currentTime = record.currentTime;
+	}
+}
+
+export const getRecord = (movieID) => {
+	let records = localStorage.getItem("records");
+	let filteredRecords = [];
+	if (!records) {
+		return null;
+	}
+	records = JSON.parse(records); 
+	filteredRecords = records.filter(recordItem => {
+		return recordItem.movieID === movieID;
+	})
+	return filteredRecords[0];
+}
+
+export const setRecord = ({currentTime, movieID}) => {
+	let filteredRecords = [];
+	let records = localStorage.getItem("records");
+	if (records) {
+		records = JSON.parse(records);
+		filteredRecords = records.filter(recordItem => {
+			return recordItem.movieID === movieID;
+		})
+		console.log(filteredRecords);
+	} else {
+		records = [];
+	}
+	if (filteredRecords.length > 0) {
+		records = records.map(recordItem => {
+			console.log(recordItem.movieID === movieID);
+			if (recordItem.movieID === movieID) {
+				return {...recordItem, currentTime}
+			}
+			return recordItem;
+		})
+	} else {
+		records = [...records, {currentTime, movieID}];
+	}
+	records = JSON.stringify(records);
+	localStorage.setItem("records", records);
 }
 
 export const detailBg = () => {

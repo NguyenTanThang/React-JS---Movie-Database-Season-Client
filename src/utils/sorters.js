@@ -122,3 +122,13 @@ const sortMoviesAndSeriesOrderBy = (list, orderBy) => {
 
     return returnedList;
 }
+
+export const getHighestRating = (list) => {
+    let returnedList = list;
+
+    returnedList = returnedList.sort((a, b) => {
+        return b.rating - a.rating;
+    })
+
+    return returnedList;
+}

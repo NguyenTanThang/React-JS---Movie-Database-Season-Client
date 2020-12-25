@@ -570,7 +570,7 @@ ul {
 .browse-engine form input:focus {
     background-color: #FFF;
     color: #000;
-    border: 1px solid #ff55a5;
+    border: 3px solid #ff55a5;
 }
 
 .browse-engine form input:focus::placeholder {
@@ -1018,6 +1018,64 @@ input[type=range]::-ms-thumb {
     padding-bottom: 10px;
 }
 
+.top-rating-sec {
+    border-bottom: 5px solid #ff55a5;
+    padding-top: 30px;
+    position: relative;
+}
+
+.new-release-sec {
+    position: relative;
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+
+.new-release-sec .container,
+.top-rating-sec .container {
+    position: relative;
+    z-index: 2;
+}
+
+.top-rating-sec::after {
+    content: "";
+    position: absolute;
+    display: block;
+    top: 0;
+    right: 0;
+    left: 0;
+    height: 100%;
+    z-index: 1;
+    opacity: 0.07;
+    background-image: url("https://i.imgur.com/6pEt4hs.jpg");
+    background-size: cover;
+    background-position: top;
+    background-attachment: fixed;
+}
+
+.new-release-sec::after {
+    content: "";
+    position: absolute;
+    display: block;
+    top: 0;
+    right: 0;
+    left: 0;
+    height: 100%;
+    z-index: 1;
+    opacity: 1;
+    background-image: url("https://i.imgur.com/e4ePNGG.jpg");
+    background-size: cover;
+    background-position: top;
+    background-attachment: fixed;
+}
+
+.top-rating-sec h2.content__title {
+    margin-bottom: 30px;
+}
+
+.top-rating-sec .ant-tabs-content {
+    padding-top: 30px;
+}
+
 /*==============================
 	Home Header
 ==============================*/
@@ -1032,6 +1090,7 @@ input[type=range]::-ms-thumb {
     display: flex;
     justify-content: center;
     align-items: center;
+    border-bottom: 5px solid #ff55a5;
 }
 
 .home-header::after {
@@ -3495,4 +3554,59 @@ input[type=range]::-ms-thumb {
         left: 95%;
         top: -40px;
     }
+}
+
+/*Continue Modal*/
+.movie-watch-container,
+.series-watch-container {
+    position: relative;
+}
+
+.control-hider {
+    background-color: #000;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.continue-modal {
+    position: absolute;
+    width: 70%;
+    padding: 20px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #2f2b30;
+    border-radius: 10px;
+}
+
+.continue-modal h4 {
+    color: #FFF;
+    margin-bottom: 10px;
+}
+
+.continue-modal h5 {
+    color: #FFF;
+    margin-bottom: 30px;
+}
+
+.continue-modal-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.continue-modal-footer button {
+    flex: 45%;
+    max-width: 45%;
+    margin-top: 0;
+}
+
+.continue-modal-footer button.btn-light {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
 }

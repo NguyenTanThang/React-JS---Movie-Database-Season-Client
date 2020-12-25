@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import {
-    getCurrentVideoTime
+    getCurrentVideoTime,
+    setCurrentVideoTime,
+    getRecord,
+    secondsToHms,
+    playVideo
 } from "../../config/jqueryCode";
 import Plyr from 'plyr';
 import {
@@ -12,14 +16,17 @@ export default class MovieVideo extends Component {
 
     state = {
         videoBlobURL: "",
-        base64SubtitlesURL: []
+        base64SubtitlesURL: [],
+        modalActive: false
     }
 
     async componentDidMount() {
         new Plyr('#player');
         //const {subtitles, videoSRC} = this.props;
-        const {subtitles} = this.props;
-        //getCurrentVideoTime();
+        const {subtitles, movieID} = this.props;
+        getCurrentVideoTime(movieID);
+        const record = getRecord(movieID);
+        let modalActive = record ? true : false;
         let base64SubtitlesURL = [];
         //const videoBlobURL = await blobFromURL(videoSRC);
         if (subtitles) {
@@ -33,7 +40,8 @@ export default class MovieVideo extends Component {
         }
         this.setState({
             //videoBlobURL,
-            base64SubtitlesURL
+            base64SubtitlesURL,
+            modalActive
         })
     }
 
@@ -67,16 +75,35 @@ export default class MovieVideo extends Component {
         })
     }
 
+    onContinueWatching = () => {
+        const {movieID} = this.props;
+        this.setState({
+            modalActive: false
+        })
+        setCurrentVideoTime(movieID)
+        playVideo();
+    }
+
+    onFormBeginning = () => {
+        this.setState({
+            modalActive: false
+        })
+        playVideo();
+    }
+
     render() {
-        const {renderSubtitlesTrack} = this;
-        const {videoSRC} = this.props;
+        const {renderSubtitlesTrack, onFormBeginning, onContinueWatching} = this;
+        const {modalActive} = this.state;
+        const {videoSRC, movieID} = this.props;
+        const record = getRecord(movieID);
         //const {videoBlobURL} = this.state;
         //poster={"https://wallpaperaccess.com/full/1512225.jpg"}
         
 
         return (
+            <>
                 <video
-                controls src={videoSRC} playsInline={true} id="player" height="100%" width="100%">
+                controls={modalActive ? false : true} src={videoSRC} playsInline={true} id="player" height="100%" width="100%">
 
                     {/*
                         <source src={videoSRC} type="video/mp4"/>
@@ -85,6 +112,20 @@ export default class MovieVideo extends Component {
 
                     {renderSubtitlesTrack()}
                 </video>
+                {record ? (
+                    <>
+                    <div className="control-hider" style={{display: modalActive ? "block" : "none"}}></div>
+                    <div className="continue-modal" style={{display: modalActive ? "block" : "none"}}>
+                        <h4>You were watching at {secondsToHms(record.currentTime)}</h4>
+                        <h5>Would like to continue?</h5>
+                        <div className="continue-modal-footer">
+                            <button className="btn btn-light" onClick={onFormBeginning}>Watch from beginning</button>
+                            <button className="price__btn" onClick={onContinueWatching}>Continue watching</button>
+                        </div>
+                    </div>
+                    </>
+                ) : (<></>)}
+            </>
         )
     }
 }

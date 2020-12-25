@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 //import homeBg from '../../images/home__bg.jpg';
-import {sectionBG, detailBg} from "../../config/jqueryCode";
-import MovieVideo from "./MovieVideo";
+import MovieTrailer from "../movies/MovieTrailer";
 import RateMovieModal from "./RateMovieModal";
 import {Link} from "react-router-dom";
 import { Tooltip } from 'antd';
@@ -88,7 +87,7 @@ class MovieDetails extends Component {
 
         if (loggedIn) {
             return (
-                <Tooltip title={liked ? "Dislike" : "Like"}>
+                <Tooltip title={liked ? "Remove from Watch Later" : "Add to Watch Later"}>
                     <li className="like-button" onClick={changeLikeStatus} style={liked ? {color: "#ff55a5", border: "1px solid #ff55a5"} : {}}>
                         <i className="fa fa-heart" aria-hidden="true"></i>
                     </li>
@@ -189,7 +188,7 @@ class MovieDetails extends Component {
             </div>
 
             <div className="col-12 col-xl-6 video-player-container">
-                <MovieVideo videoSRC={trailerURL}/>
+                <MovieTrailer videoSRC={trailerURL}/>
             </div>
 
             <div className="col-12" style={{marginTop: "50px"}}>

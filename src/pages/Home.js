@@ -9,10 +9,15 @@ import {
     getAllGenres
 } from "../actions/genreActions";
 import {
-    filterRecommendationSection
+    filterRecommendationSection,
 } from "../utils/utils";
+import {
+    getHighestRating
+} from "../utils/sorters";
 import {connect} from "react-redux";
 import MovieList from "../components/movies/MovieList";
+import SpecialMovieList from "../components/movies/SpecialMovieList";
+import SpecialSeriesList from "../components/series/SpecialSeriesList";
 import MovieCarousel from "../components/movies/MovieCarousel";
 import SeriesList from "../components/series/SeriesList";
 import SeriesCarousel from "../components/series/SeriesCarousel";
@@ -26,6 +31,7 @@ import {pageStyle, pageTransition, pageVariants} from "../config/animation";
 import {Reveal, Tween} from "react-gsap";
 import {shuffleArray, measureDeviceWidth} from "../utils/utils";
 import loadable from '@loadable/component';
+import LazyLoad from 'react-lazyload';
 
 /*
 const MovieCarousel = loadable(() => import('../components/movies/MovieCarousel'));
@@ -45,6 +51,39 @@ class Home extends Component {
         this.props.getAllMovies();
         this.props.getAllSeries();
         this.props.getAllGenres();
+    }
+
+    renderTopRatingSec = () => {
+        const {movies, series, loading} = this.props;
+        let currentMovies = movies;
+        let currentSeries = series;
+        
+        currentMovies = getHighestRating(currentMovies).slice(0, 6);
+        currentSeries = getHighestRating(currentSeries).slice(0, 6);
+
+        let movieContent = <SpecialMovieList movies={currentMovies} loading={loading}/>;
+        let seriesContent = <SpecialSeriesList series={currentSeries} loading={loading}/>;
+
+        
+        const tabContents = [
+            (
+                <>
+                    {movieContent}
+                </>
+            ),
+            (
+                <>
+                    {seriesContent}
+                </>
+            )
+        ]
+
+        const tabHeaders = [
+            "Movies",
+            "Series"
+        ]
+
+        return <TabGenerator tabContents={tabContents} tabHeaders={tabHeaders}/>
     }
 
     renderRecommendationSec = () => {
@@ -72,7 +111,8 @@ class Home extends Component {
             const recSeriesItem = recSeriesList[index];
 
             return (
-                <React.Fragment key={index}>
+                <LazyLoad height={200} key={index}>
+                <React.Fragment>
                 {/*
                 <Reveal key={index}>
                     <Tween from={{ opacity: 0 }} duration={0.8}>
@@ -94,11 +134,12 @@ class Home extends Component {
                          </div>
                     </div>
                 </React.Fragment>
+                </LazyLoad>
             )
         })
     }
 
-    generateTabs = (currentMovies, currentSeries) => {
+    generateTabs = (currentMovies, currentSeries, isShuffle) => {
         const {loading} = this.props;
         let maxItemNumber = 10;
 
@@ -106,17 +147,15 @@ class Home extends Component {
             maxItemNumber = 6;
         }
 
-        currentMovies = shuffleArray(currentMovies);
-        currentSeries = shuffleArray(currentSeries);
-
-        console.log(currentMovies.length);
+        if (isShuffle) {
+            currentMovies = shuffleArray(currentMovies);
+            currentSeries = shuffleArray(currentSeries);
+        }
 
         let movieContent = [];
         let seriesContent = [];
 
         if (currentMovies.length > 6) {
-            console.log(currentMovies.length >= maxItemNumber + 1);
-            console.log(currentMovies.slice(0, maxItemNumber));
             if (currentMovies.length >= maxItemNumber + 1) {
                 movieContent = <MovieCarousel movies={currentMovies.slice(0, maxItemNumber)} loading={loading}/>
             } else {
@@ -163,14 +202,21 @@ class Home extends Component {
         let currentMovies = movies;
         let currentSeries = series;
 
+        currentMovies = currentMovies.sort((a, b) => {
+            return new Date(b.created_date) - new Date(a.created_date);
+        })
+        currentSeries = currentSeries.sort((a, b) => {
+            return new Date(b.created_date) - new Date(a.created_date);
+        })
+
         currentMovies = currentMovies.slice(0, maxItemNumber);
         currentSeries = currentSeries.slice(0, maxItemNumber);
 
-        return generateTabs(currentMovies, currentSeries)
+        return generateTabs(currentMovies, currentSeries, false)
     }
 
     render() {
-        const {renderTabGen, renderRecommendationSec} = this;
+        const {renderTabGen, renderRecommendationSec, renderTopRatingSec} = this;
 
         return (
             <motion.div
@@ -191,20 +237,31 @@ class Home extends Component {
 
                 <HomeHeader/>
 
-                <section className="content section-padding">
+                <section className="content">
                     <div className="content__head">
-                        <div className="container">
 
-                            <div className="row home-sec">
+                    <div className="row top-rating-sec home-sec">
+                        <div className="container">
+                            <div className="col-12" key={"Top Ratings"}>
+                                <h2 className="content__title">Top Ratings</h2>
+
+                                {renderTopRatingSec()}
+                            </div>
+                        </div>
+                    </div>
+
+
+                            <div className="row home-sec new-release-sec">
+                                 <div className="container">
                                     <div className="col-12" key={"New Releases"}>
                                         <h2 className="content__title">New Releases</h2>
 
                                         {renderTabGen(10)}
                                     </div>
+                                </div>
                             </div>
 
-                            {renderRecommendationSec()}
-                        </div>
+                            {/*{renderRecommendationSec()}*/}
                     </div>
                 </section>
             </>

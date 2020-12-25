@@ -71,7 +71,7 @@ class WatchMoviePage extends Component {
                 <section className="section details watch-section">
                     <div className="details__bg"></div>
                     <div className="container movie-watch-container">
-                        <MovieVideo subtitles={subtitles} videoSRC={movieURL}/>
+                        <MovieVideo subtitles={subtitles} videoSRC={movieURL} movieID={movieItem._id}/>
                     </div>
                 </section>
             </>

@@ -203,7 +203,7 @@ class WatchSeasonPage extends Component {
             const {_id, episodeURL} = episodeItem;
             return (
                 <div key={_id} className="series-watch-container">
-                    <MovieVideo videoSRC={episodeURL} subtitles={subtitles}/>
+                    <MovieVideo videoSRC={episodeURL} subtitles={subtitles} movieID={_id}/>
                 </div>
             )
         })
@@ -256,7 +256,7 @@ class WatchSeasonPage extends Component {
                         <div className="row">
                             <div className="col-12">
                                 <div key={currentEpisode._id}className="series-watch-container">
-                                    <MovieVideo videoSRC={currentEpisode.episodeURL} subtitles={subtitles}/>
+                                    <MovieVideo videoSRC={currentEpisode.episodeURL} subtitles={subtitles} movieID={currentEpisode._id}/>
                                 </div>
                                 <div className="episode-details">
                                     <div className="episode-details__content">
