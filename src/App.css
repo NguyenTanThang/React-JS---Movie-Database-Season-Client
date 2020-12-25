@@ -1036,6 +1036,7 @@ input[type=range]::-ms-thumb {
     z-index: 2;
 }
 
+/*
 .top-rating-sec::after {
     content: "";
     position: absolute;
@@ -1051,6 +1052,7 @@ input[type=range]::-ms-thumb {
     background-position: top;
     background-attachment: fixed;
 }
+*/
 
 .new-release-sec::after {
     content: "";
@@ -1061,7 +1063,7 @@ input[type=range]::-ms-thumb {
     left: 0;
     height: 100%;
     z-index: 1;
-    opacity: 1;
+    opacity: 0.7;
     background-image: url("https://i.imgur.com/xETlr7c.jpg");
     background-size: cover;
     background-position: top;
@@ -1108,6 +1110,7 @@ input[type=range]::-ms-thumb {
     width: 100%;
     text-align: center;
     z-index: 3;
+    padding-top: 30px;
 }
 
 .header-content h1 {
