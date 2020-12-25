@@ -36,7 +36,7 @@ export default class PageTitle extends Component {
         const {renderBreadcrumbItem} = this;
 
         return (
-                <section className="section section--first section--bg" data-bg={sectionBgImage}>
+                <section className="section section--first section--bg" data-bg={`https://i.imgur.com/xETlr7c.jpg`}>
                     <div className="container">
                         <div className="row">
                             <div className="col-12">
