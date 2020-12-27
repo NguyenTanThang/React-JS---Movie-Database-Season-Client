@@ -1,6 +1,10 @@
 /*==============================
 	Common styles
 ==============================*/
+* {
+    box-sizing: border-box;
+}
+
 html {
     -webkit-text-size-adjust: 100%;
     -ms-text-size-adjust: 100%;
@@ -16,7 +20,8 @@ body {
     background-color: #2b2b31;
     font-weight: normal;
     -webkit-font-smoothing: antialiased;
-    overflow-x: hidden;
+    overflow-x: hidden !important;
+    max-width: 100% !important;
 }
 
 button {
@@ -1014,6 +1019,15 @@ input[type=range]::-ms-thumb {
 /*==============================
 	Home
 ==============================*/
+.home-sec {
+    border-bottom: 5px solid #ff55a5;
+}
+
+.other-rec-sec {
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+
 .ant-tabs-content  {
     padding-bottom: 10px;
 }
@@ -1023,6 +1037,8 @@ input[type=range]::-ms-thumb {
     padding-top: 30px;
     position: relative;
 }
+
+.top-rating-sec .container {}
 
 .new-release-sec {
     position: relative;

@@ -18,9 +18,9 @@ import {connect} from "react-redux";
 import MovieList from "../components/movies/MovieList";
 import SpecialMovieList from "../components/movies/SpecialMovieList";
 import SpecialSeriesList from "../components/series/SpecialSeriesList";
-import MovieCarousel from "../components/movies/MovieCarousel";
+//import MovieCarousel from "../components/movies/MovieCarousel";
 import SeriesList from "../components/series/SeriesList";
-import SeriesCarousel from "../components/series/SeriesCarousel";
+//import SeriesCarousel from "../components/series/SeriesCarousel";
 import HomeHeader from "../components/partials/HomeHeader";
 import TabGenerator from "../components/partials/TabGenerator";
 import Navbar from "../components/partials/Navbar";
@@ -33,12 +33,12 @@ import {shuffleArray, measureDeviceWidth} from "../utils/utils";
 import loadable from '@loadable/component';
 import LazyLoad from 'react-lazyload';
 
-/*
 const MovieCarousel = loadable(() => import('../components/movies/MovieCarousel'));
+const SeriesCarousel = loadable(() => import('../components/series/SeriesCarousel'));
+/*
 const MovieList = loadable(() => import('../components/movies/MovieList'));
 const Navbar = loadable(() => import('../components/partials/Navbar'));
 const SeriesList = loadable(() => import('../components/series/SeriesList'));
-const SeriesCarousel = loadable(() => import('../components/series/SeriesCarousel'));
 const HomeHeader = loadable(() => import("../components/partials/HomeHeader"));
 const TabGenerator = loadable(() => import("../components/partials/TabGenerator"));
 */
@@ -111,8 +111,7 @@ class Home extends Component {
             const recSeriesItem = recSeriesList[index];
 
             return (
-                <LazyLoad height={200} key={index}>
-                <React.Fragment>
+                <React.Fragment key={index}>
                 {/*
                 <Reveal key={index}>
                     <Tween from={{ opacity: 0 }} duration={0.8}>
@@ -126,15 +125,16 @@ class Home extends Component {
                     </Tween>
                 </Reveal>
                 */}
-                    <div className="row home-sec">
-                        <div className="col-12">
-                            <h2 className="content__title">{recMovieItem.currentGenre}</h2>
+                    <div className="home-sec other-rec-sec">
+                        <div className="container">
+                            <div className="col-12">
+                                <h2 className="content__title">{recMovieItem.currentGenre}</h2>
 
-                            {generateTabs(recMovieItem.movieList, recSeriesItem.movieList)}
-                         </div>
+                                {generateTabs(recMovieItem.movieList, recSeriesItem.movieList)}
+                            </div>
+                        </div>
                     </div>
                 </React.Fragment>
-                </LazyLoad>
             )
         })
     }
@@ -240,7 +240,7 @@ class Home extends Component {
                 <section className="content">
                     <div className="content__head">
 
-                    <div className="row top-rating-sec home-sec">
+                    <div className="top-rating-sec home-sec">
                         <div className="container">
                             <div className="col-12" key={"Top Ratings"}>
                                 <h2 className="content__title">Top Ratings</h2>
@@ -250,8 +250,7 @@ class Home extends Component {
                         </div>
                     </div>
 
-
-                            <div className="row home-sec new-release-sec">
+                            <div className="home-sec new-release-sec">
                                  <div className="container">
                                     <div className="col-12" key={"New Releases"}>
                                         <h2 className="content__title">New Releases</h2>
