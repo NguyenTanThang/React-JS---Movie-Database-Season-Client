@@ -10,9 +10,13 @@ import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 
 import ScrollToTop from "./components/partials/ScrollToTop";
+import {getAuthStatus} from "./requests/authRequests";
 
+/*
 import Home from "./pages/Home";
 import LandingPage from "./pages/LandingPage";
+*/
+import MasterPage from "./pages/MasterPage";
 import Browse from "./pages/Browse";
 import Help from "./pages/Help";
 import PricingPlan from "./pages/PricingPlan";
@@ -33,7 +37,6 @@ import SeasonListPage from "./pages/SeasonListPage";
 import Footer from "./components/partials/Footer";
 
 class App extends React.Component {
-
   render() {
     return (
       <div className="App">
@@ -41,8 +44,9 @@ class App extends React.Component {
         <Router>
         <ScrollToTop>
             <Switch>
-              <Route path="/" exact component={LandingPage}/>
-              <Route path="/home" exact component={Home}/>
+              <Route path="/" exact>
+                <MasterPage/>
+              </Route>
               <Route path="/browse" component={Browse}/>
               <Route path="/help" component={Help}/>
               <Route path="/pricing" component={PricingPlan}/>

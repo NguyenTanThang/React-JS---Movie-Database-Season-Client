@@ -24,7 +24,7 @@ import SeriesList from "../components/series/SeriesList";
 import HomeHeader from "../components/partials/HomeHeader";
 import TabGenerator from "../components/partials/TabGenerator";
 import Navbar from "../components/partials/Navbar";
-import {Link} from "react-router-dom";
+import {Link, withRouter} from "react-router-dom";
 import {Helmet} from "react-helmet";
 import { motion } from "framer-motion";
 import {pageStyle, pageTransition, pageVariants} from "../config/animation";
@@ -292,4 +292,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Home));
