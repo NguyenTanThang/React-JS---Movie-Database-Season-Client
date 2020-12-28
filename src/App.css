@@ -3630,3 +3630,7 @@ input[type=range]::-ms-thumb {
     font-weight: bold;
     text-transform: uppercase;
 }
+
+.empty-container {
+    padding-top: 20px;
+}

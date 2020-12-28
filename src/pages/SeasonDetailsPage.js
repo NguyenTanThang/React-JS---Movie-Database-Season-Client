@@ -4,6 +4,7 @@ import {getSeasonByIDAxios} from "../requests/seasonRequests";
 import FaceBookCommentsTest from "../components/partials/FaceBookCommentsTest";
 import SeasonDetails from "../components/seasons/SeasonDetails";
 import MovieDescription from "../components/movies/MovieDescription";
+import BigLoading from "../components/partials/BigLoading";
 import {
     getSeasonsBySeriesID
 } from "../actions/seasonActions";
@@ -95,6 +96,12 @@ class SeasonDetailsPage extends Component {
         const {renderTabGen, renderRNGSeasonItems} = this;
         const {seasonItem, currentSeries} = this.state;
         const seasonIDFromPage = this.props.match.params.seasonID;
+
+        if (seasonItem === "") {
+            return (<>
+                <BigLoading/>
+            </>)
+        }
 
         return (
             <motion.div

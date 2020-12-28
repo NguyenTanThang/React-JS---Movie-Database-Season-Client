@@ -9,6 +9,7 @@ import {message} from "antd";
 import { motion } from "framer-motion";
 import {pageStyle, pageTransition, pageVariants} from "../config/animation";
 import {Helmet} from "react-helmet";
+import BigLoading from "../components/partials/BigLoading";
 
 class WatchMoviePage extends Component {
 
@@ -44,11 +45,14 @@ class WatchMoviePage extends Component {
 
     render() {
         const {movieItem, subtitles} = this.state;
-        const {movieURL} = movieItem;
 
         if (!movieItem) {
-            return(<></>);
+            return(<>
+                <BigLoading/>    
+            </>);
         }
+
+        const {movieURL} = movieItem;
 
         return (
             <motion.div

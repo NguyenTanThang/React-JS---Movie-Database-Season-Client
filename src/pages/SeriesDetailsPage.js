@@ -4,6 +4,7 @@ import {getSeriesByIDAxios} from "../requests/seriesRequests";
 import FaceBookCommentsTest from "../components/partials/FaceBookCommentsTest";
 import SeriesDetails from "../components/series/SeriesDetails";
 import MovieDescription from "../components/movies/MovieDescription";
+import BigLoading from "../components/partials/BigLoading";
 import {
     getAllSeries
 } from "../actions/seriesActions";
@@ -87,6 +88,12 @@ class SeriesDetailsPage extends Component {
         const {renderTabGen, renderRNGSeriesItems} = this;
         const {seriesItem} = this.state;
         const seriesIDFromPage = this.props.match.params.seriesID;
+
+        if (seriesItem === "") {
+            return (<>
+                <BigLoading/>
+            </>)
+        }
 
         return (
             <motion.div

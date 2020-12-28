@@ -3,6 +3,7 @@ import PageTitle from "../components/partials/PageTitle";
 import Navbar from "../components/partials/Navbar";
 import SeasonList from "../components/seasons/SeasonList";
 import Pagination from "../components/partials/Pagination";
+import BigLoading from "../components/partials/BigLoading";
 import {paginate} from "../utils/paginate";
 import {getSeasonsBySeriesID} from "../actions/seasonActions";
 import {getSeriesByIDAxios} from "../requests/seriesRequests";
@@ -84,6 +85,12 @@ class SeasonListPage extends Component {
     render() {
         const {renderSeasonList} = this;
         const {seriesItem} = this.state;
+
+        if (seriesItem === "") {
+            return (<>
+                <BigLoading/>
+            </>)
+        }
 
         return (
             <motion.div

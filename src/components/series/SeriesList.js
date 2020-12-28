@@ -14,7 +14,7 @@ class SeriesList extends Component {
 
         if (series.length === 0) {
             return (
-                <div className="col-12 text-center">
+                <div className="col-12 text-center empty-container">
                     <Empty
                         description={
                             "No Series"

@@ -34,14 +34,14 @@ export const getWatchHistoryByCustomerID = async (customerID) => {
 
 export const addWatchHistory = async (customerID, movieID) => {
     try {
-        message.loading("Adding to your watch history list", 0);
+        //message.loading("Adding to your watch history list", 0);
 
         const res = await axios.post(`${WATCH_HISTORY_URL}/add`, {
             customerID, movieID
         });
 
-        message.destroy();
-        message.success("Successfully added", 5);
+        //message.destroy();
+        //message.success("Successfully added", 5);
 
         const watchHistory = res.data.data;
 
@@ -53,13 +53,13 @@ export const addWatchHistory = async (customerID, movieID) => {
 
 export const deleteWatchHistory = async (customerID, movieID) => {
     try {
-        message.loading("Removing from your watch history list", 0);
+        //message.loading("Removing from your watch history list", 0);
 
         const watchHistoryItem = await getWatchHistoryByCustomerIDAndMovieID(customerID, movieID)
         const res = await axios.delete(`${WATCH_HISTORY_URL}/delete/${watchHistoryItem._id}`);
 
-        message.destroy();
-        message.success("Successfully removed", 5);
+        //message.destroy();
+        //message.success("Successfully removed", 5);
 
         const watchHistory = res.data.data;
 

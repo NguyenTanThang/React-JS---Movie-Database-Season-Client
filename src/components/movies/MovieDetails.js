@@ -37,7 +37,8 @@ class MovieDetails extends Component {
         this.setState({
             liked,
             subStatus,
-            loggedIn
+            loggedIn,
+            loading: false
         })
         
     }

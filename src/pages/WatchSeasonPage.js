@@ -3,6 +3,7 @@ import {getEpisodesBySeasonIDAxios} from "../requests/episodeRequests";
 import {getSeasonByIDAxios} from "../requests/seasonRequests";
 import MovieVideo from '../components/movies/MovieVideo';
 import TabGenerator from '../components/partials/TabGenerator';
+import BigLoading from "../components/partials/BigLoading";
 import Navbar from "../components/partials/Navbar";
 import {getSubStatus, getCurrentUser, getAuthStatus} from "../requests/authRequests";
 import {addWatchHistory, deleteWatchHistory} from "../requests/watchHistoryRequests";
@@ -231,7 +232,9 @@ class WatchSeasonPage extends Component {
         })[0];
 
         if (!currentEpisode) {
-            return (<></>)
+            return (<>
+                <BigLoading/>
+            </>)
         }
 
         return (

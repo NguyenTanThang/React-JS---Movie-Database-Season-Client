@@ -4,6 +4,7 @@ import {getMovieByIDAxios} from "../requests/movieRequests";
 import FaceBookCommentsTest from "../components/partials/FaceBookCommentsTest";
 import MovieDetails from "../components/movies/MovieDetails";
 import MovieDescription from "../components/movies/MovieDescription";
+import BigLoading from "../components/partials/BigLoading";
 import {
     getAllMovies
 } from "../actions/movieActions";
@@ -98,6 +99,13 @@ class MovieDetailsPage extends Component {
     render() {
         const {renderTabGen, renderRNGMovieItems} = this;
         const {movieItem} = this.state;
+
+        if (movieItem === "") {
+            return (<>
+                <BigLoading/>
+            </>)
+        }
+
         const movieIDFromPage = this.props.match.params.movieID;
         const {name} = movieItem;
 

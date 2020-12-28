@@ -34,7 +34,6 @@ class WatchHistory extends Component {
         this.props.getAllWatchHistoryByCustomerID();
     }
 
-    
     changeSeriesPageNumber = (pageNumber) => {
         this.setState({
             seriesCurrentPage: pageNumber
@@ -54,9 +53,6 @@ class WatchHistory extends Component {
         let movieList = [];
         let seriesList = [];
 
-        console.log("watchHistory");
-        console.log(watchHistory);
-
         if (!watchHistory.movieList || !watchHistory.seriesList || !watchHistory.seriesDateList || !watchHistory.movieDateList) {
             return <></>;
         }
@@ -74,9 +70,6 @@ class WatchHistory extends Component {
 
         let currentMovies = movieList;
         let currentSeries = seriesList;
-
-        console.log("currentMovies");
-        console.log(currentMovies);
 
         const seriesPageObject = paginate(currentSeries.length, seriesCurrentPage, 12, 4);
         const moviesPageObject = paginate(currentMovies.length, moviesCurrentPage, 12, 4);

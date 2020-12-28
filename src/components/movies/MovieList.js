@@ -13,12 +13,13 @@ class MovieList extends Component {
         const {movies, loading} = this.props;
 
         if (loading) {
-            return (<Loading/>)
+            return (
+                <Loading/>)
         }
 
         if (movies.length === 0) {
             return (
-                <div className="col-12 text-center">
+                <div className="col-12 text-center empty-container">
                     <Empty
                         description={
                             "No Movies"
