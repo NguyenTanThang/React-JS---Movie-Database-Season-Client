@@ -72,6 +72,7 @@ export const USDtoVND = async (usd) => {
 }
 
 export const USDtoVNDWithRate = (usd, vndRate) => {
+    usd = parseFloat(usd);
     let vnd = usd * vndRate;
     vnd = vnd.toFixed(0);
     return vnd; 

@@ -3,7 +3,8 @@ import PlanModal from "./PlanModal";
 
 export default class PlanItem extends Component {
     render() {
-        const {planItem,vndRate} = this.props;
+        const {planItem, vndRate} = this.props;
+        console.log(planItem);
         const {name, price, description} = planItem;
 
         return (

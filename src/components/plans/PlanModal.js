@@ -29,10 +29,17 @@ class PlanModal extends Component {
     payWithMomo = () => {
         const {planItem} = this.props;
         const {vndPrice} = this.state;
-        console.log(vndPrice);
-        localStorage.setItem("amount", vndPrice);
+        localStorage.setItem("amount", parseInt(vndPrice));
         localStorage.setItem("planID", planItem._id);
         this.props.history.push("/momo-pay");
+    }
+
+    payWithZalo = () => {
+        const {planItem} = this.props;
+        const {vndPrice} = this.state;
+        localStorage.setItem("amount", parseInt(vndPrice));
+        localStorage.setItem("planID", planItem._id);
+        this.props.history.push("/zalo-pay");
     }
 
     payWithVisa = () => {
@@ -58,7 +65,7 @@ class PlanModal extends Component {
       };
 
     render() {
-        const {showModal, payWithMomo, payWithVisa} = this;
+        const {showModal, payWithMomo, payWithVisa, payWithZalo} = this;
         const {planItem} = this.props;
         const {name} = planItem;
 
@@ -72,6 +79,10 @@ class PlanModal extends Component {
                     onCancel={this.handleCancel}
                     footer={null}
                 >
+                    <button className="zalo__btn plan__btn" onClick={payWithZalo}>
+                        <i className="fas fa-wallet"></i> 
+                        Pay with ZaloPay
+                    </button>
                     <button className="momo__btn plan__btn" onClick={payWithMomo}>
                         <i className="fas fa-wallet"></i> 
                         Pay with MoMo

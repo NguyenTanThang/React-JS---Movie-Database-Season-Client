@@ -3,7 +3,8 @@ import PlanModal from "./PlanModal";
 
 export default class PlanItem extends Component {
     render() {
-        const {planItem} = this.props;
+        const {planItem, vndRate} = this.props;
+        console.log(planItem);
         const {name, price, description} = planItem;
 
         return (
@@ -11,7 +12,7 @@ export default class PlanItem extends Component {
                 <div className="price price--premium">
                     <div className="price__item price__item--first"><span>{name}</span> <span>${price}</span></div>
                     <div className="price__item"><span>{description}</span></div>
-                    <PlanModal planItem={planItem}/>
+                    <PlanModal vndRate={vndRate} planItem={planItem}/>
                 </div>
             </div>
         )

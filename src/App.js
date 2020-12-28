@@ -32,6 +32,7 @@ import WatchSeriesPage from "./pages/WatchSeriesPage";
 import WatchSeasonPage from "./pages/WatchSeasonPage";
 import StripePayPage from "./pages/StripePayPage";
 import MomoPaymentPage from "./pages/MomoPaymentPage";
+import ZaloPaymentPage from "./pages/ZaloPaymentPage";
 import SeasonDetailsPage from "./pages/SeasonDetailsPage";
 import SeasonListPage from "./pages/SeasonListPage";
 import Footer from "./components/partials/Footer";
@@ -52,6 +53,7 @@ class App extends React.Component {
               <Route path="/pricing" component={PricingPlan}/>
               <Route path="/stripe-pay" component={StripePayPage}/>
               <Route path="/momo-pay" component={MomoPaymentPage}/>
+              <Route path="/zalo-pay" component={ZaloPaymentPage}/>
               <Route path="/sign-up" component={SignUp}/>
               <Route path="/sign-in" component={SignIn}/>
               <Route path="/logout" component={Logout}/>

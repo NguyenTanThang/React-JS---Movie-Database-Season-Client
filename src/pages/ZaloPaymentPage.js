@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import {getPayURL} from "../requests/momoRequests";
+import {getZaloPayURL} from "../requests/zaloRequests";
 import {getSubStatus, getAuthStatus} from "../requests/authRequests";
 import {message} from "antd";
 
-class MomoPaymentPage extends Component {
+class ZaloPaymentPage extends Component {
 
     async componentDidMount() {
         const subStatus = await getSubStatus();
@@ -19,7 +19,7 @@ class MomoPaymentPage extends Component {
         const customerID = localStorage.getItem("userID")
         const amount = parseInt(localStorage.getItem("amount"))
         const planID = localStorage.getItem("planID")
-        const payUrl = await getPayURL(customerID, {amount, planID});
+        const payUrl = await getZaloPayURL(customerID, {amount, planID});
         window.location = payUrl;
     }
 
@@ -30,4 +30,4 @@ class MomoPaymentPage extends Component {
     }
 }
 
-export default MomoPaymentPage;
+export default ZaloPaymentPage;
