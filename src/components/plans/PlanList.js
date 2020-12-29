@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PlanItem from "./PlanItem";
 import PlanItemSpecial from "./PlanItemSpecial";
+import Loading from "../partials/Loading";
 import {getVNDRate} from "../../requests/currencyRequests";
 
 export default class PlanList extends Component {
@@ -19,6 +20,12 @@ export default class PlanList extends Component {
     renderPlanItems = () => {
         const {planList} = this.props;
         const {vndRate} = this.state;
+
+        if (!vndRate) {
+            return (<>
+                <Loading/>
+            </>)
+        }
 
         return planList.map((planItem, index) => {
             const key = `plan-${planItem._id}`

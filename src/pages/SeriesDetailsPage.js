@@ -38,17 +38,29 @@ class SeriesDetailsPage extends Component {
     renderRNGSeriesItems = () => {
         const {series} = this.props;
 
-        if (series.length >= 6) {
+        if (series.length > 6) {
             let currentSeries = getRandom(series, 6);
         
             return currentSeries.map(seriesItem => {
                 return (
-                    <div key={seriesItem._Id} className="col-6 col-sm-4 col-lg-6">
+                    <div key={seriesItem._id} className="col-6 col-sm-4 col-lg-6">
                         <SeriesItem seriesItem={seriesItem}/>
                     </div>
                 )
             })
-        } else {
+        } 
+        else if (series.length <= 6) {
+            let currentSeries = getRandom(series, series.length);
+        
+            return currentSeries.map(seriesItem => {
+                return (
+                    <div key={seriesItem._id} className="col-6 col-sm-4 col-lg-6">
+                        <SeriesItem seriesItem={seriesItem}/>
+                    </div>
+                )
+            })
+        }
+        else {
             return (
                 <div className="col-12 text-center pb-4">
                     <Empty description="No Series"/>

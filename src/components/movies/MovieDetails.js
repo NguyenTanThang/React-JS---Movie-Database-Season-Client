@@ -44,7 +44,7 @@ class MovieDetails extends Component {
     }
 
     renderWatchButton = () => {
-        const {subStatus} = this.state;
+        const {subStatus, loggedIn} = this.state;
         const {movieItem} = this.props;
         if (!movieItem || !subStatus) {
             return (<></>);
@@ -57,7 +57,16 @@ class MovieDetails extends Component {
                     WATCH NOW
                 </Link>
             )
-        } else {
+        } 
+        else if (!loggedIn) {
+            return (
+                <Link to={`/sign-in`} className="section__btn">
+                    <i className="fas fa-sign-in-alt fa-2x" style={{paddingRight: "10px"}} aria-hidden="true"></i>
+                    SIGN IN
+                </Link>
+            )
+        }
+        else {
             return (
                 <Link to={`/pricing`} className="section__btn">
                     <i className="fas fa-money-bill fa-2x" aria-hidden="true" style={{paddingRight: "10px"}}></i>

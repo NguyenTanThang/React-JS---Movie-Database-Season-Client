@@ -7,23 +7,17 @@ import {Link} from "react-router-dom";
 import { Tooltip } from 'antd';
 import {addWatchLater, deleteWatchLater, getWatchLaterByCustomerIDAndMovieID} from "../../requests/watchLaterRequests";
 import {isObjectEmpty} from '../../utils/validate';
-import {getSubStatus, getAuthStatus} from "../../requests/authRequests";
 
 const customerID = localStorage.getItem("userID")
 
 class SeriesDetails extends Component {
 
     state = {
-        liked: false,
-        subStatus: "",
-        loggedIn: ""
+        liked: false
     }
 
     async componentDidMount() {
         sectionBG();
-
-        const subStatus = await getSubStatus();
-        const loggedIn = await getAuthStatus();
 
         const seriesID = this.props.seriesIDFromPage;
 
@@ -38,19 +32,17 @@ class SeriesDetails extends Component {
         }
     
         this.setState({
-            liked,
-            subStatus,
-            loggedIn
+            liked
         })
     }
 
     renderWatchButton = () => {
-        const {subStatus} = this.state;
         const {seriesItem} = this.props;
-        if (!seriesItem || !subStatus) {
+        if (!seriesItem) {
             return (<></>);
         }
         const {_id} = seriesItem;
+        /*
         if (subStatus === "active") {
             return (
                 <Link to={`/season-list/${_id}`} className="section__btn">
@@ -66,6 +58,14 @@ class SeriesDetails extends Component {
                 </Link>
             )
         }
+        */
+
+       return (
+            <Link to={`/season-list/${_id}`} className="section__btn">
+                <i className="fas fa-play-circle fa-2x" aria-hidden="true" style={{paddingRight: "10px"}}></i>
+                VIEW SEASONS
+            </Link>
+        )
     }
 
     changeLikeStatus = async () => {

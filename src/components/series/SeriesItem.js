@@ -36,13 +36,13 @@ export default class SeriesItem extends Component {
                                     <LazyLoad height={200}>
                                         <img src={posterURL} alt=""/>
                                     </LazyLoad>
-                                    <Link to={`/series-details/${_id}`} className="card__play">
+                                    <Link target={"_blank"} to={`/series-details/${_id}`} className="card__play">
 										<i className="fas fa-play" aria-hidden="true"></i>
 									</Link>
 								</div>
 								<div className="card__content">
                                     <h3 className="card__title">
-                                        <Link to={`/series-details/${_id}`}>
+                                        <Link  target={"_blank"} to={`/series-details/${_id}`}>
                                             {name}
                                         </Link>
                                     </h3>

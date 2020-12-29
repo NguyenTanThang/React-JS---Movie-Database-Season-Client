@@ -63,7 +63,6 @@ class SeasonDetailsPage extends Component {
                 )
             })
         }
-        
     }
 
     renderTabGen = () => {

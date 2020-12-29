@@ -34,13 +34,13 @@ export default class SeasonItem extends Component {
 							<div className="card">
 								<div className="card__cover">
 									<img src={posterURL} alt=""/>
-                                    <Link to={`/season-details/${_id}`} className="card__play">
+                                    <Link  target={"_blank"} to={`/season-details/${_id}`} className="card__play">
 										<i className="fas fa-play" aria-hidden="true"></i>
 									</Link>
 								</div>
 								<div className="card__content">
                                     <h3 className="card__title">
-                                        <Link to={`/season-details/${_id}`}>
+                                        <Link  target={"_blank"} to={`/season-details/${_id}`}>
                                             {name}
                                         </Link>
                                     </h3>
