@@ -10,6 +10,31 @@ const USER_URL = `${MAIN_PROXY_URL}/customers`;
 const SUB_URL = `${MAIN_PROXY_URL}/subscriptions`;
 const CUSTOMER_URL = `${MAIN_PROXY_URL}/customers`;
 
+export const resetPasswordToken = async (email) => {
+    try {
+        const res = await axios.post(`${CUSTOMER_URL}//reset-password-token`, {
+            email
+        });
+
+        const {success} = res.data;
+        const resMessage = res.data.message;
+
+        if (!success) {
+            return message.error(resMessage, 5);
+        }
+
+        const data = res.data;
+
+        console.log(data);
+
+        message.success(resMessage, 5);
+
+        return data;
+    } catch (error) {
+        message.error(error.message, 5);
+    }
+}
+
 export const resetPassword = async (token, newPassword) => {
     try {
         const res = await axios.put(`${CUSTOMER_URL}/reset-password/${token}`, {
