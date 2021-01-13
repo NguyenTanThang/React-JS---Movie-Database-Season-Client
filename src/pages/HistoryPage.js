@@ -58,14 +58,18 @@ class WatchHistory extends Component {
         }
 
         watchHistory.movieList.forEach((movieItem, index) => {
-            const movieDateItem = watchHistory.movieDateList[index]
-            movieItem.watched_date = movieDateItem;
-            movieList.push(movieItem);
+            if (movieItem) {
+                const movieDateItem = watchHistory.movieDateList[index]
+                movieItem.watched_date = movieDateItem;
+                movieList.push(movieItem);
+            }
         })
         watchHistory.seriesList.forEach((seriesItem, index)  => {
-            const seriesDateItem = watchHistory.seriesDateList[index]
-            seriesItem.watched_date = seriesDateItem;
-            seriesList.push(seriesItem);
+            if (seriesItem) {
+                const seriesDateItem = watchHistory.seriesDateList[index]
+                seriesItem.watched_date = seriesDateItem;
+                seriesList.push(seriesItem);
+            }
         })
 
         let currentMovies = movieList;
