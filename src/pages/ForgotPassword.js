@@ -53,13 +53,16 @@ export default class SignIn extends Component {
         const {email, isSent} = this.state;
 
         const sentContent = (
-            <>
+            <div className="sent-content sign__form">
+                <Link to="/" className="sign__logo">
+                    <h1><span>{"LET'S"}</span>FLIX</h1>
+                </Link>
                 <img src={sentImage} alt={"Email Sent"} className="img-fluid"/>
                 <p>
-                    Check your {email} inbox for instructions from us on how to reset your password.
+                    Check your <span>{email}</span> inbox for instructions from us on how to reset your password.
                 </p>
                 <Link to="/" className="sign__btn">Go back home</Link>
-            </>
+            </div>
         )
 
         return (

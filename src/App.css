@@ -3633,3 +3633,21 @@ input[type=range]::-ms-thumb {
 .empty-container {
     padding-top: 20px;
 }
+
+/*Sent Content*/
+.sent-content {
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.sent-content p {
+    color: #FFF;
+    margin-top: 20px;
+    font-size: 1.2rem;
+    text-align: center;
+}
+
+.sent-content p span {
+    font-weight: bold;
+}
