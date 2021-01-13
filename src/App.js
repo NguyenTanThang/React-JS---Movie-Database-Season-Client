@@ -23,6 +23,8 @@ import PricingPlan from "./pages/PricingPlan";
 import WatchLater from "./pages/WatchLater";
 import HistoryPage from "./pages/HistoryPage";
 import SignIn from "./pages/SignIn";
+import ChangePassword from "./pages/ChangePassword";
+import ResetPassword from "./pages/ResetPassword";
 import SignUp from "./pages/SignUp";
 import Logout from "./pages/Logout";
 import MovieDetailsPage from "./pages/MovieDetailsPage";
@@ -56,6 +58,8 @@ class App extends React.Component {
               <Route path="/zalo-pay" component={ZaloPaymentPage}/>
               <Route path="/sign-up" component={SignUp}/>
               <Route path="/sign-in" component={SignIn}/>
+              <Route path="/change-password" component={ChangePassword}/>
+              <Route path="/reset-password/:token" component={ResetPassword}/>
               <Route path="/logout" component={Logout}/>
               <Route path="/watch-later" component={WatchLater}/>
               <Route path="/history" component={HistoryPage}/>
