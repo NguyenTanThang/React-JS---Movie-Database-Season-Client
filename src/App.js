@@ -10,7 +10,6 @@ import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 
 import ScrollToTop from "./components/partials/ScrollToTop";
-import {getAuthStatus} from "./requests/authRequests";
 
 /*
 import Home from "./pages/Home";
@@ -38,7 +37,9 @@ import MomoPaymentPage from "./pages/MomoPaymentPage";
 import ZaloPaymentPage from "./pages/ZaloPaymentPage";
 import SeasonDetailsPage from "./pages/SeasonDetailsPage";
 import SeasonListPage from "./pages/SeasonListPage";
+import NotFoundPage from "./pages/NotFoundPage";
 import Footer from "./components/partials/Footer";
+import BigLoading from "./components/partials/BigLoading";
 
 class App extends React.Component {
   render() {
@@ -72,6 +73,7 @@ class App extends React.Component {
               <Route path="/watch-movie/:movieID" component={WatchMoviePage} exact/>
               <Route path="/watch-series/:seriesID" component={WatchSeriesPage} exact/>
               <Route path="/watch-season/:seasonID" component={WatchSeasonPage} exact/>
+              <Route component={NotFoundPage} />
             </Switch>
           <Footer/>
         </ScrollToTop>

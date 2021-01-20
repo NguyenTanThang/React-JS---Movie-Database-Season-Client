@@ -381,8 +381,7 @@ ul {
     color: #FFF;
 }
 
-#about {
-}
+#about {}
 
 #features {
     padding-top: 20px;
@@ -1016,7 +1015,7 @@ input[type=range]::-ms-thumb {
     padding-bottom: 30px;
 }
 
-.ant-tabs-content  {
+.ant-tabs-content {
     padding-bottom: 10px;
 }
 
@@ -1508,7 +1507,7 @@ input[type=range]::-ms-thumb {
     transform: rotate(-45deg);
 }
 
-@media (min-width: 320px) and (max-width: 767px) { 
+@media (min-width: 320px) and (max-width: 767px) {
     .header__logo h1 {
         padding-left: 0px;
         font-size: 1.8rem;
@@ -2913,7 +2912,8 @@ input[type=range]::-ms-thumb {
         max-width: 100%;
     }
 
-    .landing-header, .home-header {
+    .landing-header,
+    .home-header {
         height: 100vh;
     }
 }
@@ -3423,7 +3423,7 @@ input[type=range]::-ms-thumb {
     opacity: 1;
 }
 
-.episode-details__rating .section__btn{
+.episode-details__rating .section__btn {
     margin-left: 0;
     margin-bottom: 20px;
     margin-top: 0;
@@ -3432,7 +3432,7 @@ input[type=range]::-ms-thumb {
 .episode-row {
     display: flex;
     align-items: center;
-    flex-wrap:wrap;
+    flex-wrap: wrap;
 }
 
 .episode-tab {
@@ -3466,13 +3466,16 @@ input[type=range]::-ms-thumb {
         margin-left: 10px;
     }
 
-    .series-watch-container, .movie-watch-container {
+    .series-watch-container,
+    .movie-watch-container {
         height: 40vh;
     }
 }
 
 @media (min-width: 320px) and (max-width: 767px) {
-    .series-watch-container, .movie-watch-container {
+
+    .series-watch-container,
+    .movie-watch-container {
         height: 80vh;
     }
 
@@ -3485,7 +3488,9 @@ input[type=range]::-ms-thumb {
 }
 
 @media (min-width: 320px) and (max-width: 767px) and (orientation: portrait) {
-    .series-watch-container, .movie-watch-container {
+
+    .series-watch-container,
+    .movie-watch-container {
         height: 40vh;
     }
 
@@ -3505,7 +3510,9 @@ input[type=range]::-ms-thumb {
 }
 
 @media (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
-    .series-watch-container, .movie-watch-container {
+
+    .series-watch-container,
+    .movie-watch-container {
         height: 50vh;
     }
 }
@@ -3544,7 +3551,7 @@ input[type=range]::-ms-thumb {
         right: 0px;
         top: -40px;
     }
-    
+
     .slick-prev {
         left: 83%;
         top: -40px;
@@ -3556,7 +3563,7 @@ input[type=range]::-ms-thumb {
         right: 0px;
         top: -40px;
     }
-    
+
     .slick-prev {
         left: 92%;
         top: -40px;
@@ -3568,7 +3575,7 @@ input[type=range]::-ms-thumb {
         right: 0px;
         top: -40px;
     }
-    
+
     .slick-prev {
         left: 95%;
         top: -40px;
@@ -3650,4 +3657,67 @@ input[type=range]::-ms-thumb {
 
 .sent-content p span {
     font-weight: bold;
+}
+
+/*Not Found Page*/
+.not-found-page {
+    padding-top: 120px;
+}
+
+.not-found-page .wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    max-width: 1000px;
+    align-items: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.not-found-page .image-con {
+    flex: 30%;
+}
+
+.not-found-page .content {
+    flex: 50%;
+    margin-left: 50px;
+}
+
+.not-found-page .content h2 {
+    font-weight: bolder;
+    font-size: 3.5rem;
+    margin-bottom: 30px;
+    color: #FFF;
+}
+
+.not-found-page .content p {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.not-found-page .content .section__btn {
+    margin-left: 0;
+}
+
+@media (min-width: 320px) and (max-width: 767px) {
+
+    .not-found-page .wrapper {
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+
+    .not-found-page .image-con {
+        flex: 100%;
+        margin-top: 80px;
+        margin-bottom: 20px;
+    }
+
+    .not-found-page .content {
+        flex: 100%;
+        margin-left: 0;
+        padding-bottom: 80px;
+        padding-top: 20px;
+    }
+
 }
