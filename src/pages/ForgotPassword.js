@@ -19,11 +19,15 @@ export default class SignIn extends Component {
     }
 
     async componentDidMount() {
-        sectionBG();
-        const loggedIn = await getAuthStatus();
-        if (loggedIn) {
-            this.props.history.push("/");
-            message.error("You are already logged in");
+        try {
+            sectionBG();
+            const loggedIn = await getAuthStatus();
+            if (loggedIn) {
+                this.props.history.push("/");
+                message.error("You are already logged in");
+            }
+        } catch (error) {
+            this.props.history.push("/error");
         }
     }
 

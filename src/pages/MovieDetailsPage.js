@@ -24,15 +24,19 @@ class MovieDetailsPage extends Component {
     }
 
     async componentDidMount() {
-        this.props.getAllMovies();
+        try {
+            this.props.getAllMovies();
 
-        const movieID = this.props.match.params.movieID;
+            const movieID = this.props.match.params.movieID;
 
-        const movieItem = await getMovieByIDAxios(movieID);
+            const movieItem = await getMovieByIDAxios(movieID);
 
-        this.setState({
-            movieItem
-        })
+            this.setState({
+                movieItem
+            })
+        } catch (error) {
+            this.props.history.push("/error");
+        }
     }
 
     renderRNGMovieItems = () => {

@@ -25,18 +25,22 @@ class SeasonDetailsPage extends Component {
     }
 
     async componentDidMount() {
-        const seriesID = localStorage.getItem("currentSeriesID");
+        try {
+            const seriesID = localStorage.getItem("currentSeriesID");
 
-        this.props.getSeasonsBySeriesID(seriesID);
+            this.props.getSeasonsBySeriesID(seriesID);
 
-        const seasonID = this.props.match.params.seasonID;
-        const seasonItem = await getSeasonByIDAxios(seasonID);
-        const currentSeries = await getSeriesByIDAxios(seriesID);
+            const seasonID = this.props.match.params.seasonID;
+            const seasonItem = await getSeasonByIDAxios(seasonID);
+            const currentSeries = await getSeriesByIDAxios(seriesID);
 
-        this.setState({
-            seasonItem,
-            currentSeries
-        })
+            this.setState({
+                seasonItem,
+                currentSeries
+            })
+        } catch (error) {
+            this.props.history.push("/error");
+        }
     }
 
     renderRNGSeasonItems = () => {

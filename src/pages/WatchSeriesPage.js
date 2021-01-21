@@ -15,23 +15,27 @@ class WatchSeriesPage extends Component {
     }
 
     async componentDidMount() {
-        const seriesID = this.props.match.params.seriesID;
+        try {
+            const seriesID = this.props.match.params.seriesID;
 
-        const episodeList = await getEpisodesBySeriesIDAxios(seriesID);
-        const subStatus = await getSubStatus();
+            const episodeList = await getEpisodesBySeriesIDAxios(seriesID);
+            const subStatus = await getSubStatus();
 
-        if (subStatus !== "active") {
-            this.props.history.push("/pricing");
-            message.error("You need to subscribe before watching");
+            if (subStatus !== "active") {
+                this.props.history.push("/pricing");
+                message.error("You need to subscribe before watching");
+            }
+
+            const userID = getCurrentUser();
+            await deleteWatchHistory(userID, seriesID);
+            await addWatchHistory(userID, seriesID);
+
+            this.setState({
+                episodeList
+            })
+        } catch (error) {
+            this.props.history.push("/error");
         }
-
-        const userID = getCurrentUser();
-        await deleteWatchHistory(userID, seriesID);
-        await addWatchHistory(userID, seriesID);
-
-        this.setState({
-            episodeList
-        })
     }
 
     renderEpisodeListWatchItems = () => {

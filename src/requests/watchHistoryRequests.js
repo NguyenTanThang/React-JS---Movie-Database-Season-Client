@@ -47,6 +47,7 @@ export const addWatchHistory = async (customerID, movieID) => {
 
         return watchHistory;
     } catch (error) {
+        console.log(error);
         message.error(error.message, 5);
     }
 }
@@ -55,7 +56,10 @@ export const deleteWatchHistory = async (customerID, movieID) => {
     try {
         //message.loading("Removing from your watch history list", 0);
 
-        const watchHistoryItem = await getWatchHistoryByCustomerIDAndMovieID(customerID, movieID)
+        const watchHistoryItem = await getWatchHistoryByCustomerIDAndMovieID(customerID, movieID);
+        if (!watchHistoryItem) {
+            return watchHistoryItem;
+        }
         const res = await axios.delete(`${WATCH_HISTORY_URL}/delete/${watchHistoryItem._id}`);
 
         //message.destroy();
@@ -65,6 +69,7 @@ export const deleteWatchHistory = async (customerID, movieID) => {
 
         return watchHistory;
     } catch (error) {
+        console.log(error);
         message.error(error.message, 5);
     }
 }

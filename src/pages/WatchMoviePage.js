@@ -19,28 +19,32 @@ class WatchMoviePage extends Component {
     }
 
     async componentDidMount() {
-        const movieID = this.props.match.params.movieID;
+        try {
+            const movieID = this.props.match.params.movieID;
 
-        const movieItem = await getMovieByIDAxios(movieID);
-        const subStatus = await getSubStatus();
+            const movieItem = await getMovieByIDAxios(movieID);
+            const subStatus = await getSubStatus();
 
-        if (subStatus !== "active") {
-            this.props.history.push("/pricing");
-            message.error("You need to subscribe before watching");
+            if (subStatus !== "active") {
+                this.props.history.push("/pricing");
+                message.error("You need to subscribe before watching");
+            }
+
+            const userID = getCurrentUser();
+            const subtitles = await getSubtitlesByMovieID(movieID);
+            await deleteWatchHistory(userID, movieID);
+            await addWatchHistory(userID, movieID);
+
+            console.log("subtitles-WatchMoviePage")
+            console.log(subtitles)
+
+            this.setState({
+                movieItem,
+                subtitles
+            })
+        } catch (error) {
+            this.props.history.push("/error");
         }
-
-        const userID = getCurrentUser();
-        const subtitles = await getSubtitlesByMovieID(movieID);
-        await deleteWatchHistory(userID, movieID);
-        await addWatchHistory(userID, movieID);
-
-        console.log("subtitles-WatchMoviePage")
-        console.log(subtitles)
-
-        this.setState({
-            movieItem,
-            subtitles
-        })
     }
 
     render() {

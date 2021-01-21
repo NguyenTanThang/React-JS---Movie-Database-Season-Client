@@ -24,15 +24,19 @@ class SeriesDetailsPage extends Component {
     }
 
     async componentDidMount() {
-        this.props.getAllSeries();
+        try {
+            this.props.getAllSeries();
 
-        const seriesID = this.props.match.params.seriesID;
+            const seriesID = this.props.match.params.seriesID;
 
-        const seriesItem = await getSeriesByIDAxios(seriesID);
+            const seriesItem = await getSeriesByIDAxios(seriesID);
 
-        this.setState({
-            seriesItem
-        })
+            this.setState({
+                seriesItem
+            })
+        } catch (error) {
+            this.props.history.push("/error");
+        }
     }
 
     renderRNGSeriesItems = () => {

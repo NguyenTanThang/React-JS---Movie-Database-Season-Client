@@ -18,6 +18,7 @@ export const getSubtitlesByMovieID = async (movieID) => {
 
         return subtitles;
     } catch (error) {
+        console.log(error);
         message.error(error.message, 5);
     }
 }

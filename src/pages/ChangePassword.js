@@ -18,11 +18,15 @@ export default class SignIn extends Component {
     }
 
     async componentDidMount() {
-        sectionBG();
-        const loggedIn = await getAuthStatus();
-        if (!loggedIn) {
-            message.error("You need to login to perform payment")
-            return this.props.history.push("/sign-in");
+        try {
+            sectionBG();
+            const loggedIn = await getAuthStatus();
+            if (!loggedIn) {
+                message.error("You need to login to perform payment")
+                return this.props.history.push("/sign-in");
+            }
+        } catch (error) {
+            this.props.history.push("/error");
         }
     }
 

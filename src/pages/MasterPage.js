@@ -11,10 +11,14 @@ class MasterPage extends Component {
     }
 
     async componentDidMount() {
-        const loggedIn = await getAuthStatus();
-        this.setState({
-            loggedIn
-        })
+        try {
+            const loggedIn = await getAuthStatus();
+            this.setState({
+                loggedIn
+            })
+        } catch (error) {
+            this.props.history.push("/error");
+        }
     }
 
     render() {

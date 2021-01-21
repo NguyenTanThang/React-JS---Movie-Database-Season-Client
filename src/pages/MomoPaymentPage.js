@@ -6,21 +6,25 @@ import {message} from "antd";
 class MomoPaymentPage extends Component {
 
     async componentDidMount() {
-        const subStatus = await getSubStatus();
-        const loggedIn = await getAuthStatus();
-        if (!loggedIn) {
-            message.error("You need to login to perform payment")
-            return this.props.history.push("/sign-in");
+        try {
+            const subStatus = await getSubStatus();
+            const loggedIn = await getAuthStatus();
+            if (!loggedIn) {
+                message.error("You need to login to perform payment")
+                return this.props.history.push("/sign-in");
+            }
+            if (subStatus === "active") {
+                message.error("Your subscription is still valid")
+                return this.props.history.push("/");
+            }
+            const customerID = localStorage.getItem("userID")
+            const amount = parseInt(localStorage.getItem("amount"))
+            const planID = localStorage.getItem("planID")
+            const payUrl = await getPayURL(customerID, {amount, planID});
+            window.location = payUrl;
+        } catch (error) {
+            this.props.history.push("/error");
         }
-        if (subStatus === "active") {
-            message.error("Your subscription is still valid")
-            return this.props.history.push("/");
-        }
-        const customerID = localStorage.getItem("userID")
-        const amount = parseInt(localStorage.getItem("amount"))
-        const planID = localStorage.getItem("planID")
-        const payUrl = await getPayURL(customerID, {amount, planID});
-        window.location = payUrl;
     }
 
     render() {

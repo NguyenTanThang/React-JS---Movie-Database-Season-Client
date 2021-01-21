@@ -10,15 +10,19 @@ import {pageStyle, pageTransition, pageVariants} from "../config/animation";
 class StripePayPage extends Component {
 
     async componentDidMount() {
-        const subStatus = await getSubStatus();
-        const loggedIn = await getAuthStatus();
-        if (!loggedIn) {
-            message.error("You need to login to perform payment")
-            return this.props.history.push("/sign-in");
-        }
-        if (subStatus === "active") {
-            message.error("Your subscription is still valid")
-            return this.props.history.push("/");
+        try {
+            const subStatus = await getSubStatus();
+            const loggedIn = await getAuthStatus();
+            if (!loggedIn) {
+                message.error("You need to login to perform payment")
+                return this.props.history.push("/sign-in");
+            }
+            if (subStatus === "active") {
+                message.error("Your subscription is still valid")
+                return this.props.history.push("/");
+            }
+        } catch (error) {
+            this.props.history.push("/error");
         }
     }
 

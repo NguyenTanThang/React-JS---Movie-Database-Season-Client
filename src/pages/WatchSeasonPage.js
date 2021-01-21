@@ -32,71 +32,75 @@ class WatchSeasonPage extends Component {
     }
 
     async componentDidMount() {
-        const seasonID = this.props.match.params.seasonID;
-        const seriesID = localStorage.getItem("currentSeriesID");
-        
-        const loggedIn = await getAuthStatus();
-        const episodeList = await getEpisodesBySeasonIDAxios(seasonID);
-        const seasonItem = await getSeasonByIDAxios(seasonID);
-        const subStatus = await getSubStatus();
-
-        if (subStatus !== "active") {
-            this.props.history.push("/pricing");
-            message.error("You need to subscribe before watching");
-        }
-
-        let ratingEpisodeList = [];
-
-        const userID = getCurrentUser();
-        await deleteWatchHistory(userID, seriesID);
-        await addWatchHistory(userID, seriesID);
-
-        const reviews = await getReviewByCustomerID(customerID);
-        console.log("reviews");
-        console.log(reviews);
-
-        for (let i = 0; i < episodeList.length; i++) {
-            const episodeItem = episodeList[i];
+        try {
+            const seasonID = this.props.match.params.seasonID;
+            const seriesID = localStorage.getItem("currentSeriesID");
             
-            let review = {};
-            let filterReviews = reviews.filter(reviewItem => {
-                return reviewItem.movieID === episodeItem._id
-            });
-            if (filterReviews.length === 0) {
-                review = null;
-            } else {
-                review = filterReviews[0];
+            const loggedIn = await getAuthStatus();
+            const episodeList = await getEpisodesBySeasonIDAxios(seasonID);
+            const seasonItem = await getSeasonByIDAxios(seasonID);
+            const subStatus = await getSubStatus();
+
+            if (subStatus !== "active") {
+                this.props.history.push("/pricing");
+                message.error("You need to subscribe before watching");
             }
 
-            ratingEpisodeList.push(
-                {
-                    episodeNum: episodeItem.episodeNum,
-                    content: (
-                        <div key={episodeItem._id}className="episode-details__rating">
-                            <RateMovieModalSync movieID={episodeItem._id} loggedIn={loggedIn} review={review} />
-                        </div>
-                    )
-                }
-            )
-        }
+            let ratingEpisodeList = [];
 
-        const subtitles = await getSubtitlesByEpisodeID(episodeList.filter(episodeItem => {
-            console.log(episodeItem.episodeNum === this.state.currentEpisodeNum)
-            return episodeItem.episodeNum === this.state.currentEpisodeNum
-        })[0]._id);
-        console.log(episodeList.filter(episodeItem => {
-            console.log(episodeItem.episodeNum === this.state.currentEpisodeNum)
-            return episodeItem.episodeNum === this.state.currentEpisodeNum
-        })[0]._id);
-        console.log(subtitles)
-      
-        this.setState({
-            episodeList,
-            seasonItem,
-            currentEpisode: episodeList[0],
-            ratingEpisodeList,
-            subtitles
-        })
+            const userID = getCurrentUser();
+            await deleteWatchHistory(userID, seriesID);
+            await addWatchHistory(userID, seriesID);
+
+            const reviews = await getReviewByCustomerID(customerID);
+            console.log("reviews");
+            console.log(reviews);
+
+            for (let i = 0; i < episodeList.length; i++) {
+                const episodeItem = episodeList[i];
+                
+                let review = {};
+                let filterReviews = reviews.filter(reviewItem => {
+                    return reviewItem.movieID === episodeItem._id
+                });
+                if (filterReviews.length === 0) {
+                    review = null;
+                } else {
+                    review = filterReviews[0];
+                }
+
+                ratingEpisodeList.push(
+                    {
+                        episodeNum: episodeItem.episodeNum,
+                        content: (
+                            <div key={episodeItem._id}className="episode-details__rating">
+                                <RateMovieModalSync movieID={episodeItem._id} loggedIn={loggedIn} review={review} />
+                            </div>
+                        )
+                    }
+                )
+            }
+
+            const subtitles = await getSubtitlesByEpisodeID(episodeList.filter(episodeItem => {
+                console.log(episodeItem.episodeNum === this.state.currentEpisodeNum)
+                return episodeItem.episodeNum === this.state.currentEpisodeNum
+            })[0]._id);
+            console.log(episodeList.filter(episodeItem => {
+                console.log(episodeItem.episodeNum === this.state.currentEpisodeNum)
+                return episodeItem.episodeNum === this.state.currentEpisodeNum
+            })[0]._id);
+            console.log(subtitles)
+        
+            this.setState({
+                episodeList,
+                seasonItem,
+                currentEpisode: episodeList[0],
+                ratingEpisodeList,
+                subtitles
+            })
+        } catch (error) {
+            this.props.history.push("/error");
+        }
     }
 
     changeCurrentEpisode = (currentEpisode) => {

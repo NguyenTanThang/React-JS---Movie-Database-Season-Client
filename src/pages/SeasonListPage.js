@@ -35,27 +35,31 @@ class SeasonListPage extends Component {
     }
 
     async componentDidMount() {
-        const seriesID = this.props.match.params.seriesID;
-        localStorage.setItem("currentSeriesID", seriesID);
-        this.props.getSeasonsBySeriesID(seriesID);
-        const seriesItem = await getSeriesByIDAxios(seriesID);
-        seasonListBreadcumbs = [
-            {
-                url: "/",
-                text: "Home"
-            },
-            {
-                url: `/series-details/${seriesID}`,
-                text: "Series"
-            },
-            {
-                url: "/season-list",
-                text: "Season List"
-            }
-        ]
-        this.setState({
-            seriesItem
-        })
+        try {
+            const seriesID = this.props.match.params.seriesID;
+            localStorage.setItem("currentSeriesID", seriesID);
+            this.props.getSeasonsBySeriesID(seriesID);
+            const seriesItem = await getSeriesByIDAxios(seriesID);
+            seasonListBreadcumbs = [
+                {
+                    url: "/",
+                    text: "Home"
+                },
+                {
+                    url: `/series-details/${seriesID}`,
+                    text: "Series"
+                },
+                {
+                    url: "/season-list",
+                    text: "Season List"
+                }
+            ]
+            this.setState({
+                seriesItem
+            })
+        } catch (error) {
+            this.props.history.push("/error");
+        }
     }
 
     changeSeasonPageNumber = (pageNumber) => {
