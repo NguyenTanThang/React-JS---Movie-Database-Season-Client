@@ -73,6 +73,7 @@ class App extends React.Component {
               <Route path="/watch-movie/:movieID" component={WatchMoviePage} exact/>
               <Route path="/watch-series/:seriesID" component={WatchSeriesPage} exact/>
               <Route path="/watch-season/:seasonID" component={WatchSeasonPage} exact/>
+              <Route path="/loading" component={BigLoading} exact/>
               <Route component={NotFoundPage} />
             </Switch>
           <Footer/>
