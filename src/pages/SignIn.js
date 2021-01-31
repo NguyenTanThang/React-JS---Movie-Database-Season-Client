@@ -2,15 +2,27 @@ import React, { Component } from 'react';
 import {sectionBG} from "../config/jqueryCode";
 import sectionBgImage from "../images/section.jpg";
 import {Link} from "react-router-dom";
-import {login} from "../requests/authRequests";
+//import {login} from "../requests/authRequests";
 import Navbar from "../components/partials/Navbar";
-import {getAuthStatus} from "../requests/authRequests";
 import {message} from "antd";
 import {Helmet} from "react-helmet";
 import { motion } from "framer-motion";
 import {pageStyle, pageTransition, pageVariants} from "../config/animation";
 
+import { authenticationService } from '../_services';
+
 export default class SignIn extends Component {
+
+    constructor(props) {
+        super(props);
+
+        console.log(authenticationService.currentUserValue);
+        // redirect to home if already logged in
+        if (authenticationService.currentUserValue) { 
+            this.props.history.push('/');
+            message.error("You are already logged in");
+        }
+    }
 
     state = {
         email: "",
@@ -20,11 +32,6 @@ export default class SignIn extends Component {
     async componentDidMount() {
         try {
             sectionBG();
-            const loggedIn = await getAuthStatus();
-            if (loggedIn) {
-                this.props.history.push("/");
-                message.error("You are already logged in");
-            }
         } catch (error) {
             this.props.history.push("/error");
         }
@@ -40,10 +47,17 @@ export default class SignIn extends Component {
         try {
             e.preventDefault();
             const {email, password} = this.state;
-            const data = await login({email, password});
-            if (data.success) {
-                this.props.history.push("/");
-            }
+            authenticationService.login(email, password)
+            .then(
+                user => {
+                    console.log(user);
+                    const { from } = this.props.location.state || { from: { pathname: "/" } };
+                    this.props.history.push(from);
+                },
+                error => {
+                    console.log(error);
+                }
+            );
         } catch (error) {
             console.log(error);
         }

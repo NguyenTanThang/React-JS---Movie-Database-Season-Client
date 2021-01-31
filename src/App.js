@@ -8,7 +8,8 @@ import "slick-carousel/slick/slick-theme.css";
 import "./App.css";
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
-
+import IdleTimer from 'react-idle-timer'
+import {message} from 'antd'
 import ScrollToTop from "./components/partials/ScrollToTop";
 
 /*
@@ -41,10 +42,82 @@ import NotFoundPage from "./pages/NotFoundPage";
 import Footer from "./components/partials/Footer";
 import BigLoading from "./components/partials/BigLoading";
 
+/*Utils*/
+import { refreshSession } from "./requests/authRequests";
+import { authenticationService } from "./_services";
+import { history } from "./_helpers";
+import {sessionAutoRefreshMechanic} from "./requests/authRequests";
+
 class App extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.idleTimer = null
+    this.handleOnAction = this.handleOnAction.bind(this)
+    this.handleOnActive = this.handleOnActive.bind(this)
+    this.handleOnIdle = this.handleOnIdle.bind(this)
+
+    this.state = {
+        currentUser: null
+    };
+  }
+
+  async componentDidMount() {
+      authenticationService.currentUser.subscribe(x => this.setState({
+          currentUser: x
+      }));
+      await sessionAutoRefreshMechanic();
+  }
+
+  logout() {
+      authenticationService.logout();
+  }
+
+  handlePauseIdle = () => {
+    this.idleTimer.reset();
+    this.idleTimer.pause();
+  }
+
+  async handleOnAction (event) {
+    //console.log('user did something', event)
+  }
+
+  async handleOnActive (event) {
+    /*
+    console.log('user is active', event)
+    console.log('time remaining', this.idleTimer.getRemainingTime())
+    */
+  }
+
+  handleOnIdle (event) {
+    /*
+    console.log('user is idle', event)
+    console.log('last active', this.idleTimer.getLastActiveTime())
+    */
+
+    if (authenticationService.currentUserValue) {
+      authenticationService.logout();
+      //window.location.replace('/sign-in');
+      //history.push('/sign-in');
+      message.error("Due to the lack of interactivity your session has been terminated. Please login again");
+      setTimeout(() => {
+        window.location.replace('/sign-in');
+      }, 2500);
+    }
+    
+  }
+
   render() {
     return (
       <div className="App">
+      <IdleTimer
+          ref={ref => { this.idleTimer = ref }}
+          timeout={1000 * 60 * 10}
+          onActive={this.handleOnActive}
+          onIdle={this.handleOnIdle}
+          onAction={this.handleOnAction}
+          debounce={250}
+        />
       <AnimatePresence exitBeforeEnter>
         <Router>
         <ScrollToTop>

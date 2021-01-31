@@ -2,23 +2,25 @@ import React, { Component } from 'react';
 import {menuNav} from "../../config/jqueryCode";
 import {Link} from "react-router-dom";
 
+import {authenticationService} from "../../_services";
+
 export default class Navbar extends Component {
 
     state = {
-        customerID: ""
+        customer: ""
     }
 
     componentDidMount() {
         menuNav();
         this.setState({
-            customerID: localStorage.getItem("userID")
+            customer: authenticationService.currentUserValue
         })
     }
 
     renderAuthButton = () => {
-        const {customerID} = this.state;
+        const {customer} = this.state;
 
-        if (customerID) {
+        if (customer) {
             return (
                 <Link to="/logout" className="header__sign-in">
                     <i className="fas fa-sign-out-alt"></i>
@@ -36,9 +38,9 @@ export default class Navbar extends Component {
     }
 
     renderNavBarItems = () => {
-        const {customerID} = this.state;
+        const {customer} = this.state;
 
-        if (customerID) {
+        if (customer) {
             return (
                 <>
                     <li className="header__nav-item">

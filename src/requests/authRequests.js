@@ -5,10 +5,14 @@ import {
 import {
     message
 } from "antd";
+import {
+    authenticationService
+} from "../_services";
 
 const USER_URL = `${MAIN_PROXY_URL}/customers`;
 const SUB_URL = `${MAIN_PROXY_URL}/subscriptions`;
 const CUSTOMER_URL = `${MAIN_PROXY_URL}/customers`;
+const SESSION_URL = `${MAIN_PROXY_URL}/sessions`;
 
 export const resetPasswordToken = async (email) => {
     try {
@@ -16,7 +20,9 @@ export const resetPasswordToken = async (email) => {
             email
         });
 
-        const {success} = res.data;
+        const {
+            success
+        } = res.data;
         const resMessage = res.data.message;
 
         if (!success) {
@@ -41,7 +47,9 @@ export const resetPassword = async (token, newPassword) => {
             newPassword
         });
 
-        const {success} = res.data;
+        const {
+            success
+        } = res.data;
         const resMessage = res.data.message;
 
         if (!success) {
@@ -63,10 +71,13 @@ export const resetPassword = async (token, newPassword) => {
 export const changePassword = async (userID, oldPassword, newPassword) => {
     try {
         const res = await axios.put(`${CUSTOMER_URL}/change-password/${userID}`, {
-            oldPassword, newPassword
+            oldPassword,
+            newPassword
         });
 
-        const {success} = res.data;
+        const {
+            success
+        } = res.data;
         const resMessage = res.data.message;
 
         if (!success) {
@@ -87,7 +98,11 @@ export const changePassword = async (userID, oldPassword, newPassword) => {
 
 export const getAuthStatus = async () => {
     try {
-        const customerID = localStorage.getItem("userID");
+        if (!authenticationService.currentUserValue) {
+            return false;
+        }
+
+        const customerID = authenticationService.currentUserValue.customerItem._id;
 
         if (!customerID) {
             return false;
@@ -95,7 +110,9 @@ export const getAuthStatus = async () => {
 
         const res = await axios.get(`${CUSTOMER_URL}/${customerID}`);
 
-        const {success} = res.data;
+        const {
+            success
+        } = res.data;
         const user = res.data.data;
 
         if (!success) {
@@ -114,10 +131,17 @@ export const getAuthStatus = async () => {
 
 export const getSubStatus = async () => {
     try {
-        const customerID = localStorage.getItem("userID");
+        const customerID = authenticationService.currentUserValue.customerItem._id;
+
+        if (!customerID) {
+            return false;
+        }
+
         const res = await axios.get(`${SUB_URL}/status/customerID/${customerID}`);
 
-        const {success} = res.data;
+        const {
+            success
+        } = res.data;
         const resMessage = res.data.message;
 
         if (!success) {
@@ -148,12 +172,20 @@ export const getCurrentUser = () => {
 
 export const signup = async (newUser) => {
     try {
-        const {username, email, password} = newUser;
+        const {
+            username,
+            email,
+            password
+        } = newUser;
         const res = await axios.post(`${USER_URL}/signup`, {
-            username, email, password
+            username,
+            email,
+            password
         });
 
-        const {success} = res.data;
+        const {
+            success
+        } = res.data;
         const resMessage = res.data.message;
 
         if (!success) {
@@ -174,13 +206,19 @@ export const signup = async (newUser) => {
 
 export const login = async (currentUser) => {
     try {
-        const {email, password} = currentUser;
+        const {
+            email,
+            password
+        } = currentUser;
 
         const res = await axios.post(`${USER_URL}/login`, {
-            email, password
+            email,
+            password
         });
 
-        const {success} = res.data;
+        const {
+            success
+        } = res.data;
         const resMessage = res.data.message;
 
         if (!success) {
@@ -198,5 +236,100 @@ export const login = async (currentUser) => {
         return data;
     } catch (error) {
         message.error(error.message, 5);
+    }
+}
+
+export const validateSession = async () => {
+    try {
+        const sessionID = authenticationService.currentUserValue.session._id;
+
+        if (!sessionID) {
+            return false;
+        }
+
+        const res = await axios.get(`${SESSION_URL}/${sessionID}`);
+
+        const {
+            success
+        } = res.data;
+        const resMessage = res.data.message;
+
+        if (!success) {
+            return message.error(resMessage, 5);
+        }
+
+        const session = res.data.data;
+
+        if (session && +session.expiry_date > +Date.now()) {
+            return true
+        }
+
+        return false;
+    } catch (error) {
+        message.error(error.message, 5);
+    }
+}
+
+export const refreshSession = async () => {
+    try {
+        const sessionID = authenticationService.currentUserValue.session._id;
+
+        if (!sessionID) {
+            return false;
+        }
+
+        const res = await axios.put(`${SESSION_URL}/refresh/${sessionID}`);
+
+        const {
+            success
+        } = res.data;
+        const resMessage = res.data.message;
+
+        if (!success) {
+            return message.error(resMessage, 5);
+        }
+
+        const session = res.data.data;
+
+        return session;
+    } catch (error) {
+        message.error(error.message, 5);
+    }
+}
+
+export const validatePaidUser = async () => {
+    const auth = await getAuthStatus();
+    const sub = await getSubStatus();
+    const sess = await validateSession();
+
+    return auth && sub && sess;
+}
+
+export const validateFreeUser = async () => {
+    const auth = await getAuthStatus();
+    const sub = await getSubStatus();
+    const sess = await validateSession();
+
+    return auth && !sub && sess;
+}
+
+export const sessionAutoRefreshMechanic = async () => {
+    try {
+        setInterval(async () => {
+            if (authenticationService.currentUserValue) {
+                const currentSession = authenticationService.currentUserValue.session;
+
+                if (+new Date(currentSession.expiry_date) - +Date.now() <= 5000 && +new Date(currentSession.expiry_date) - +Date.now() > 0) {
+                    const session = await refreshSession();
+                    authenticationService.setNewSession(session);
+                } 
+                
+                if (+new Date(currentSession.expiry_date) - +Date.now() <= 0) {
+                    authenticationService.logout();
+                }
+            }
+        }, 1000);
+    } catch (error) {
+        message.error(error.message);
     }
 }

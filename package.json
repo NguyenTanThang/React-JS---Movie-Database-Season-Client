@@ -16,6 +16,7 @@
     "classnames": "^2.2.6",
     "framer-motion": "^2.9.5",
     "gsap": "^3.5.1",
+    "history": "^5.0.0",
     "html-react-parser": "^0.14.0",
     "jquery": "^3.5.1",
     "moment": "^2.29.1",
@@ -26,6 +27,7 @@
     "react-gsap": "^2.2.1",
     "react-helmet": "^6.1.0",
     "react-html5video": "^2.5.1",
+    "react-idle-timer": "^4.5.2",
     "react-lazyload": "^3.1.0",
     "react-player": "^2.7.0",
     "react-plyr": "^2.2.0",
@@ -36,6 +38,7 @@
     "reactstrap": "^8.6.0",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
+    "rxjs": "^6.6.3",
     "slick-carousel": "^1.8.1",
     "video-react": "^0.14.1"
   },
