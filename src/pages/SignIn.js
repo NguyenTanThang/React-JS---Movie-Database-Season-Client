@@ -94,12 +94,12 @@ export default class SignIn extends Component {
                                 </Link>
 
                                 <div className="sign__group">
-                                    <input type="email" className="sign__input" placeholder="Email" name="email" onChange={onChange}/>
+                                    <input type="email" className="sign__input" placeholder="Email" name="email" onChange={onChange} required/>
                                 </div>
 
                                 <div className="sign__group">
                                     <input type="password" className="sign__input" placeholder="Password" name="password"
-                                    onChange={onChange}/>
+                                    onChange={onChange} required/>
                                 </div>
 
                                 <button className="sign__btn" type="submit">Sign in</button>

@@ -59,12 +59,17 @@ function login(email, password) {
     return fetch(`${MAIN_PROXY_URL}/customers/login`, requestOptions)
         .then(handleResponse)
         .then(data => {
-            const user = data.data;
-            // store user details and jwt token in local storage to keep user logged in between page refreshes
-            localStorage.setItem('currentUser', JSON.stringify(user));
-            currentUserSubject.next(user);
-
-            return user;
+            if (data.success) {
+                const user = data.data;
+                // store user details and jwt token in local storage to keep user logged in between page refreshes
+                localStorage.setItem('currentUser', JSON.stringify(user));
+                currentUserSubject.next(user);
+    
+                return user;
+            } else {
+                message.error(data.message);
+                throw new Error();
+            }
         });
 }
 
@@ -89,8 +94,12 @@ function logout() {
     return fetch(`${MAIN_PROXY_URL}/sessions/delete/${currentSession._id}`, requestOptions)
         .then(handleResponse)
         .then(data => {
-            localStorage.removeItem('currentUser');
-            currentUserSubject.next(null);
-            window.location.replace("/sign-in");
+            if (data && data.success) {
+                localStorage.removeItem('currentUser');
+                currentUserSubject.next(null);
+                window.location.replace("/sign-in");
+            } else {
+                message.error(data.message);
+            }
         });
 }
