@@ -52,7 +52,7 @@ class WatchSeasonPage extends Component {
 
             let ratingEpisodeList = [];
 
-            const userID = currentUser._id;
+            const userID = currentUser.customerItem._id;
             await deleteWatchHistory(userID, seriesID);
             await addWatchHistory(userID, seriesID);
 

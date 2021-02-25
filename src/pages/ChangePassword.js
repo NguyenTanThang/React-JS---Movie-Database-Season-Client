@@ -44,7 +44,7 @@ export default class SignIn extends Component {
             e.preventDefault();
             const {oldPassword, newPassword} = this.state;
             const currentUser = authenticationService.currentUserValue;
-            const userID = currentUser._id;
+            const userID = currentUser.customerItem._id;
             const data = await changePassword(userID, oldPassword, newPassword);
             if (data.success) {
                 this.props.history.push("/");

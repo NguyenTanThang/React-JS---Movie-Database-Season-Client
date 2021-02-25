@@ -20,7 +20,7 @@ export const getAllWatchHistoryByCustomerID = () => {
             dispatch(setLoading());
 
             const currentUser = authenticationService.currentUserValue;
-            const userID = currentUser._id;
+            const userID = currentUser.customerItem._id;
             const res = await axios.get(`${WATCH_HISTORY_URL}/customerID/${userID}`);
     
             const watchHistory = res.data.data;

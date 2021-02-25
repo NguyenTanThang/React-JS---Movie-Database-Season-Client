@@ -20,7 +20,7 @@ export const getAllWatchLaterByCustomerID = () => {
             dispatch(setLoading());
 
             const currentUser = authenticationService.currentUserValue;
-            const userID = currentUser._id;
+            const userID = currentUser.customerItem._id;
             const res = await axios.get(`${WATCH_LATER_URL}/customerID/${userID}`);
     
             const watchLater = res.data.data;

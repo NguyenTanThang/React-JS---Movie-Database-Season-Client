@@ -34,7 +34,7 @@ class WatchMoviePage extends Component {
             }
 
             const currentUser = authenticationService.currentUserValue;
-            const userID = currentUser._id;
+            const userID = currentUser.customerItem._id;
             const subtitles = await getSubtitlesByMovieID(movieID);
             await deleteWatchHistory(userID, movieID);
             await addWatchHistory(userID, movieID);

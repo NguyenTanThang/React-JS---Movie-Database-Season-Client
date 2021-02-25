@@ -131,6 +131,12 @@ export const getAuthStatus = async () => {
 
 export const getSubStatus = async () => {
     try {
+        const currentUser = authenticationService.currentUserValue;
+
+        if (!currentUser) {
+            return false;
+        }
+
         const customerID = authenticationService.currentUserValue.customerItem._id;
 
         if (!customerID) {
