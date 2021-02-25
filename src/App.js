@@ -102,7 +102,6 @@ class App extends React.Component {
         window.location.replace('/sign-in');
       }, 2500);
     }
-    
   }
 
   render() {
