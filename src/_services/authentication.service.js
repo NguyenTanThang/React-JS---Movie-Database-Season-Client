@@ -91,7 +91,8 @@ function logout() {
         method: 'DELETE'
     };
     const currentSession = authenticationService.currentUserValue.session;
-    return fetch(`${MAIN_PROXY_URL}/sessions/delete/${currentSession._id}`, requestOptions)
+    if (currentSession) {
+        return fetch(`${MAIN_PROXY_URL}/sessions/delete/${currentSession._id}`, requestOptions)
         .then(handleResponse)
         .then(data => {
             if (data && data.success) {
@@ -102,4 +103,9 @@ function logout() {
                 message.error(data.message);
             }
         });
+    } else {
+        localStorage.removeItem('currentUser');
+        currentUserSubject.next(null);
+        window.location.replace("/sign-in");
+    }
 }

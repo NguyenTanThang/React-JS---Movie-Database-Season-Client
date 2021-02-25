@@ -97,10 +97,10 @@ class App extends React.Component {
       authenticationService.logout();
       //window.location.replace('/sign-in');
       //history.push('/sign-in');
-      message.error("Due to the lack of interactivity your session has been terminated. Please login again");
+      message.error("Due to the lack of interactivity your session has been terminated. Please login again", 5);
       setTimeout(() => {
         window.location.replace('/sign-in');
-      }, 2500);
+      }, 5000);
     }
   }
 
@@ -110,6 +110,7 @@ class App extends React.Component {
       <IdleTimer
           ref={ref => { this.idleTimer = ref }}
           timeout={1000 * 60 * 10}
+          //timeout={1000 * 60 * 0.4}
           onActive={this.handleOnActive}
           onIdle={this.handleOnIdle}
           onAction={this.handleOnAction}
