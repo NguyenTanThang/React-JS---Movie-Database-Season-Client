@@ -2,7 +2,10 @@ import React, { Component } from 'react';
 import {getMovieByIDAxios} from "../requests/movieRequests";
 import MovieVideo from '../components/movies/MovieVideo';
 import Navbar from "../components/partials/Navbar";
-import {getSubStatus, getCurrentUser} from "../requests/authRequests";
+import {getSubStatus} from "../requests/authRequests";
+import {
+    authenticationService
+} from "../_services";
 import {addWatchHistory, deleteWatchHistory} from "../requests/watchHistoryRequests";
 import {getSubtitlesByMovieID} from "../requests/subtitleRequests";
 import {message} from "antd";
@@ -30,7 +33,8 @@ class WatchMoviePage extends Component {
                 message.error("You need to subscribe before watching");
             }
 
-            const userID = getCurrentUser();
+            const currentUser = authenticationService.currentUserValue;
+            const userID = currentUser._id;
             const subtitles = await getSubtitlesByMovieID(movieID);
             await deleteWatchHistory(userID, movieID);
             await addWatchHistory(userID, movieID);

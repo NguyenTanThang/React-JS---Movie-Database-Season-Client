@@ -5,8 +5,8 @@ import {
     GET_WATCH_LATER_BY_CUSTOMERID,
 } from "./types";   
 import {
-    getCurrentUser
-} from '../requests/authRequests';
+    authenticationService
+} from "../_services";
 import {
     setLoading,
     clearLoading
@@ -19,7 +19,8 @@ export const getAllWatchLaterByCustomerID = () => {
         try {
             dispatch(setLoading());
 
-            const userID = getCurrentUser();
+            const currentUser = authenticationService.currentUserValue;
+            const userID = currentUser._id;
             const res = await axios.get(`${WATCH_LATER_URL}/customerID/${userID}`);
     
             const watchLater = res.data.data;

@@ -5,7 +5,10 @@ import MovieVideo from '../components/movies/MovieVideo';
 import TabGenerator from '../components/partials/TabGenerator';
 import BigLoading from "../components/partials/BigLoading";
 import Navbar from "../components/partials/Navbar";
-import {getSubStatus, getCurrentUser, getAuthStatus} from "../requests/authRequests";
+import {getSubStatus} from "../requests/authRequests";
+import {
+    authenticationService
+} from "../_services";
 import {addWatchHistory, deleteWatchHistory} from "../requests/watchHistoryRequests";
 import {getSubtitlesByEpisodeID} from "../requests/subtitleRequests";
 import {message} from "antd";
@@ -35,8 +38,9 @@ class WatchSeasonPage extends Component {
         try {
             const seasonID = this.props.match.params.seasonID;
             const seriesID = localStorage.getItem("currentSeriesID");
+            const currentUser = authenticationService.currentUserValue;
             
-            const loggedIn = await getAuthStatus();
+            const loggedIn = currentUser;
             const episodeList = await getEpisodesBySeasonIDAxios(seasonID);
             const seasonItem = await getSeasonByIDAxios(seasonID);
             const subStatus = await getSubStatus();
@@ -48,7 +52,7 @@ class WatchSeasonPage extends Component {
 
             let ratingEpisodeList = [];
 
-            const userID = getCurrentUser();
+            const userID = currentUser._id;
             await deleteWatchHistory(userID, seriesID);
             await addWatchHistory(userID, seriesID);
 

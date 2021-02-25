@@ -2,7 +2,10 @@ import React, { Component } from 'react';
 import {sectionBG} from "../config/jqueryCode";
 import sectionBgImage from "../images/section.jpg";
 import {Link} from "react-router-dom";
-import {changePassword, getCurrentUser} from "../requests/authRequests";
+import {changePassword} from "../requests/authRequests";
+import {
+    authenticationService
+} from "../_services";
 import Navbar from "../components/partials/Navbar";
 import {getAuthStatus} from "../requests/authRequests";
 import {message} from "antd";
@@ -39,8 +42,9 @@ export default class SignIn extends Component {
     onSubmit = async (e) => {
         try {
             e.preventDefault();
-            const userID = getCurrentUser();
             const {oldPassword, newPassword} = this.state;
+            const currentUser = authenticationService.currentUserValue;
+            const userID = currentUser._id;
             const data = await changePassword(userID, oldPassword, newPassword);
             if (data.success) {
                 this.props.history.push("/");
