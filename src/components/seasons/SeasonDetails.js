@@ -16,7 +16,8 @@ class SeasonDetails extends Component {
     state = {
         liked: false,
         subStatus: "",
-        loggedIn: ""
+        loggedIn: "",
+        loading: true
     }
 
     async componentDidMount() {
@@ -40,14 +41,15 @@ class SeasonDetails extends Component {
         this.setState({
             liked,
             subStatus,
-            loggedIn
+            loggedIn,
+            loading: false
         })
     }
 
     renderWatchButton = () => {
-        const {subStatus, loggedIn} = this.state;
+        const {subStatus, loggedIn, loading} = this.state;
         const {seasonItem} = this.props;
-        if (!seasonItem || !subStatus) {
+        if (!seasonItem || loading) {
             return (<></>);
         }
         const {_id} = seasonItem;

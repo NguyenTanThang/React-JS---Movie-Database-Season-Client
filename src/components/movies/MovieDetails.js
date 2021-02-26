@@ -15,7 +15,8 @@ class MovieDetails extends Component {
     state = {
         liked: false,
         subStatus: "",
-        loggedIn: ""
+        loggedIn: "",
+        loading: true
     }
 
     async componentDidMount() {
@@ -44,9 +45,9 @@ class MovieDetails extends Component {
     }
 
     renderWatchButton = () => {
-        const {subStatus, loggedIn} = this.state;
+        const {subStatus, loggedIn, loading} = this.state;
         const {movieItem} = this.props;
-        if (!movieItem || !subStatus) {
+        if (!movieItem || loading) {
             return (<></>);
         }
         const {_id} = movieItem;
