@@ -5,6 +5,7 @@ import {
     LOGIN,
     SIGNUP
 } from "./types";   
+import {createNotification} from "../utils";
 
 const CUSTOMERS_URL = `${MAIN_PROXY_URL}/customers`;
 
@@ -19,7 +20,11 @@ export const login = (email, password) => {
             const customer = res.data.data;
 
             message.destroy();
-            message.success("Successfully logged in", 5);
+
+            createNotification("error", {
+                message: "Login",
+                description: "Successfully logged in"
+            });
 
             return dispatch({
                 type: LOGIN,
@@ -44,7 +49,11 @@ export const signup = (email, password) => {
             const customer = res.data.data;
 
             message.destroy();
-            message.success("Successfully signed up", 5);
+
+            createNotification("error", {
+                message: "Sign Up",
+                description: "Successfully signed up"
+            });
 
             return dispatch({
                 type: SIGNUP,

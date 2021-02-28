@@ -1,5 +1,6 @@
 import { BehaviorSubject } from 'rxjs';
 import axios from "axios";
+import {createNotification} from "../utils";
 import {message} from "antd";
 import {MAIN_PROXY_URL} from "../config/config";
 import { handleResponse } from '../_helpers';
@@ -37,7 +38,10 @@ function getSubStatus() {
         const resMessage = res.data.message;
 
         if (!success) {
-            return message.error(resMessage, 5);
+            return createNotification("error", {
+                message: "Subscription Status",
+                description: resMessage
+            });
         }
 
         const status = res.data.data;
@@ -45,7 +49,10 @@ function getSubStatus() {
         return status;
     })
     .error(error => {
-        message.error(error.message, 5);
+        return createNotification("error", {
+            message: "Subscription Status",
+            description: error.message
+        });
     })
 }
 
@@ -56,18 +63,28 @@ function login(email, password) {
         body: JSON.stringify({ email, password })
     };
 
+    message.loading("Logging in...", 0);
     return fetch(`${MAIN_PROXY_URL}/customers/login`, requestOptions)
         .then(handleResponse)
         .then(data => {
+            message.destroy();
             if (data.success) {
                 const user = data.data;
                 // store user details and jwt token in local storage to keep user logged in between page refreshes
                 localStorage.setItem('currentUser', JSON.stringify(user));
                 currentUserSubject.next(user);
+
+                createNotification("success", {
+                    message: "Login",
+                    description: data.message
+                });
     
                 return user;
             } else {
-                message.error(data.message);
+                createNotification("error", {
+                    message: "Login",
+                    description: data.message
+                });
                 throw new Error();
             }
         });
@@ -100,7 +117,10 @@ function logout() {
                 currentUserSubject.next(null);
                 window.location.replace("/sign-in");
             } else {
-                message.error(data.message);
+                createNotification("error", {
+                    message: "Logout",
+                    description: data.message
+                });
             }
         });
     } else {

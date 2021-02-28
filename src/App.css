@@ -3714,5 +3714,26 @@ input[type=range]::-ms-thumb {
         padding-bottom: 80px;
         padding-top: 20px;
     }
+}
 
+.custom-notification-class {
+    border: 1px solid #ff55a5;
+}
+
+.custom-notification-class .ant-notification-notice-message,
+.custom-notification-class .ant-notification-close-icon {
+    color: #FFF;
+}
+
+.anticon {
+    transform: translateY(-5px);
+}
+
+.ant-message-notice-content {
+    border: 1px solid #ff55a5;
+    background-color: #2b2b31;
+}
+
+.ant-message-custom-content span:last-child {
+    color: #FFF;
 }

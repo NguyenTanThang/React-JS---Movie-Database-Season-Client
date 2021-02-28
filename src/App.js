@@ -9,7 +9,7 @@ import "./App.css";
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import IdleTimer from 'react-idle-timer'
-import {message} from 'antd'
+import {createNotification} from "./utils";
 import ScrollToTop from "./components/partials/ScrollToTop";
 
 /*
@@ -97,7 +97,10 @@ class App extends React.Component {
       authenticationService.logout();
       //window.location.replace('/sign-in');
       //history.push('/sign-in');
-      message.error("Due to the lack of interactivity your session has been terminated. Please login again", 5);
+      createNotification("error", {
+        message: "Session Expired",
+        description: "Due to the lack of interactivity your session has been terminated. Please login again"
+      });
       setTimeout(() => {
         window.location.replace('/sign-in');
       }, 5000);
