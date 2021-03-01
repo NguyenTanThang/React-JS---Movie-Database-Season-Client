@@ -7,6 +7,7 @@ import { Tooltip } from 'antd';
 import {addWatchLater, deleteWatchLater, getWatchLaterByCustomerIDAndMovieID} from "../../requests/watchLaterRequests";
 import {isObjectEmpty} from '../../utils/validate';
 import {getSubStatus, getAuthStatus} from "../../requests/authRequests";
+import {getOMDBMovie} from "../../requests/imdbRequests";
 
 const customerID = localStorage.getItem("userID");
 
@@ -16,18 +17,22 @@ class MovieDetails extends Component {
         liked: false,
         subStatus: "",
         loggedIn: "",
-        loading: true
+        loading: true,
+        imdbMovie: ""
     }
 
     async componentDidMount() {
         const subStatus = await getSubStatus();
         const loggedIn = await getAuthStatus();
+        const {movieItem} = this.props;
 
         const movieID = this.props.movieIDFromPage;
+        const {imdbID} = movieItem;
 
         let liked = false;
     
         const watchLaterItem = await getWatchLaterByCustomerIDAndMovieID(customerID, movieID);
+        const imdbMovie = await getOMDBMovie(imdbID)
     
         if (!watchLaterItem || isObjectEmpty(watchLaterItem)) {
             liked = false;
@@ -39,6 +44,7 @@ class MovieDetails extends Component {
             liked,
             subStatus,
             loggedIn,
+            imdbMovie,
             loading: false
         })
         
@@ -111,12 +117,13 @@ class MovieDetails extends Component {
     render() {
         const {renderWatchButton, renderLikeButton} = this;
         const {movieItem} = this.props;
+        const {imdbMovie, loading} = this.state;
 
-        if (!movieItem) {
+        if (!movieItem || loading || !imdbMovie) {
             return (<></>);
         }
 
-        const {posterURL, name, trailerURL, genres, _id, imdbMovie, rating} = movieItem;
+        const {posterURL, name, trailerURL, genres, _id, rating} = movieItem;
         const {
             Year,
             Rated,

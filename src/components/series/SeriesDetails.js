@@ -7,13 +7,15 @@ import {Link} from "react-router-dom";
 import { Tooltip } from 'antd';
 import {addWatchLater, deleteWatchLater, getWatchLaterByCustomerIDAndMovieID} from "../../requests/watchLaterRequests";
 import {isObjectEmpty} from '../../utils/validate';
+import {getOMDBMovie} from "../../requests/imdbRequests";
 
 const customerID = localStorage.getItem("userID")
 
 class SeriesDetails extends Component {
 
     state = {
-        liked: false
+        liked: false,
+        imdbSeries: ""
     }
 
     async componentDidMount() {
@@ -23,7 +25,11 @@ class SeriesDetails extends Component {
 
         let liked = false;
     
+        const {seriesItem} = this.props;
+        const {imdbID} = seriesItem;
+
         const watchLaterItem = await getWatchLaterByCustomerIDAndMovieID(customerID, seriesID);
+        const imdbSeries = await getOMDBMovie(imdbID);
     
         if (!watchLaterItem || isObjectEmpty(watchLaterItem)) {
             liked = false;
@@ -32,7 +38,8 @@ class SeriesDetails extends Component {
         }
     
         this.setState({
-            liked
+            liked,
+            imdbSeries
         })
     }
 
@@ -102,12 +109,13 @@ class SeriesDetails extends Component {
     render() {
         const {renderWatchButton, renderLikeButton} = this;
         const {seriesItem} = this.props;
+        const {imdbSeries} = this.state;
 
-        if (!seriesItem) {
+        if (!seriesItem || !imdbSeries) {
             return (<></>);
         }
 
-        const {posterURL, name, trailerURL, genres, _id, imdbSeries, rating} = seriesItem;
+        const {posterURL, name, trailerURL, genres, _id, rating} = seriesItem;
         const {
             Year,
             Rated,
