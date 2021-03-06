@@ -47,6 +47,7 @@ class WatchMoviePage extends Component {
                 subtitles
             })
         } catch (error) {
+            console.log(error);
             this.props.history.push("/error");
         }
     }

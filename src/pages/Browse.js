@@ -17,6 +17,7 @@ import TabGenerator from "../components/partials/TabGenerator";
 import Pagination from "../components/partials/Pagination";
 import {sortMoviesAndSeries} from "../utils/sorters";
 import {paginate} from "../utils/paginate";
+import {extractQueryString} from "../utils";
 import Navbar from "../components/partials/Navbar";
 import {Helmet} from "react-helmet";
 import { motion } from "framer-motion";
@@ -58,6 +59,7 @@ class Browse extends Component {
     }
 
     componentDidMount() {
+        
         this.props.getAllMovies();
         this.props.getAllSeries();
         this.props.getAllGenres();
@@ -117,6 +119,7 @@ class Browse extends Component {
     render() {
         const {renderTabGen, setSearchObject, clearSearchObject} = this;
         const {genres} = this.props;
+        const searchQuery = extractQueryString(this.props);
 
         return (
             <motion.div
@@ -144,7 +147,8 @@ class Browse extends Component {
                             <div className="row">
                                 <div className="col-12 browse-engine">
                                     <BrowseEngine genres={genres} setSearchObject={setSearchObject}
-                                    clearSearchObject={clearSearchObject}/>
+                                    clearSearchObject={clearSearchObject}
+                                    searchQuery={searchQuery}/>
                                 </div>
 
                                 <div className="col-12">

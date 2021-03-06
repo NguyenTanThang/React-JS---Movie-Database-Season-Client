@@ -27,12 +27,12 @@ class MovieDetails extends Component {
         const {movieItem} = this.props;
 
         const movieID = this.props.movieIDFromPage;
-        const {imdbID} = movieItem;
+        const {IMDB_ID} = movieItem;
 
         let liked = false;
     
         const watchLaterItem = await getWatchLaterByCustomerIDAndMovieID(customerID, movieID);
-        const imdbMovie = await getOMDBMovie(imdbID)
+        const imdbMovie = await getOMDBMovie(IMDB_ID)
     
         if (!watchLaterItem || isObjectEmpty(watchLaterItem)) {
             liked = false;
@@ -111,7 +111,6 @@ class MovieDetails extends Component {
                  </Tooltip>
             )
         }
-        
     }
 
     render() {
@@ -119,7 +118,9 @@ class MovieDetails extends Component {
         const {movieItem} = this.props;
         const {imdbMovie, loading} = this.state;
 
-        if (!movieItem || loading || !imdbMovie) {
+        console.log(imdbMovie);
+
+        if (!movieItem || !imdbMovie || loading) {
             return (<></>);
         }
 
@@ -136,7 +137,10 @@ class MovieDetails extends Component {
             Director
         } = imdbMovie;
 
-        const actors = Actors.split(", ");
+        let actors = "N/A";
+        if (Actors) {
+            actors = Actors.split(", ");
+        }
 
         return (
             <div>
@@ -179,7 +183,7 @@ class MovieDetails extends Component {
                                     <li>
                                         <span>Genre:</span> 
                                         {genres.map(genre => {
-                                            return <Link key={genre} to="/">{genre}</Link>
+                                            return <Link key={genre} to={`/browse?g=${genre}`}>{genre}</Link>
                                         })}
                                     </li>
                                     <li><span>Release year:</span> {Year}</li>
@@ -188,11 +192,11 @@ class MovieDetails extends Component {
                                     <li><span>IMDB Rating:</span> {imdbRating}/10 ({imdbVotes} votes)</li>
                                     <li>
                                         <span>Actors:</span>
-                                        {actors.map(actor => {
-                                            return <Link key={actor} to="/">{actor}</Link>
+                                        {!Actors ? actors : actors.map(actor => {
+                                            return <Link key={actor} to={`/browse?t=${actor}`}>{actor}</Link>
                                         })}
                                     </li>
-                                    <li><span>Director:</span> <Link to="/">{Director}</Link></li>
+                                    <li><span>Director:</span> <Link style={!Director || Director === "N/A" ? {pointerEvents: "none"} : {}} to={`/browse?t=${Director}`}>{Director}</Link></li>
                                     <li>
                                         <span>Plot:</span> 
                                         {Plot}

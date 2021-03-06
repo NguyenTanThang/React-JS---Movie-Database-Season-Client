@@ -12,10 +12,24 @@ export default class BrowseEngine extends Component {
     }
 
     componentDidMount() {
-        const {setSearchObject} = this.props;
+        const {setSearchObject, searchQuery} = this.props;
         const {orderBy} = this.state;
+        const {t, g} = searchQuery;
+
+        if (t) {
+            setSearchObject({orderBy, searchName: t});
+            this.setState({
+                searchName: t
+            })
+        }
+
+        if (g) {
+            setSearchObject({orderBy, sortGenres: [g]})
+            this.setState({
+                sortGenres: [g]
+            })
+        }
         
-        setSearchObject({orderBy})
     }
 
     renderGenreCheckBoxes = () => {

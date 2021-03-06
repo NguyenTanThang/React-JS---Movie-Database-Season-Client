@@ -4,7 +4,8 @@ import {
     setCurrentVideoTime,
     getRecord,
     secondsToHms,
-    playVideo
+    playVideo,
+    checkVideoStatus
 } from "../../config/jqueryCode";
 import Plyr from 'plyr';
 import {
@@ -17,7 +18,21 @@ export default class MovieVideo extends Component {
     state = {
         videoBlobURL: "",
         base64SubtitlesURL: [],
-        modalActive: false
+        modalActive: false,
+        saveCounter: 0
+    }
+
+    executeSaveCounter = () => {
+        if (!checkVideoStatus()) {
+            if (this.state.saveCounter >= 20) {
+                return this.setState({
+                    saveCounter: 0
+                })
+            }
+            this.setState({
+                saveCounter: this.state.saveCounter + 1
+            })
+        }
     }
 
     async componentDidMount() {
@@ -38,6 +53,9 @@ export default class MovieVideo extends Component {
                 );
             }
         }
+        setInterval(() => {
+            this.executeSaveCounter();
+        }, 1000);
         this.setState({
             //videoBlobURL,
             base64SubtitlesURL,

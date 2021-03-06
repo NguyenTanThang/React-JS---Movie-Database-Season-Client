@@ -32,8 +32,22 @@ export const getCurrentVideoTime = (movieID) => {
 		"timeupdate", 
 		function(event){
 		  const {currentTime, duration} = this;
-		  setRecord({currentTime, movieID});
-		  console.log({currentTime, duration});
+		  let record = getRecord(movieID);
+		  if (record) {
+			if (duration - record.currentTime <= 10) {
+				removeRecord(movieID);
+			  } else {
+				setRecord({currentTime, movieID});
+			  }
+		  }
+		
+		if (duration - currentTime <= 10) {
+			removeRecord(movieID);
+		} else {
+			setRecord({currentTime, movieID});
+			record = getRecord(movieID);
+		}
+		console.log({currentTime, duration});
 	});
 }
 
@@ -51,7 +65,14 @@ export const secondsToHms = (d) => {
 
 export const playVideo = () => {
 	var vid = document.getElementById("player");
-	vid.play();
+	if (vid) {
+		vid.play();
+	}
+}
+
+export const checkVideoStatus = () => {
+	var vid = document.getElementById("player");
+	return vid.paused;
 }
 
 export const setCurrentVideoTime = (movieID) => {
@@ -73,6 +94,20 @@ export const getRecord = (movieID) => {
 		return recordItem.movieID === movieID;
 	})
 	return filteredRecords[0];
+}
+
+export const removeRecord = (movieID) => {
+	let records = localStorage.getItem("records");
+	let filteredRecords = [];
+	if (!records) {
+		return null;
+	}
+	records = JSON.parse(records); 
+	filteredRecords = records.filter(recordItem => {
+		return recordItem.movieID !== movieID;
+	})
+	records = JSON.stringify(filteredRecords);
+	localStorage.setItem("records", records);
 }
 
 export const setRecord = ({currentTime, movieID}) => {

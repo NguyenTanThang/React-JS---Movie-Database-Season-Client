@@ -65,6 +65,9 @@ class App extends React.Component {
           currentUser: x
       }));
       await sessionAutoRefreshMechanic();
+      setInterval(() => {
+        this.handlePauseIdleOnLoad();
+      }, 30 * 1000);
   }
 
   logout() {
@@ -74,6 +77,27 @@ class App extends React.Component {
   handlePauseIdle = () => {
     this.idleTimer.reset();
     this.idleTimer.pause();
+  }
+
+  handleResumeIdle = () => {
+    this.idleTimer.pause();
+    this.idleTimer.resume();
+  }
+
+  handlePauseIdleOnLoad = () => {
+    const currentURL = window.location.href;
+    let isWatched = false;
+
+    if (this.idleTimer) {
+      if (currentURL.includes("/watch-movie") || currentURL.includes("/watch-season")) {
+        this.handlePauseIdle();
+        isWatched = true;
+      } else {
+        this.handleResumeIdle();
+      }
+    }
+
+    return isWatched;
   }
 
   async handleOnAction (event) {
