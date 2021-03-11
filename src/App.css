@@ -3588,7 +3588,7 @@ input[type=range]::-ms-thumb {
     top: 0;
     left: 0;
     right: 0;
-    bottom: 0;
+    bottom: -1.7%;
 }
 
 .continue-modal {
@@ -3746,9 +3746,11 @@ input[type=range]::-ms-thumb {
     color: #FFF;
 }
 
+/*
 .anticon {
     transform: translateY(-5px);
 }
+*/
 
 .ant-message-notice-content {
     border: 1px solid #ff55a5;
@@ -3874,7 +3876,7 @@ input[type=range]::-ms-thumb {
 }
 
 .comments__list {
-    margin-top: 50px;
+    margin-top: 30px;
 }
 
 .comments__autor {
