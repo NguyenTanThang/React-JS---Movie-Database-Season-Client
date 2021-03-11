@@ -329,7 +329,7 @@ export const sessionAutoRefreshMechanic = async () => {
                     authenticationService.logout();
                 }
 
-                if (+new Date(currentSession.expiry_date) - +Date.now() <= 5000 && +new Date(currentSession.expiry_date) - +Date.now() > 0) {
+                if (+new Date(currentSession.expiry_date) - +Date.now() <= 1000 * 60 && +new Date(currentSession.expiry_date) - +Date.now() > 0) {
                     const session = await refreshSession();
                     authenticationService.setNewSession(session);
                 } 

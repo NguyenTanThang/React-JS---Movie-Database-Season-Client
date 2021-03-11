@@ -72,7 +72,9 @@ export const playVideo = () => {
 
 export const checkVideoStatus = () => {
 	var vid = document.getElementById("player");
-	return vid.paused;
+	if (vid) {
+		return vid.paused;
+	}
 }
 
 export const setCurrentVideoTime = (movieID) => {

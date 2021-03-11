@@ -38,30 +38,6 @@ const sortMoviesAndSeriesByGenres = (list, sortGenres) => {
         })
     })
 
-    /*
-    list.forEach(item => {
-        if (item.genres.sort().join("").includes(sortGenres.sort().join(""))) {
-            if (!returnedList.includes(item)) {
-                returnedList.push(item);
-            }
-        }
-    })
-    */
-
-    /*
-    list.forEach(item => {
-        let matchCounter = 0;
-        sortGenres.forEach(sortGenre => {
-            if (item.genres.includes(sortGenre)) {
-                matchCounter++;
-                if (!returnedList.includes(item) && matchCounter === sortGenres.length) {
-                    returnedList.push(item);
-                }
-            }
-        })
-    })
-    */
-
     return returnedList;
 }
 

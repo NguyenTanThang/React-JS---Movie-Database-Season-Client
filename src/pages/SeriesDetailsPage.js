@@ -20,7 +20,8 @@ import {pageStyle, pageTransition, pageVariants} from "../config/animation";
 class SeriesDetailsPage extends Component {
 
     state = {
-        seriesItem: ""
+        seriesItem: "",
+        imdbSeries: ""
     }
 
     async componentDidMount() {
@@ -31,8 +32,9 @@ class SeriesDetailsPage extends Component {
 
             const seriesItem = await getSeriesByIDAxios(seriesID);
 
+
             this.setState({
-                seriesItem
+                seriesItem,
             })
         } catch (error) {
             this.props.history.push("/error");
@@ -104,6 +106,14 @@ class SeriesDetailsPage extends Component {
         const {renderTabGen, renderRNGSeriesItems} = this;
         const {seriesItem} = this.state;
         const seriesIDFromPage = this.props.match.params.seriesID;
+
+        /*
+        if (seriesItem === "" || !imdbSeries) {
+            return (<>
+                <BigLoading/>
+            </>)
+        }
+        */
 
         if (seriesItem === "") {
             return (<>

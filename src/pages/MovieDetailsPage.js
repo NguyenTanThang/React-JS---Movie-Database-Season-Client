@@ -20,7 +20,7 @@ import {pageStyle, pageTransition, pageVariants} from "../config/animation";
 class MovieDetailsPage extends Component {
 
     state = {
-        movieItem: "",
+        movieItem: ""
     }
 
     async componentDidMount() {

@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import {Link} from "react-router-dom";
 import {parseDateMoment} from "../../utils/dateParser";
 import LazyLoad from 'react-lazyload';
+import {withRouter} from "react-router-dom";
 
-export default class MovieItem extends Component {
+class MovieItem extends Component {
 
     renderWatchedDate = () => {
         const {movieItem} = this.props;
@@ -31,30 +32,32 @@ export default class MovieItem extends Component {
         const {posterURL, name, genres, _id} = movieItem;
 
         return (
-							<div className="card">
-                                <div className="card__cover">
-                                <LazyLoad height={200}>
-                                    <img src={posterURL} alt=""/>
-                                </LazyLoad>
-                                    <Link target={"_blank"} to={`/movies-details/${_id}`} 
-                                    className="card__play">
-										<i className="fas fa-play" aria-hidden="true"></i>
-									</Link>
-								</div>
-								<div className="card__content">
-                                    <h3 className="card__title">
-                                        <Link target={"_blank"} to={`/movies-details/${_id}`}>{name}</Link>
-                                    </h3>
-                                    <span className="card__category">
-                                        {genres.map(genre => {
-                                            return (
-										        <Link to="/" key={genre}>{genre}</Link>
-                                            )
-                                        })}
-									</span>
-                                    {renderWatchedDate()}
-								</div>
-							</div>
+            <div className="card">
+                <div className="card__cover">
+                <LazyLoad height={200}>
+                    <img src={posterURL} alt=""/>
+                </LazyLoad>
+                    <Link  target={"_blank"} to={`/movies-details/${_id}`} 
+                    className="card__play">
+                        <i className="fas fa-play" aria-hidden="true"></i>
+                    </Link>
+                </div>
+                <div className="card__content">
+                    <h3 className="card__title">
+                        <Link to={`/movies-details/${_id}`}>{name}</Link>
+                    </h3>
+                    <span className="card__category">
+                        {genres.map(genre => {
+                            return (
+                                <Link to="/" key={genre}>{genre}</Link>
+                            )
+                        })}
+                    </span>
+                    {renderWatchedDate()}
+                </div>
+            </div>
         )
     }
 }
+
+export default withRouter(MovieItem);

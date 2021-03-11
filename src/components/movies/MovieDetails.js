@@ -6,48 +6,43 @@ import {Link} from "react-router-dom";
 import { Tooltip } from 'antd';
 import {addWatchLater, deleteWatchLater, getWatchLaterByCustomerIDAndMovieID} from "../../requests/watchLaterRequests";
 import {isObjectEmpty} from '../../utils/validate';
+import {authenticationService} from '../../_services';
 import {getSubStatus, getAuthStatus} from "../../requests/authRequests";
-import {getOMDBMovie} from "../../requests/imdbRequests";
-
-const customerID = localStorage.getItem("userID");
 
 class MovieDetails extends Component {
 
     state = {
         liked: false,
         subStatus: "",
-        loggedIn: "",
-        loading: true,
-        imdbMovie: ""
+        loggedIn: ""
     }
 
     async componentDidMount() {
         const subStatus = await getSubStatus();
         const loggedIn = await getAuthStatus();
-        const {movieItem} = this.props;
 
         const movieID = this.props.movieIDFromPage;
-        const {IMDB_ID} = movieItem;
 
         let liked = false;
     
-        const watchLaterItem = await getWatchLaterByCustomerIDAndMovieID(customerID, movieID);
-        const imdbMovie = await getOMDBMovie(IMDB_ID)
+        const currentUser = authenticationService.currentUserValue;
+
+        if (currentUser) {
+            const customerID = currentUser._id;
+            const watchLaterItem = await getWatchLaterByCustomerIDAndMovieID(customerID, movieID);
     
-        if (!watchLaterItem || isObjectEmpty(watchLaterItem)) {
-            liked = false;
-        } else {
-            liked = true;
+            if (!watchLaterItem || isObjectEmpty(watchLaterItem)) {
+                liked = false;
+            } else {
+                liked = true;
+            }
         }
-    
+        
         this.setState({
             liked,
             subStatus,
-            loggedIn,
-            imdbMovie,
-            loading: false
+            loggedIn
         })
-        
     }
 
     renderWatchButton = () => {
@@ -86,11 +81,15 @@ class MovieDetails extends Component {
     changeLikeStatus = async () => {
         const {movieItem} = this.props;
         const movieID = movieItem._id;
+        const currentUser = authenticationService.currentUserValue;
 
-        if (!this.state.liked === true) {
-            await addWatchLater(customerID, movieID)
-        } else {
-            await deleteWatchLater(customerID, movieID)
+        if (currentUser) {
+            const customerID = currentUser._id;
+            if (!this.state.liked === true) {
+                await addWatchLater(customerID, movieID)
+            } else {
+                await deleteWatchLater(customerID, movieID)
+            }
         }
 
         this.setState({
@@ -116,15 +115,12 @@ class MovieDetails extends Component {
     render() {
         const {renderWatchButton, renderLikeButton} = this;
         const {movieItem} = this.props;
-        const {imdbMovie, loading} = this.state;
 
-        console.log(imdbMovie);
-
-        if (!movieItem || !imdbMovie || loading) {
+        if (!movieItem) {
             return (<></>);
         }
 
-        const {posterURL, name, trailerURL, genres, _id, rating} = movieItem;
+        const {posterURL, name, trailerURL, genres, _id, rating, imdbMovie} = movieItem;
         const {
             Year,
             Rated,

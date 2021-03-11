@@ -7,15 +7,12 @@ import {Link} from "react-router-dom";
 import { Tooltip } from 'antd';
 import {addWatchLater, deleteWatchLater, getWatchLaterByCustomerIDAndMovieID} from "../../requests/watchLaterRequests";
 import {isObjectEmpty} from '../../utils/validate';
-import {getOMDBMovie} from "../../requests/imdbRequests";
-
-const customerID = localStorage.getItem("userID")
+import {authenticationService} from '../../_services';
 
 class SeriesDetails extends Component {
 
     state = {
-        liked: false,
-        imdbSeries: ""
+        liked: false
     }
 
     async componentDidMount() {
@@ -25,21 +22,21 @@ class SeriesDetails extends Component {
 
         let liked = false;
     
-        const {seriesItem} = this.props;
-        const {imdbID} = seriesItem;
+        const currentUser = authenticationService.currentUserValue;
 
-        const watchLaterItem = await getWatchLaterByCustomerIDAndMovieID(customerID, seriesID);
-        const imdbSeries = await getOMDBMovie(imdbID);
-    
-        if (!watchLaterItem || isObjectEmpty(watchLaterItem)) {
-            liked = false;
-        } else {
-            liked = true;
+        if (currentUser) {
+            const customerID = currentUser._id;
+            const watchLaterItem = await getWatchLaterByCustomerIDAndMovieID(customerID, seriesID);
+        
+            if (!watchLaterItem || isObjectEmpty(watchLaterItem)) {
+                liked = false;
+            } else {
+                liked = true;
+            }
         }
     
         this.setState({
-            liked,
-            imdbSeries
+            liked
         })
     }
 
@@ -79,10 +76,15 @@ class SeriesDetails extends Component {
         const {seriesItem} = this.props;
         const seriesID = seriesItem._id;
 
-        if (!this.state.liked === true) {
-            await addWatchLater(customerID, seriesID)
-        } else {
-            await deleteWatchLater(customerID, seriesID)
+        const currentUser = authenticationService.currentUserValue;
+
+        if (currentUser) {
+            const customerID = currentUser._id;
+            if (!this.state.liked === true) {
+                await addWatchLater(customerID, seriesID)
+            } else {
+                await deleteWatchLater(customerID, seriesID)
+            }
         }
 
         this.setState({
@@ -109,13 +111,12 @@ class SeriesDetails extends Component {
     render() {
         const {renderWatchButton, renderLikeButton} = this;
         const {seriesItem} = this.props;
-        const {imdbSeries} = this.state;
 
-        if (!seriesItem || !imdbSeries) {
+        if (!seriesItem) {
             return (<></>);
         }
 
-        const {posterURL, name, trailerURL, genres, _id, rating} = seriesItem;
+        const {posterURL, name, trailerURL, genres, _id, rating, imdbSeries} = seriesItem;
         const {
             Year,
             Rated,
