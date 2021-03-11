@@ -165,9 +165,9 @@ class App extends React.Component {
               <Route path="/watch-later" component={WatchLater}/>
               <Route path="/history" component={HistoryPage}/>
               <Route path="/season-list/:seriesID" component={SeasonListPage}/>
-              <Route path="/movies-details/:movieID" component={MovieDetailsPage}/>
-              <Route path="/series-details/:seriesID" component={SeriesDetailsPage}/>
-              <Route path="/season-details/:seasonID" component={SeasonDetailsPage}/>
+              <Route path="/movies-details/:movieID" render={props => <MovieDetailsPage key={props.match.params.movieID} {...props} />}/>
+              <Route path="/series-details/:seriesID" render={props => <SeriesDetailsPage key={props.match.params.seriesID} {...props} />}/>
+              <Route path="/season-details/:seasonID" render={props => <SeasonDetailsPage key={props.match.params.seasonID} {...props} />}/>
               <Route path="/watch-movie/:movieID" component={WatchMoviePage} exact/>
               <Route path="/watch-season/:seasonID" component={WatchSeasonPage} exact/>
               <Route path="/loading" component={BigLoading} exact/>

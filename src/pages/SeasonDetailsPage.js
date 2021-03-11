@@ -115,7 +115,7 @@ class SeasonDetailsPage extends Component {
                 variants={pageVariants}
                 transition={pageTransition}
             >
-            <>
+            <React.Fragment key={seasonIDFromPage}>
                 <Helmet>
                     <title>{`Let's Flix | ${seasonItem.name}`}</title>
                     <meta name="description" content="Helmet application" />
@@ -142,7 +142,7 @@ class SeasonDetailsPage extends Component {
                     </div>
                 </div>
             </div>
-            </>
+            </React.Fragment>
             </motion.div>
         )
     }

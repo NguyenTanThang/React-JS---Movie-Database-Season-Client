@@ -3,6 +3,7 @@ import {Link} from "react-router-dom";
 import {parseDateMoment} from "../../utils/dateParser";
 import LazyLoad from 'react-lazyload';
 import {withRouter} from "react-router-dom";
+import { Tooltip } from 'antd';
 
 class MovieItem extends Component {
 
@@ -33,28 +34,30 @@ class MovieItem extends Component {
 
         return (
             <div className="card">
-                <div className="card__cover">
-                <LazyLoad height={200}>
-                    <img src={posterURL} alt=""/>
-                </LazyLoad>
-                    <Link  target={"_blank"} to={`/movies-details/${_id}`} 
-                    className="card__play">
-                        <i className="fas fa-play" aria-hidden="true"></i>
-                    </Link>
-                </div>
-                <div className="card__content">
-                    <h3 className="card__title">
-                        <Link to={`/movies-details/${_id}`}>{name}</Link>
-                    </h3>
-                    <span className="card__category">
-                        {genres.map(genre => {
-                            return (
-                                <Link to="/" key={genre}>{genre}</Link>
-                            )
-                        })}
-                    </span>
-                    {renderWatchedDate()}
-                </div>
+                <Tooltip title={name}>
+                    <div className="card__cover">
+                    <LazyLoad height={200}>
+                        <img src={posterURL} alt=""/>
+                    </LazyLoad>
+                        <Link to={`/movies-details/${_id}`} 
+                        className="card__play">
+                            <i className="fas fa-play" aria-hidden="true"></i>
+                        </Link>
+                    </div>
+                    <div className="card__content">
+                        <h3 className="card__title">
+                            <Link to={`/movies-details/${_id}`}>{name}</Link>
+                        </h3>
+                        <span className="card__category">
+                            {genres.map(genre => {
+                                return (
+                                    <Link to="/" key={genre}>{genre}</Link>
+                                )
+                            })}
+                        </span>
+                        {renderWatchedDate()}
+                    </div>
+                </Tooltip>
             </div>
         )
     }

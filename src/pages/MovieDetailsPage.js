@@ -4,10 +4,14 @@ import {getMovieByIDAxios} from "../requests/movieRequests";
 import FaceBookCommentsTest from "../components/partials/FaceBookCommentsTest";
 import MovieDetails from "../components/movies/MovieDetails";
 import MovieDescription from "../components/movies/MovieDescription";
+import CommentSection from "../components/comments/CommentSection";
 import BigLoading from "../components/partials/BigLoading";
 import {
     getAllMovies
 } from "../actions/movieActions";
+import {
+    getCommentsByMovieID
+} from "../requests/commentRequests";
 import {connect} from "react-redux";
 import MovieItem from "../components/movies/MovieItem";
 import {getRandom} from "../utils/utils";
@@ -20,7 +24,8 @@ import {pageStyle, pageTransition, pageVariants} from "../config/animation";
 class MovieDetailsPage extends Component {
 
     state = {
-        movieItem: ""
+        movieItem: "",
+        comments: ""
     }
 
     async componentDidMount() {
@@ -30,13 +35,21 @@ class MovieDetailsPage extends Component {
             const movieID = this.props.match.params.movieID;
 
             const movieItem = await getMovieByIDAxios(movieID);
+            const comments = await getCommentsByMovieID(movieID);
 
             this.setState({
-                movieItem
+                movieItem,
+                comments
             })
         } catch (error) {
             this.props.history.push("/error");
         }
+    }
+
+    addComment = (comment) => {
+        this.setState({
+            comments: [comment, ...this.state.comments]
+        })
     }
 
     renderRNGMovieItems = () => {
@@ -76,7 +89,8 @@ class MovieDetailsPage extends Component {
 
     renderTabGen = () => {
         const movieID = this.props.match.params.movieID;
-        const {movieItem} = this.state;
+        const {addComment} = this;
+        const {movieItem, comments} = this.state;
         const {description} = movieItem;
 
         const tabContents = [
@@ -87,7 +101,7 @@ class MovieDetailsPage extends Component {
             ),
             (
                 <>
-                    <FaceBookCommentsTest movieID={movieID}/>
+                    <CommentSection movieSeriesID={movieID} comments={comments} addComment={addComment}/>
                 </>
             )
         ]
@@ -122,7 +136,7 @@ class MovieDetailsPage extends Component {
                 variants={pageVariants}
                 transition={pageTransition}
             >
-            <>
+            <React.Fragment key={movieIDFromPage}>
                 <Helmet>
                     <title>{`Let's Flix | ${name}`}</title>
                     <meta name="description" content="Helmet application" />
@@ -149,7 +163,7 @@ class MovieDetailsPage extends Component {
                     </div>
                 </div>
             </div>
-            </>
+            </React.Fragment>
             </motion.div>
         )
     }
