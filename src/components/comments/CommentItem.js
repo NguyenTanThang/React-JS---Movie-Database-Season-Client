@@ -1,7 +1,13 @@
 import React, { Component } from 'react';
 import {
-    parseDateMoment
+    parseDateMomentWithTime
 } from "../../utils/dateParser";
+import {
+    authenticationService
+} from "../../_services";
+import {
+    deleteComment
+} from "../../requests/commentRequests";
 
 /*
 <div class="comments__actions">
@@ -17,6 +23,34 @@ import {
 */
 
 export default class CommentItem extends Component {
+
+    onDeleteComment = async (commentID) => {
+        try {
+            const comment = await deleteComment(commentID);
+            if (comment) {
+                this.props.removeComment(commentID);
+            }
+        } catch (error) {
+            
+        }
+        
+    }
+
+    renderDeleteComment = () => {
+        const {onDeleteComment} = this;
+        const {commentItem} = this.props;
+        const currentUser = authenticationService.currentUserValue;
+        const {customerID} = commentItem;
+
+        if (!currentUser) {
+            return <></>
+        }
+
+        if (customerID._id === currentUser.customerItem._id) {
+            return <button onClick={() => onDeleteComment(commentItem._id)} type="button"><i class="far fa-trash-alt"></i>Delete</button>
+        }
+    }
+
     render() {
         const {commentItem} = this.props;
 
@@ -25,16 +59,23 @@ export default class CommentItem extends Component {
         }
 
         const {content, created_date, customerID} = commentItem;
-        const username = customerID.email.split("@")[0];
+        const {username, avatar} = customerID;
 
         return (
             <li class="comments__item">
                 <div class="comments__autor">
-                    <img class="comments__avatar" src="https://lh3.googleusercontent.com/proxy/0HYXiOXVVqEJP0SWyOJJgq5AgqyDinkqCKkEZh1IK5gLX6Gzb1om2sZvT_GLgGLxHlVA4aIi-57ONZkvELVm7A2FCH8_jePvEIIDKBEzgjJT7oBSNyXSmiPhnYDAy-6ucgFtG8aiGyPS_Ttm" alt="User Avatar"/>
+                    <img class="comments__avatar" src={avatar} alt="User Avatar"/>
                     <span class="comments__name">{username}</span>
-                    <span class="comments__time">{parseDateMoment(created_date)}</span>
+                    <span class="comments__time">{parseDateMomentWithTime(created_date)}</span>
                 </div>
                 <p class="comments__text">{content}</p>
+                <div class="comments__actions">
+                    <div class="comments__rate">
+                        
+                    </div>
+
+                    {this.renderDeleteComment()}
+                </div>
             </li>
         )
     }

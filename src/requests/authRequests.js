@@ -14,6 +14,48 @@ const SUB_URL = `${MAIN_PROXY_URL}/subscriptions`;
 const CUSTOMER_URL = `${MAIN_PROXY_URL}/customers`;
 const SESSION_URL = `${MAIN_PROXY_URL}/sessions`;
 
+export const editCustomer = async (updatedCustomer) => {
+    try {
+        message.loading("Saving...", 0);
+
+        console.log(updatedCustomer);
+
+        if (!authenticationService.currentUserValue) {
+            return false;
+        }
+
+        const customerID = authenticationService.currentUserValue.customerItem._id;
+
+        if (!customerID) {
+            return false;
+        }
+
+        const res = await axios.put(`${CUSTOMER_URL}/edit/${customerID}`, updatedCustomer);
+
+        const {
+            success
+        } = res.data;
+        const resMessage = res.data.message;
+
+        if (!success) {
+            message.destroy();
+            return message.error(resMessage, 5);
+        }
+
+        const data = res.data;
+
+        console.log(data);
+
+        message.destroy();
+        message.success(resMessage, 5);
+        authenticationService.setNewCustomerItem(data.data.customerItem);
+
+        return data;
+    } catch (error) {
+        message.error(error.message, 5);
+    }
+}
+
 export const resetPasswordToken = async (email) => {
     try {
         const res = await axios.post(`${CUSTOMER_URL}//reset-password-token`, {

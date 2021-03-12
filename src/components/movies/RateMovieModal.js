@@ -4,6 +4,9 @@ import {
   isObjectEmpty
 } from "../../utils/validate";
 import {
+  authenticationService
+} from "../../_services";
+import {
   getReviewByCustomerIDAndMovieIDAxios,
   addRating,
   editRating
@@ -11,8 +14,6 @@ import {
 import {getAuthStatus} from "../../requests/authRequests";
 import {message} from "antd";
 import {withRouter} from "react-router-dom";
-
-const customerID = localStorage.getItem("userID")
 
 class RateMovieModal extends Component {
   state = { 
@@ -25,6 +26,13 @@ class RateMovieModal extends Component {
 
   async componentDidMount() {
     let {movieID} = this.props;
+    const currentUser = authenticationService.currentUserValue;
+
+    if (!currentUser) {
+      return;
+    }
+
+    const customerID = currentUser.customerItem._id;
 
     const review = await getReviewByCustomerIDAndMovieIDAxios(movieID, customerID);
 
@@ -71,6 +79,11 @@ class RateMovieModal extends Component {
     e.preventDefault();
     const {movieID} = this.props;
     const {grading, isRated, reviewID} = this.state;
+    const currentUser = authenticationService.currentUserValue;
+    if (!currentUser) {
+      return;
+    }
+    const customerID = currentUser.customerItem._id;
     if (isRated) {
       await editRating(reviewID, {movieID, grading, customerID})
       this.setState({

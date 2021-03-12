@@ -52,6 +52,14 @@ class MovieDetailsPage extends Component {
         })
     }
 
+    removeComment = (commentID) => {
+        this.setState({
+            comments: this.state.comments.filter(comment => {
+                return comment._id != commentID;
+            })
+        })
+    }
+
     renderRNGMovieItems = () => {
         const {movies} = this.props;
 
@@ -89,7 +97,7 @@ class MovieDetailsPage extends Component {
 
     renderTabGen = () => {
         const movieID = this.props.match.params.movieID;
-        const {addComment} = this;
+        const {addComment, removeComment} = this;
         const {movieItem, comments} = this.state;
         const {description} = movieItem;
 
@@ -101,7 +109,7 @@ class MovieDetailsPage extends Component {
             ),
             (
                 <>
-                    <CommentSection movieSeriesID={movieID} comments={comments} addComment={addComment}/>
+                    <CommentSection movieSeriesID={movieID} comments={comments} removeComment={removeComment} addComment={addComment}/>
                 </>
             )
         ]

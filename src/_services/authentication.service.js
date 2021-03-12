@@ -15,6 +15,7 @@ export const authenticationService = {
     logout,
     getSubStatus,
     setNewSession,
+    setNewCustomerItem,
     currentUser: currentUserSubject.asObservable(),
     get currentUserValue () { return currentUserSubject.value }
 };
@@ -100,6 +101,19 @@ function setNewSession(session) {
     currentUserSubject.next({
         ...currentUserValue,
         session
+    });
+}
+
+function setNewCustomerItem(customerItem) {
+    const {currentUserValue} = authenticationService;
+
+    localStorage.setItem('currentUser', JSON.stringify({
+        ...currentUserValue,
+        customerItem
+    }));
+    currentUserSubject.next({
+        ...currentUserValue,
+        customerItem
     });
 }
 

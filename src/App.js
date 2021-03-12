@@ -31,7 +31,7 @@ import Logout from "./pages/Logout";
 import MovieDetailsPage from "./pages/MovieDetailsPage";
 import SeriesDetailsPage from "./pages/SeriesDetailsPage";
 import WatchMoviePage from "./pages/WatchMoviePage";
-import WatchSeriesPage from "./pages/WatchSeriesPage";
+import Profile from "./pages/Profile";
 import WatchSeasonPage from "./pages/WatchSeasonPage";
 import StripePayPage from "./pages/StripePayPage";
 import MomoPaymentPage from "./pages/MomoPaymentPage";
@@ -41,6 +41,7 @@ import SeasonListPage from "./pages/SeasonListPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import Footer from "./components/partials/Footer";
 import BigLoading from "./components/partials/BigLoading";
+import PrivateRoute from "./components/partials/PrivateRoute";
 
 /*Utils*/
 import { authenticationService } from "./_services";
@@ -150,6 +151,7 @@ class App extends React.Component {
               <Route path="/" exact>
                 <MasterPage/>
               </Route>
+              <PrivateRoute path="/profile" component={Profile} />
               <Route path="/browse" component={Browse}/>
               <Route path="/help" component={Help}/>
               <Route path="/pricing" component={PricingPlan}/>

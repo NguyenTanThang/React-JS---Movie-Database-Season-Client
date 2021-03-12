@@ -40,3 +40,23 @@ export const addComment = async ({customerID, movieSeriesID, content}) => {
         message.error(error.message, 5);
     }
 }
+
+export const deleteComment = async (commentID) => {
+    try {
+        message.loading("Deleting your comment...", 0);
+
+        const res = await axios.delete(`${COMMENTS_URL}/delete/${commentID}`);
+
+        if (res.data.success) {
+            message.destroy();
+            message.success("Successfully deleted", 5);
+            const comment = res.data.data;
+            return comment;
+        }
+
+        message.destroy();
+        return message.error(res.data.message, 5);
+    } catch (error) {
+        message.error(error.message, 5);
+    }
+}

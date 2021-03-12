@@ -26,7 +26,7 @@ import AddCommentForm from "./AddCommentForm";
 export default class CommentSection extends Component {
 
     renderCommentItems = () => {
-        const {comments} = this.props;
+        const {comments, removeComment} = this.props;
 
         console.log(comments);
 
@@ -41,7 +41,7 @@ export default class CommentSection extends Component {
         }
 
         return comments.map((comment, index) => {
-            return <CommentItem commentItem={comment}/>
+            return <CommentItem removeComment={removeComment} commentItem={comment}/>
         })
     }
 

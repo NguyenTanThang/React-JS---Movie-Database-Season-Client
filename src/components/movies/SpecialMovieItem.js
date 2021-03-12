@@ -13,7 +13,7 @@ class SpecialMovieItem extends Component {
                 <div className="col-12 col-sm-4">
                     <div className="card__cover">
                         <img src={posterURL} alt=""/>
-                        <Link target={"_blank"} to={`/movies-details/${_id}`} 
+                        <Link to={`/movies-details/${_id}`} 
                                     className="card__play">
                                     <i className="fas fa-play" aria-hidden="true"></i>
                         </Link>
@@ -23,7 +23,7 @@ class SpecialMovieItem extends Component {
                 <div className="col-12 col-sm-8">
                     <div className="card__content">
                         <h3 className="card__title">
-                        <Link target={"_blank"} to={`/movies-details/${_id}`}>{name}</Link>
+                        <Link to={`/movies-details/${_id}`}>{name}</Link>
                         </h3>
                         <span className="card__category">
                             {genres.map(genre => {
