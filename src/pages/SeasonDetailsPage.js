@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
 import TabGenerator from "../components/partials/TabGenerator";
 import {getSeasonByIDAxios} from "../requests/seasonRequests";
-import FaceBookCommentsTest from "../components/partials/FaceBookCommentsTest";
+import CommentSection from "../components/comments/CommentSection";
 import SeasonDetails from "../components/seasons/SeasonDetails";
 import MovieDescription from "../components/movies/MovieDescription";
 import BigLoading from "../components/partials/BigLoading";
 import {
     getSeasonsBySeriesID
 } from "../actions/seasonActions";
+import {
+    getCommentsByMovieID
+} from "../requests/commentRequests";
 import {connect} from "react-redux";
 import SeasonItem from "../components/seasons/SeasonItem";
 import {getRandom} from "../utils/utils";
@@ -21,7 +24,8 @@ class SeasonDetailsPage extends Component {
 
     state = {
         seasonItem: "",
-        currentSeries: ""
+        currentSeries: "",
+        comments: ""
     }
 
     async componentDidMount() {
@@ -33,10 +37,12 @@ class SeasonDetailsPage extends Component {
             const seasonID = this.props.match.params.seasonID;
             const seasonItem = await getSeasonByIDAxios(seasonID);
             const currentSeries = await getSeriesByIDAxios(seriesID);
+            const comments = await getCommentsByMovieID(seasonID);
 
             this.setState({
                 seasonItem,
-                currentSeries
+                currentSeries,
+                comments
             })
         } catch (error) {
             this.props.history.push("/error");
@@ -69,9 +75,24 @@ class SeasonDetailsPage extends Component {
         }
     }
 
+    addComment = (comment) => {
+        this.setState({
+            comments: [comment, ...this.state.comments]
+        })
+    }
+
+    removeComment = (commentID) => {
+        this.setState({
+            comments: this.state.comments.filter(comment => {
+                return comment._id != commentID;
+            })
+        })
+    }
+
     renderTabGen = () => {
         const seasonID = this.props.match.params.seasonID;
-        const {seasonItem} = this.state;
+        const {seasonItem, comments} = this.state;
+        const {addComment, removeComment} = this;
         const {description} = seasonItem;
 
         const tabContents = [
@@ -82,7 +103,7 @@ class SeasonDetailsPage extends Component {
             ),
             (
                 <>
-                    <FaceBookCommentsTest seasonID={seasonID}/>
+                    <CommentSection movieSeriesID={seasonID} comments={comments} removeComment={removeComment} addComment={addComment}/>
                 </>
             )
         ]

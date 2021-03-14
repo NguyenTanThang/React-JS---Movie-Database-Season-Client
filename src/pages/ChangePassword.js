@@ -16,8 +16,10 @@ import {pageStyle, pageTransition, pageVariants} from "../config/animation";
 export default class SignIn extends Component {
 
     state = {
+        email: "",
         oldPassword: "",
-        newPassword: ""
+        newPassword: "",
+        confirmNewPassword: ""
     }
 
     async componentDidMount() {
@@ -42,10 +44,17 @@ export default class SignIn extends Component {
     onSubmit = async (e) => {
         try {
             e.preventDefault();
-            const {oldPassword, newPassword} = this.state;
+            const {email, oldPassword, newPassword, confirmNewPassword} = this.state;
+            if (newPassword != confirmNewPassword) {
+                return message.error("Confirm new password must be equal to new password");
+            }
             const currentUser = authenticationService.currentUserValue;
             const userID = currentUser.customerItem._id;
-            const data = await changePassword(userID, oldPassword, newPassword);
+            const data = await changePassword(userID, {
+                email,
+                oldPassword,
+                newPassword
+            });
             if (data.success) {
                 this.props.history.push("/");
             }
@@ -56,7 +65,7 @@ export default class SignIn extends Component {
 
     render() {
         const {onSubmit, onChange} = this;
-        const {oldPassword, newPassword} = this.state;
+        const {email, oldPassword, newPassword, confirmNewPassword} = this.state;
 
         return (
             <motion.div
@@ -86,12 +95,21 @@ export default class SignIn extends Component {
                                 </Link>
 
                                 <div className="sign__group">
-                                    <input type="password" className="sign__input" placeholder="Current Password" name="oldPassword" onChange={onChange} value={oldPassword}/>
+                                    <input type="email" className="sign__input" placeholder="Email" name="email" onChange={onChange} value={email} required/>
+                                </div>
+
+                                <div className="sign__group">
+                                    <input type="password" className="sign__input" placeholder="Current Password" name="oldPassword" onChange={onChange} value={oldPassword} required/>
                                 </div>
 
                                 <div className="sign__group">
                                     <input type="password" className="sign__input" placeholder="New Password" name="newPassword"
-                                    onChange={onChange} value={newPassword}/>
+                                    onChange={onChange} value={newPassword} required/>
+                                </div>
+
+                                <div className="sign__group">
+                                    <input type="password" className="sign__input" placeholder="Confirm New Password" name="confirmNewPassword"
+                                    onChange={onChange} value={confirmNewPassword} required/>
                                 </div>
 
                                 <button className="sign__btn" type="submit">Change Password</button>

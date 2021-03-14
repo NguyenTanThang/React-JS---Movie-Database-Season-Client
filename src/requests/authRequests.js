@@ -110,9 +110,16 @@ export const resetPassword = async (token, newPassword) => {
     }
 }
 
-export const changePassword = async (userID, oldPassword, newPassword) => {
+export const changePassword = async (userID, updatePasswordObject) => {
     try {
+        message.loading("Changing password...", 0);
+        const {
+            email,
+            oldPassword,
+            newPassword
+        } = updatePasswordObject;
         const res = await axios.put(`${CUSTOMER_URL}/change-password/${userID}`, {
+            email,
             oldPassword,
             newPassword
         });
@@ -123,6 +130,7 @@ export const changePassword = async (userID, oldPassword, newPassword) => {
         const resMessage = res.data.message;
 
         if (!success) {
+            message.destroy();
             return message.error(resMessage, 5);
         }
 
@@ -130,6 +138,7 @@ export const changePassword = async (userID, oldPassword, newPassword) => {
 
         console.log(data);
 
+        message.destroy();
         message.success("Successfully changed password", 5);
 
         return data;

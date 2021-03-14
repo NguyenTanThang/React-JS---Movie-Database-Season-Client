@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import TabGenerator from "../components/partials/TabGenerator";
 import {getMovieByIDAxios} from "../requests/movieRequests";
-import FaceBookCommentsTest from "../components/partials/FaceBookCommentsTest";
 import MovieDetails from "../components/movies/MovieDetails";
 import MovieDescription from "../components/movies/MovieDescription";
 import CommentSection from "../components/comments/CommentSection";

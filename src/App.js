@@ -81,7 +81,6 @@ class App extends React.Component {
   }
 
   handleResumeIdle = () => {
-    this.idleTimer.pause();
     this.idleTimer.resume();
   }
 
@@ -95,6 +94,7 @@ class App extends React.Component {
         isWatched = true;
       } else {
         this.handleResumeIdle();
+        console.log(this.idleTimer.getRemainingTime());
       }
     }
 
@@ -137,8 +137,8 @@ class App extends React.Component {
       <div className="App">
       <IdleTimer
           ref={ref => { this.idleTimer = ref }}
-          timeout={1000 * 60 * 10}
-          //timeout={1000 * 60 * 0.4}
+          //timeout={1000 * 60 * 10}
+          timeout={1000 * 60 * 0.4}
           onActive={this.handleOnActive}
           onIdle={this.handleOnIdle}
           onAction={this.handleOnAction}

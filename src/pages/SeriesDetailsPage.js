@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
 import TabGenerator from "../components/partials/TabGenerator";
 import {getSeriesByIDAxios} from "../requests/seriesRequests";
-import FaceBookCommentsTest from "../components/partials/FaceBookCommentsTest";
+import CommentSection from "../components/comments/CommentSection";
 import SeriesDetails from "../components/series/SeriesDetails";
 import MovieDescription from "../components/movies/MovieDescription";
 import BigLoading from "../components/partials/BigLoading";
 import {
     getAllSeries
 } from "../actions/seriesActions";
+import {
+    getCommentsByMovieID
+} from "../requests/commentRequests";
 import {connect} from "react-redux";
 import SeriesItem from "../components/series/SeriesItem";
 import {getRandom} from "../utils/utils";
@@ -21,7 +24,7 @@ class SeriesDetailsPage extends Component {
 
     state = {
         seriesItem: "",
-        imdbSeries: ""
+        comments: ""
     }
 
     async componentDidMount() {
@@ -31,10 +34,11 @@ class SeriesDetailsPage extends Component {
             const seriesID = this.props.match.params.seriesID;
 
             const seriesItem = await getSeriesByIDAxios(seriesID);
-
+            const comments = await getCommentsByMovieID(seriesID);
 
             this.setState({
                 seriesItem,
+                comments
             })
         } catch (error) {
             this.props.history.push("/error");
@@ -76,9 +80,24 @@ class SeriesDetailsPage extends Component {
         
     }
 
+    addComment = (comment) => {
+        this.setState({
+            comments: [comment, ...this.state.comments]
+        })
+    }
+
+    removeComment = (commentID) => {
+        this.setState({
+            comments: this.state.comments.filter(comment => {
+                return comment._id != commentID;
+            })
+        })
+    }
+
     renderTabGen = () => {
         const seriesID = this.props.match.params.seriesID;
-        const {seriesItem} = this.state;
+        const {seriesItem, comments} = this.state;
+        const {addComment, removeComment} = this;
         const {description} = seriesItem;
 
         const tabContents = [
@@ -89,7 +108,7 @@ class SeriesDetailsPage extends Component {
             ),
             (
                 <>
-                    <FaceBookCommentsTest seriesID={seriesID}/>
+                    <CommentSection movieSeriesID={seriesID} comments={comments} removeComment={removeComment} addComment={addComment}/>
                 </>
             )
         ]
@@ -106,14 +125,6 @@ class SeriesDetailsPage extends Component {
         const {renderTabGen, renderRNGSeriesItems} = this;
         const {seriesItem} = this.state;
         const seriesIDFromPage = this.props.match.params.seriesID;
-
-        /*
-        if (seriesItem === "" || !imdbSeries) {
-            return (<>
-                <BigLoading/>
-            </>)
-        }
-        */
 
         if (seriesItem === "") {
             return (<>

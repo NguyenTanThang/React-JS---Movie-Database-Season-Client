@@ -22,9 +22,9 @@ export default class Navbar extends Component {
 
         if (customer) {
             return (
-                <Link to="/logout" className="header__sign-in">
-                    <i className="fas fa-sign-out-alt"></i>
-                    <span>logout</span>
+                <Link to="/profile" className="header__sign-in">
+                    <i class="fas fa-user-cog"></i>
+                    <span>profile</span>
                 </Link>
             )
         } else {

@@ -7,7 +7,9 @@ import {editCustomer} from "../requests/authRequests";
 import {authenticationService} from "../_services";
 import {Link} from "react-router-dom";
 import {message} from "antd";
-import SelectAvatarModal from "../components/partials/SelectAvatarModal"
+import SelectAvatarModal from "../components/partials/SelectAvatarModal";
+import {sectionBG} from "../config/jqueryCode";
+import sectionBgImage from "../images/section.jpg";
 
 class Profile extends Component {
 
@@ -22,6 +24,8 @@ class Profile extends Component {
     }
 
     componentDidMount() {
+        sectionBG();
+
         const currentUser = authenticationService.currentUserValue
 
         if (!currentUser) {
