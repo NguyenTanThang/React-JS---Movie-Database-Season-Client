@@ -1,5 +1,18 @@
 import axios from "axios";
 
+export const getDaysDiff = (date) => {
+    const dateMili = dateToMili(date);
+    const dateNowMili = dateToMili(new Date.now());
+    const diffTime = Math.abs(dateNowMili - dateMili);
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    return diffDays; 
+}
+
+const dateToMili = date => {
+    const cdate = new Date(date);
+    return cdate.getTime();
+}
+
 export const measureDeviceWidth = () => {
     let device;
     let screenWidth = document.documentElement.clientWidth;

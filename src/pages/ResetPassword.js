@@ -3,6 +3,7 @@ import {sectionBG} from "../config/jqueryCode";
 import sectionBgImage from "../images/section.jpg";
 import {Link} from "react-router-dom";
 import {resetPassword} from "../requests/authRequests";
+import {getResetPasswordToken} from "../requests/resetPasswordTokenRequests";
 import {message} from "antd";
 import {Helmet} from "react-helmet";
 import { motion } from "framer-motion";
@@ -18,7 +19,8 @@ export default class SignIn extends Component {
     async componentDidMount() {
         sectionBG();
         const token = this.props.match.params.token;
-        if (!token) {
+        const customer = await getResetPasswordToken(token);
+        if (!token || !customer) {
             return this.props.history.push("/");
         }
     }
