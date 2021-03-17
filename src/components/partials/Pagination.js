@@ -11,13 +11,17 @@ export default class Pagination extends Component {
             if (currentPage === page) {
                 return (
                     <li className="paginator__item paginator__item--active" key={page} onClick={()=>onChangePageNumber(page)}>
-                        <span>{page}</span>
+                        <a href="#">
+                            <span>{page}</span>
+                        </a>
                     </li>
                 )
             }
             return (
                 <li className="paginator__item" key={page} onClick={()=>onChangePageNumber(page)}>
-                    <span>{page}</span>
+                    <a href="#">
+                        <span>{page}</span>
+                    </a>
                 </li>
             )
         })
@@ -53,15 +57,19 @@ export default class Pagination extends Component {
         return (
             <ul className="paginator">
 						<li className="paginator__item paginator__item--prev" onClick={moveToPreviousPage}>
-                            <span>
-                                <i className="fas fa-arrow-left" aria-hidden="true"></i>
-                            </span>
+                            <a href="#">
+                                <span>
+                                    <i className="fas fa-arrow-left" aria-hidden="true"></i>
+                                </span>
+                            </a>
 						</li>
                         {renderPaginatorItem()}
                         <li className="paginator__item paginator__item--next" onClick={moveToNextPage}>
-                            <span>
-                                <i className="fas fa-arrow-right" aria-hidden="true"></i>
-                            </span>
+                            <a href="#">
+                                <span>
+                                    <i className="fas fa-arrow-right" aria-hidden="true"></i>
+                                </span>
+                            </a>
 						</li>
 			</ul>
         )

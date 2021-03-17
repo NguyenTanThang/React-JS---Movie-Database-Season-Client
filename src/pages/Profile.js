@@ -113,7 +113,7 @@ class Profile extends Component {
                     <section className="profile-page section-padding">
                         <div className="container">
                             <div className="row">
-                                <div className="profile__avatar col-lg-4" onClick={changeModalVisible}>
+                                <div className="profile__avatar col-lg-4 col-md-4" onClick={changeModalVisible}>
                                     <div className="profile-avatar__image">
                                         <img src={avatar} alt="Avatar" className="img-fluid"/>
 
@@ -122,7 +122,7 @@ class Profile extends Component {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="profile__info col-lg-8">
+                                <div className="profile__info col-lg-8 col-md-8">
                                     <div className="profile-info__item ">
                                         <h5>Username:</h5>
                                         <input className="form__input" name="username" id="username" value={username} onChange={(e) => onChange("username", e.target.value)}/>
@@ -131,12 +131,12 @@ class Profile extends Component {
                                         <h5>Email:</h5>
                                         <p>{email}</p>
                                     </div>
-                                    <div className="profile-info__itemprofile-info__item--footer">
+                                    <div className="profile-info__item profile-info__item--footer">
                                         <div className="row">
-                                            <Link to="/change-password" className="section__btn">
+                                            <Link to="/change-password" className="section__btn col-6">
                                                 Change Password
                                             </Link>
-                                            <button className="section__btn" onClick={onSave}>
+                                            <button className="section__btn col-6" onClick={onSave}>
                                                 Save
                                             </button>
                                         </div>

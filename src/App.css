@@ -473,6 +473,7 @@ ul {
 
     .about__image {
         margin-bottom: 30px;
+        text-align: center;
     }
 
     .feature-row {
@@ -502,11 +503,12 @@ ul {
 
 @media screen and (min-width: 768px) and (max-width: 1024px) {
     .landing-header {
-        height: 41vh;
+        height: 50vh;
     }
 
     .about__image {
         margin-bottom: 30px;
+        text-align: center;
     }
 
     .feature-item {
@@ -517,16 +519,20 @@ ul {
         justify-content: space-around;
     }
 
-    .feature-item .face.face2 {
-        padding: 20px;
-        background-color: #fff;
-        transform: translateY(-100px) translateX(1px);
-        transition: all 0.3s ease;
-        max-width: 99%;
+    .feature-item  {
+        margin-bottom: 20px;
     }
 
-    .feature-item:hover .face.face2 {
-        max-width: 100%;
+    .feature-item .face.face1 {
+        transform: translateY(0);
+    }
+
+    .feature-item:hover .face.face1 {
+        background-color: #ff0057;
+    }
+
+    .feature-item .face.face2 {
+        transform: translateY(0);
     }
 }
 
@@ -537,6 +543,14 @@ ul {
 
     .feature-item {
         width: 300px;
+    }
+}
+
+@media screen and (min-width: 320px) and (max-width: 767px) {
+    .landing-header__content,
+    .cta__content {
+        padding-left: 30px;
+        padding-right: 30px;
     }
 }
 
@@ -1684,7 +1698,6 @@ input[type=range]::-ms-thumb {
 ==============================*/
 
 .movie-watch-container {
-    height: 100vh;
     width: 100%;
     margin-top: 120px;
     margin-bottom: 50px;
@@ -1696,7 +1709,6 @@ input[type=range]::-ms-thumb {
 }
 
 .series-watch-container {
-    height: 100vh;
     width: 100%;
     margin-top: 0;
     margin-bottom: 50px;
@@ -1706,6 +1718,22 @@ input[type=range]::-ms-thumb {
 .video-player-container {
     height: 380px;
     width: 100%;
+}
+
+@media screen and (min-width: 320px) and (max-width: 767px) {
+    .video-player-container {
+        height: 200px;
+        width: 100%;
+    }
+}
+
+
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+    
+}
+
+@media screen and (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+    
 }
 
 /*==============================
@@ -2121,6 +2149,13 @@ input[type=range]::-ms-thumb {
 
     .card__cover img {
         min-height: 320px;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+    .card--list .card__cover img {
+        min-height: 250px;
+        height: 250px;
     }
 }
 
@@ -3456,47 +3491,39 @@ input[type=range]::-ms-thumb {
     background-image: linear-gradient(90deg, #ff55a5 0%, #ff5860 100%);
 }
 
+.series-watch-container .plyr__video-wrapper
+ {
+    height: 400px;
+}
+
+.movie-watch-container .plyr__video-wrapper {
+    height: 600px;
+}
+
 @media (min-width: 320px) and (max-width: 767px) {
     .episode-tab {
         flex: 43%;
         max-width: 43%;
         margin-left: 10px;
-    }
-
-    .series-watch-container,
-    .movie-watch-container {
-        height: 40vh;
-    }
-}
-
-@media (min-width: 320px) and (max-width: 767px) {
-
-    .series-watch-container,
-    .movie-watch-container {
-        height: 80vh;
-    }
-
-    .episode-tab {
-        flex: 28%;
-        max-width: 28%;
-        margin-left: 10px;
-        margin-right: 10px;
     }
 }
 
 @media (min-width: 320px) and (max-width: 767px) and (orientation: portrait) {
-
-    .series-watch-container,
-    .movie-watch-container {
-        height: 40vh;
-    }
-
     .episode-tab {
         flex: 43%;
         max-width: 43%;
         margin-left: 10px;
         margin-right: 10px;
     }
+        
+    .movie-watch-container .plyr__video-wrapper {
+        height: 300px;
+    }
+
+    .series-watch-container .plyr__video-wrapper
+ {
+    height: 300px;
+}
 }
 
 @media (min-width: 768px) and (max-width: 1024px) {
@@ -3504,15 +3531,20 @@ input[type=range]::-ms-thumb {
         flex: 18%;
         max-width: 18%;
     }
-}
-
-@media (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
-
-    .series-watch-container,
-    .movie-watch-container {
-        height: 50vh;
+    
+    .movie-watch-container .plyr__video-wrapper {
+        height: 500px;
     }
 }
+
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+    .episode-tab {
+        flex: 18.5%;
+        max-width: 18.5%;
+    }
+
+}
+
 
 /*Slicks*/
 .slick-dots {
@@ -4122,10 +4154,11 @@ input[type=range]::-ms-thumb {
 
 /*Profile*/
 .profile-page {
-    min-height: 120vh;
+    min-height: 70vh;
     display: flex;
     justify-content: center;
     align-items: center;
+    padding-top: 150px;
 }
 
 .profile-page .container {
@@ -4207,8 +4240,33 @@ input[type=range]::-ms-thumb {
     height: 100%;
 }
 
+.profile-info__item--footer .section__btn {
+    width: 100%;
+    max-width: 45%;
+    flex: 45%;
+    font-size: 12px;
+}
+
 @media screen and (min-width: 320px) and (max-width: 767px) {
     .avatar-item {
         height: 150px;
+    }
+
+    .profile__avatar {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .profile-avatar__image {
+        width: 200px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+@media screen and (min-width: 767px) and (max-width: 1024px) {
+    .profile__avatar {
+        text-align: center;
+        margin-bottom: 20px;
     }
 }
