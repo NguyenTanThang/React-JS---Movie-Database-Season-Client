@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {getZaloPayURL} from "../requests/zaloRequests";
 import {getSubStatus, getAuthStatus} from "../requests/authRequests";
 import {message} from "antd";
+import {authenticationService} from "../_services";
 
 class ZaloPaymentPage extends Component {
 
@@ -17,7 +18,8 @@ class ZaloPaymentPage extends Component {
                 message.error("Your subscription is still valid")
                 return this.props.history.push("/");
             }
-            const customerID = localStorage.getItem("userID")
+            const currentUser = authenticationService.currentUserValue;
+            const customerID = currentUser.customerItem._id;
             const amount = parseInt(localStorage.getItem("amount"))
             const planID = localStorage.getItem("planID")
             const payUrl = await getZaloPayURL(customerID, {amount, planID});
