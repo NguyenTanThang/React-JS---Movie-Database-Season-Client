@@ -83,10 +83,12 @@ class PlanModal extends Component {
                         <i className="fas fa-wallet"></i> 
                         Pay with ZaloPay
                     </button>
+                    {/*
                     <button className="momo__btn plan__btn" onClick={payWithMomo}>
                         <i className="fas fa-wallet"></i> 
                         Pay with MoMo
                     </button>
+                    */}
                     <button className="stripe__btn plan__btn" onClick={payWithVisa}>
                         <i className="fab fa-cc-visa"></i> 
                         Pay with VISA

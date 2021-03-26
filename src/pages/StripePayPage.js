@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import StripeApp from "../components/stripe/StripeApp";
 import Navbar from "../components/partials/Navbar";
 import {getSubStatus, getAuthStatus} from "../requests/authRequests";
+import {getPlanByID} from "../requests/planRequests";
 import {message} from "antd";
 import {Helmet} from "react-helmet";
 import { motion } from "framer-motion";
@@ -9,8 +10,14 @@ import {pageStyle, pageTransition, pageVariants} from "../config/animation";
 
 class StripePayPage extends Component {
 
+    state = {
+        plan: ""
+    }
+
     async componentDidMount() {
         try {
+            const planID = localStorage.getItem("planID");
+            const plan = await getPlanByID(planID);
             const subStatus = await getSubStatus();
             const loggedIn = await getAuthStatus();
             if (!loggedIn) {
@@ -21,12 +28,17 @@ class StripePayPage extends Component {
                 message.error("Your subscription is still valid")
                 return this.props.history.push("/");
             }
+            this.setState({
+                plan
+            })
         } catch (error) {
             this.props.history.push("/error");
         }
     }
 
     render() {
+        const {plan} = this.state;
+
         return (
             <motion.div
                 style={pageStyle}
@@ -42,7 +54,10 @@ class StripePayPage extends Component {
                     <meta name="description" content="Helmet application" />
                 </Helmet>
                 <Navbar/>
-                <StripeApp/>
+                <div className="stripe-payment-container">
+                    {plan ? <p>{plan.name} Plan: ${plan.price}</p> : <p>Loading...</p>}
+                    <StripeApp/>
+                </div>
             </>
             </motion.div>
         )

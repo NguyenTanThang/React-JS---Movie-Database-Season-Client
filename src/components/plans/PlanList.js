@@ -21,7 +21,7 @@ export default class PlanList extends Component {
         const {planList} = this.props;
         const {vndRate} = this.state;
 
-        if (!vndRate) {
+        if (!vndRate || !planList) {
             return (<>
                 <Loading/>
             </>)

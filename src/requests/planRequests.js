@@ -19,3 +19,15 @@ export const getPlanByPrice = async (price) => {
         message.error(error.message, 5);
     }
 }
+
+export const getPlanByID = async (planID) => {
+    try {
+        const res = await axios.get(`${PLANS_URL}/${planID}`);
+
+        const plan = res.data.data;
+
+        return plan;
+    } catch (error) {
+        message.error(error.message, 5);
+    }
+}

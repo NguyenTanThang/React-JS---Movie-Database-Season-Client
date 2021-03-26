@@ -159,3 +159,23 @@
         transform: rotate(360deg);
     }
 }
+
+.stripe-payment-container {
+    position: relative;
+    width: 100%;
+}
+
+.stripe-payment-container p {
+    color: #FFF;
+    position: absolute;
+    top: -15%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.2rem;
+    width: 100%;
+    text-align: center;
+}
+
+@media screen and (min-width: 320px) and (max-width: 767px) {
+    
+}
