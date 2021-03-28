@@ -8,6 +8,7 @@ import {addWatchLater, deleteWatchLater, getWatchLaterByCustomerIDAndMovieID} fr
 import {isObjectEmpty} from '../../utils/validate';
 import {getSubStatus, getAuthStatus} from "../../requests/authRequests";
 import MovieTrailer from "../movies/MovieTrailer";
+import Loading from "../partials/Loading";
 
 const customerID = localStorage.getItem("userID")
 
@@ -49,9 +50,18 @@ class SeasonDetails extends Component {
     renderWatchButton = () => {
         const {subStatus, loggedIn, loading} = this.state;
         const {seasonItem} = this.props;
+
         if (!seasonItem || loading) {
-            return (<></>);
+            return (
+                <Link to="#" className="section__btn loading__btn">
+                    <i style={{paddingRight: "10px"}}>
+                        <Loading/>
+                    </i>
+                    LOADING...
+                </Link>
+            )
         }
+
         const {_id} = seasonItem;
         if (subStatus === "active") {
             return (
@@ -95,19 +105,7 @@ class SeasonDetails extends Component {
     }
 
     renderLikeButton = () => {
-        const {loggedIn, liked} = this.state;
-        const {changeLikeStatus} = this;
-
-        if (loggedIn) {
-            return (
-                <Tooltip title={liked ? "Dislike" : "Like"}>
-                    <li className="like-button" onClick={changeLikeStatus} style={liked ? {color: "#ff55a5", border: "1px solid #ff55a5"} : {}}>
-                        <i className="fa fa-heart" aria-hidden="true"></i>
-                    </li>
-                 </Tooltip>
-            )
-        }
-        
+        return (<></>);
     }
 
     render() {
@@ -199,7 +197,7 @@ class SeasonDetails extends Component {
                 </div>
             </div>
 
-            <div class="col-12 col-xl-6 video-player-container">
+            <div class="col-12 col-xl-6 video-player-container video-player-container--trailer">
                 <MovieTrailer videoSRC={trailerURL}/>
             </div>
 

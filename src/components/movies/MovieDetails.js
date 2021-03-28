@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 //import homeBg from '../../images/home__bg.jpg';
 import MovieTrailer from "../movies/MovieTrailer";
+import Loading from "../partials/Loading";
 import RateMovieModal from "./RateMovieModal";
 import {Link} from "react-router-dom";
 import { Tooltip } from 'antd';
@@ -14,7 +15,8 @@ class MovieDetails extends Component {
     state = {
         liked: false,
         subStatus: "",
-        loggedIn: ""
+        loggedIn: "",
+        loading: true
     }
 
     async componentDidMount() {
@@ -43,17 +45,28 @@ class MovieDetails extends Component {
         this.setState({
             liked,
             subStatus,
-            loggedIn
+            loggedIn,
+            loading: false
         })
     }
 
     renderWatchButton = () => {
         const {subStatus, loggedIn, loading} = this.state;
         const {movieItem} = this.props;
+
         if (!movieItem || loading) {
-            return (<></>);
+            return (
+                <Link to="#" className="section__btn loading__btn">
+                    <i style={{paddingRight: "10px"}}>
+                        <Loading/>
+                    </i>
+                    LOADING...
+                </Link>
+            )
         }
+
         const {_id} = movieItem;
+
         if (subStatus === "active") {
             return (
                 <Link to={`/watch-movie/${_id}`} className="section__btn">
@@ -101,8 +114,18 @@ class MovieDetails extends Component {
     }
 
     renderLikeButton = () => {
-        const {loggedIn, liked} = this.state;
+        const {loggedIn, liked, loading} = this.state;
         const {changeLikeStatus} = this;
+
+        if (loading) {
+            return (
+                <Tooltip title={"Loading"}>
+                    <li className="like-button">
+                        <Loading/>
+                    </li>
+                 </Tooltip>
+            )
+        }
 
         if (loggedIn) {
             return (
@@ -208,7 +231,7 @@ class MovieDetails extends Component {
                 </div>
             </div>
 
-            <div className="col-12 col-xl-6 video-player-container">
+            <div className="col-12 col-xl-6 video-player-container video-player-container--trailer">
                 <MovieTrailer videoSRC={trailerURL}/>
             </div>
 

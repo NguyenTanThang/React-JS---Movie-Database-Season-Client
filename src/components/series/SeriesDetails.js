@@ -9,12 +9,14 @@ import {addWatchLater, deleteWatchLater, getWatchLaterByCustomerIDAndMovieID} fr
 import {isObjectEmpty} from '../../utils/validate';
 import {authenticationService} from '../../_services';
 import {getAuthStatus} from "../../requests/authRequests";
+import Loading from "../partials/Loading";
 
 class SeriesDetails extends Component {
 
     state = {
         liked: false,
-        loggedIn: ""
+        loggedIn: "",
+        loading: true
     }
 
     async componentDidMount() {
@@ -41,7 +43,8 @@ class SeriesDetails extends Component {
     
         this.setState({
             liked,
-            loggedIn
+            loggedIn,
+            loading: false
         })
     }
 
@@ -99,8 +102,18 @@ class SeriesDetails extends Component {
     }
 
     renderLikeButton = () => {
-        const {loggedIn, liked} = this.state;
+        const {loggedIn, liked, loading} = this.state;
         const {changeLikeStatus} = this;
+
+        if (loading) {
+            return (
+                <Tooltip title={"Loading"}>
+                    <li className="like-button">
+                        <Loading/>
+                    </li>
+                 </Tooltip>
+            )
+        }
 
         if (loggedIn) {
             return (
@@ -204,7 +217,7 @@ class SeriesDetails extends Component {
                 </div>
             </div>
 
-            <div class="col-12 col-xl-6 video-player-container">
+            <div class="col-12 col-xl-6 video-player-container video-player-container--trailer">
                 <MovieTrailer videoSRC={trailerURL}/>
             </div>
 
