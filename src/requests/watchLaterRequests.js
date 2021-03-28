@@ -24,6 +24,7 @@ export const addWatchLater = async (customerID, movieID) => {
     try {
         message.loading("Adding to your watch later list", 0);
 
+        console.log(customerID);
         const res = await axios.post(`${WATCH_LATER_URL}/add`, {
             customerID, movieID
         });
@@ -32,6 +33,7 @@ export const addWatchLater = async (customerID, movieID) => {
         message.success("Successfully added", 5);
 
         const watchLater = res.data.data;
+        console.log(res.data);
 
         return watchLater;
     } catch (error) {

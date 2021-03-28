@@ -86,7 +86,8 @@ class MovieDetails extends Component {
         const currentUser = authenticationService.currentUserValue;
 
         if (currentUser) {
-            const customerID = currentUser._id;
+            const customerItem = currentUser.customerItem;
+            const customerID = customerItem._id;
             if (!this.state.liked === true) {
                 await addWatchLater(customerID, movieID)
             } else {

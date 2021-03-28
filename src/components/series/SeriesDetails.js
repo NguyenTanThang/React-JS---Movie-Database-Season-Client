@@ -8,15 +8,18 @@ import { Tooltip } from 'antd';
 import {addWatchLater, deleteWatchLater, getWatchLaterByCustomerIDAndMovieID} from "../../requests/watchLaterRequests";
 import {isObjectEmpty} from '../../utils/validate';
 import {authenticationService} from '../../_services';
+import {getAuthStatus} from "../../requests/authRequests";
 
 class SeriesDetails extends Component {
 
     state = {
-        liked: false
+        liked: false,
+        loggedIn: ""
     }
 
     async componentDidMount() {
         sectionBG();
+        const loggedIn = await getAuthStatus();
 
         const seriesID = this.props.seriesIDFromPage;
 
@@ -25,7 +28,8 @@ class SeriesDetails extends Component {
         const currentUser = authenticationService.currentUserValue;
 
         if (currentUser) {
-            const customerID = currentUser._id;
+            const customerItem = currentUser.customerItem;
+            const customerID = customerItem._id;
             const watchLaterItem = await getWatchLaterByCustomerIDAndMovieID(customerID, seriesID);
         
             if (!watchLaterItem || isObjectEmpty(watchLaterItem)) {
@@ -36,7 +40,8 @@ class SeriesDetails extends Component {
         }
     
         this.setState({
-            liked
+            liked,
+            loggedIn
         })
     }
 
@@ -79,7 +84,8 @@ class SeriesDetails extends Component {
         const currentUser = authenticationService.currentUserValue;
 
         if (currentUser) {
-            const customerID = currentUser._id;
+            const customerItem = currentUser.customerItem;
+            const customerID = customerItem._id;
             if (!this.state.liked === true) {
                 await addWatchLater(customerID, seriesID)
             } else {
