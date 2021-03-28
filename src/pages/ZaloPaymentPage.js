@@ -3,6 +3,7 @@ import {getZaloPayURL} from "../requests/zaloRequests";
 import {getSubStatus, getAuthStatus} from "../requests/authRequests";
 import {message} from "antd";
 import {authenticationService} from "../_services";
+import BigLoading from "../components/partials/BigLoading"
 
 class ZaloPaymentPage extends Component {
 
@@ -30,9 +31,9 @@ class ZaloPaymentPage extends Component {
     }
 
     render() {
-        return (
-            <></>
-        )
+        return (<>
+            <BigLoading/>    
+        </>)
     }
 }
 
