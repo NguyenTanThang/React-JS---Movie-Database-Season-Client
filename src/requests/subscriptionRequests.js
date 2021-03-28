@@ -5,17 +5,20 @@ import {
 import {
     message
 } from "antd";
+import {
+    authenticationService
+} from "../_services";
 
 const SUBSCRIPTIONS_URL = `${MAIN_PROXY_URL}/subscriptions`;
 
 export const addSubscription = async (planID) => {
     try {
-        const customerID = localStorage.getItem("userID");
+        const currentUser = authenticationService.currentUserValue;
+        const currentCustomer = currentUser.customerItem;
         const res = await axios.post(`${SUBSCRIPTIONS_URL}/add`, {
             planID,
-            customerID
+            customerID: currentCustomer._id
         });
-        console.log({planID, customerID});
 
         const sub = res.data.data;
         console.log(sub);
