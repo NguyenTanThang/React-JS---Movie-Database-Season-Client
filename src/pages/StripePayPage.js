@@ -17,6 +17,9 @@ class StripePayPage extends Component {
     async componentDidMount() {
         try {
             const planID = localStorage.getItem("planID");
+            if (!planID) {
+                return this.props.history.push("/pricing");
+            }
             const plan = await getPlanByID(planID);
             const subStatus = await getSubStatus();
             const loggedIn = await getAuthStatus();
