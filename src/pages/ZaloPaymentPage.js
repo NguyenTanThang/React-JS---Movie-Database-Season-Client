@@ -22,7 +22,10 @@ class ZaloPaymentPage extends Component {
             const currentUser = authenticationService.currentUserValue;
             const customerID = currentUser.customerItem._id;
             const amount = parseInt(localStorage.getItem("amount"))
-            const planID = localStorage.getItem("planID")
+            const planID = localStorage.getItem("planID");
+            if (!planID) {
+                return this.props.history.push("/pricing");
+            }
             const payUrl = await getZaloPayURL(customerID, {amount, planID});
             window.location = payUrl;
         } catch (error) {

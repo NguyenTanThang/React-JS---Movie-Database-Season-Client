@@ -28,6 +28,9 @@ class StripePayPage extends Component {
                 message.error("Your subscription is still valid")
                 return this.props.history.push("/");
             }
+            if (!plan) {
+                return this.props.history.push("/pricing");
+            }
             this.setState({
                 plan
             })
