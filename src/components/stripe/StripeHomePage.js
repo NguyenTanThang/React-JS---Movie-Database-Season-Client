@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import axios from 'axios';
+import {withRouter} from 'react-router-dom';
 import {getPlanByPrice} from "../../requests/planRequests";
 import {addSubscription} from "../../requests/subscriptionRequests";
 // MUI Components
@@ -76,6 +77,7 @@ function HomePage() {
         const plan = await getPlanByPrice(price);
         const sub = await addSubscription(plan._id);
         message.success("Successfully subscribed", 5);
+        return this.props.history.push("/");
       }
     }
   };
@@ -95,4 +97,4 @@ function HomePage() {
   );
 }
 
-export default HomePage;
+export default withRouter(HomePage);

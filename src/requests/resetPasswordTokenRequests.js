@@ -13,7 +13,9 @@ export const getResetPasswordToken = async (token) => {
         const res = await axios.get(`${CUSTOMER_URL}/reset-password-token/${token}`);
 
         if (!res.data.success) {
-            return message.error(res.data.message);
+            message.error(res.data.message);
+            let mockedCustomer = null;
+            return mockedCustomer;
         }
 
         const customer = res.data.data;

@@ -20,6 +20,7 @@ export default class SignIn extends Component {
         sectionBG();
         const token = this.props.match.params.token;
         const customer = await getResetPasswordToken(token);
+        console.log(customer);
         if (!token || !customer) {
             return this.props.history.push("/");
         }
