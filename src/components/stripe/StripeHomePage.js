@@ -42,7 +42,7 @@ const useStyles = makeStyles({
   }
 });
 
-function HomePage() {
+function HomePage(props) {
   const classes = useStyles();
 
   const stripe = useStripe();
@@ -77,7 +77,7 @@ function HomePage() {
         const plan = await getPlanByPrice(price);
         const sub = await addSubscription(plan._id);
         message.success("Successfully subscribed", 5);
-        return this.props.history.push("/");
+        return props.history.push("/");
       }
     }
   };
