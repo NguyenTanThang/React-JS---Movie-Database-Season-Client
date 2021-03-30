@@ -15,6 +15,7 @@ import PageTitle from "../components/partials/PageTitle";
 import BrowseEngine from "../components/partials/BrowseEngine";
 import TabGenerator from "../components/partials/TabGenerator";
 import Pagination from "../components/partials/Pagination";
+import BigLoading from "../components/partials/BigLoading";
 import {sortMoviesAndSeries} from "../utils/sorters";
 import {paginate} from "../utils/paginate";
 import {extractQueryString} from "../utils";
@@ -59,7 +60,6 @@ class Browse extends Component {
     }
 
     componentDidMount() {
-        
         this.props.getAllMovies();
         this.props.getAllSeries();
         this.props.getAllGenres();
@@ -118,8 +118,14 @@ class Browse extends Component {
 
     render() {
         const {renderTabGen, setSearchObject, clearSearchObject} = this;
-        const {genres} = this.props;
+        const {genres, loading} = this.props;
         const searchQuery = extractQueryString(this.props);
+
+        if (loading) {
+            return (
+                <BigLoading/>
+            )
+        }
 
         return (
             <motion.div

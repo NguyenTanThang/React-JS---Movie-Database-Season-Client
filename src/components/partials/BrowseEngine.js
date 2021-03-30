@@ -38,12 +38,6 @@ export default class BrowseEngine extends Component {
         const {setSearchObject} = this.props;
         const {searchName, orderBy} = this.state;
 
-        if (!genres) {
-            return (
-                <Loading/>
-            )
-        }
-
         /*
             <div className="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-6 form-group" key={genre._id}>
                     <Checkbox value={genre.name}>{genre.name}</Checkbox>
