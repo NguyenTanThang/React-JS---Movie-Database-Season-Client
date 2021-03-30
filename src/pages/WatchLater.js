@@ -8,6 +8,7 @@ import {getAllWatchLaterByCustomerID} from "../actions/watchLaterActions";
 import Pagination from "../components/partials/Pagination";
 import {paginate} from "../utils/paginate";
 import TabGenerator from "../components/partials/TabGenerator";
+import BigLoading from "../components/partials/BigLoading";
 import {Helmet} from "react-helmet";
 import { motion } from "framer-motion";
 import {pageStyle, pageTransition, pageVariants} from "../config/animation";
@@ -101,6 +102,13 @@ class WatchLater extends Component {
 
     render() {
         const {renderWatchLater} = this;
+        const {loading} = this.props;
+
+        if (loading) {
+            return (
+                <BigLoading/>
+            )
+        }
 
         return (
             <motion.div

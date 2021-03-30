@@ -8,6 +8,7 @@ import {getAllWatchHistoryByCustomerID} from "../actions/historyActions";
 import Pagination from "../components/partials/Pagination";
 import {paginate} from "../utils/paginate";
 import TabGenerator from "../components/partials/TabGenerator";
+import BigLoading from "../components/partials/BigLoading";
 import {Helmet} from "react-helmet";
 import { motion } from "framer-motion";
 import {pageStyle, pageTransition, pageVariants} from "../config/animation";
@@ -106,6 +107,13 @@ class WatchHistory extends Component {
 
     render() {
         const {renderWatchHistory} = this;
+        const {loading} = this.props;
+
+        if (loading) {
+            return (
+                <BigLoading/>
+            )
+        }
 
         return (
             <motion.div
