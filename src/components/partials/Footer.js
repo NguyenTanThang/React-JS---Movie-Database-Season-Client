@@ -30,9 +30,9 @@ export default class Footer extends Component {
             <div className="col-6 col-sm-4 col-md-3 col-lg-3">
                 <h6 className="footer__title">Legal</h6>
                 <ul className="footer__list">
-                    <li><Link to="/">Terms of Use</Link></li>
-                    <li><Link to="/">Privacy Policy</Link></li>
-                    <li><Link to="/">Security</Link></li>
+                    <li><Link to="/help">Terms of Use</Link></li>
+                    <li><Link to="/help">Privacy Policy</Link></li>
+                    <li><Link to="/help">Security</Link></li>
                 </ul>
             </div>
 

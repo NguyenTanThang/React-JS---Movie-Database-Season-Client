@@ -67,6 +67,16 @@ export default class Help extends Component {
                     <h3 className="faq__title">When I change the quality of a video, nothing happens.</h3>
                     <p className="faq__text">If you are going to use a passage of Lorem Ipsum, you need to be sure there {"isn't"} anything embarrassing hidden in the middle of text.</p>
                 </div>
+
+                <div className="faq">
+                    <h3 className="faq__title">Terms of Use</h3>
+                    <p className="faq__text">Morbi congue risus turpis, quis sollicitudin nibh lobortis rutrum. Nulla egestas semper lorem et varius. Nullam id condimentum lectus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Suspendisse porttitor ante in erat tristique, ut blandit elit gravida.</p>
+                </div>
+
+                <div className="faq">
+                    <h3 className="faq__title">Privacy Policy</h3>
+                    <p className="faq__text">Vestibulum tempus quam est. In id aliquam ex, at facilisis eros. Morbi ut laoreet sapien. Etiam at sem et nisl vehicula malesuada vulputate rhoncus sapien. Phasellus et odio vel risus mattis pharetra. Vestibulum tempus sed quam eget eleifend. Vivamus facilisis nunc ut felis faucibus, sed auctor diam fermentum. Fusce at hendrerit libero. Donec bibendum arcu dui, non molestie dui laoreet sollicitudin. Donec tincidunt erat lacinia libero porttitor, at malesuada nunc pretium.</p>
+                </div>
             </div>
 
             <div className="col-12 col-md-6">
@@ -93,6 +103,11 @@ export default class Help extends Component {
                 <div className="faq">
                     <h3 className="faq__title">How can I contact you?</h3>
                     <p class="faq__text">The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.</p>
+                </div>
+
+                <div className="faq">
+                    <h3 className="faq__title">Security</h3>
+                    <p className="faq__text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla eu auctor massa. Duis at dolor non ante cursus pellentesque vitae ullamcorper orci. Nam augue lorem, suscipit nec suscipit at, cursus aliquet arcu. Proin ornare faucibus dapibus. Nunc porta porttitor metus, nec lobortis lectus porttitor a. Aenean mollis malesuada porta.</p>
                 </div>
             </div>
         </div>
