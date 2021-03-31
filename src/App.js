@@ -118,6 +118,7 @@ class App extends React.Component {
     console.log('last active', this.idleTimer.getLastActiveTime())
     */
 
+    /*
     if (authenticationService.currentUserValue) {
       authenticationService.logout();
       //window.location.replace('/sign-in');
@@ -130,6 +131,7 @@ class App extends React.Component {
         window.location.replace('/sign-in');
       }, 5000);
     }
+    */
   }
 
   render() {
