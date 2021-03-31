@@ -109,6 +109,11 @@ export default class Help extends Component {
                     <h3 className="faq__title">Security</h3>
                     <p className="faq__text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla eu auctor massa. Duis at dolor non ante cursus pellentesque vitae ullamcorper orci. Nam augue lorem, suscipit nec suscipit at, cursus aliquet arcu. Proin ornare faucibus dapibus. Nunc porta porttitor metus, nec lobortis lectus porttitor a. Aenean mollis malesuada porta.</p>
                 </div>
+
+                <div className="faq">
+                    <h3 className="faq__title">Lorem Ipsum</h3>
+                    <p className="faq__text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla eu auctor massa. Duis at dolor non ante cursus pellentesque vitae ullamcorper orci. Nam augue lorem, suscipit nec suscipit at, cursus aliquet arcu. Proin ornare faucibus dapibus. Nunc porta porttitor metus, nec lobortis lectus porttitor a. Aenean mollis malesuada porta.</p>
+                </div>
             </div>
         </div>
     </div>
