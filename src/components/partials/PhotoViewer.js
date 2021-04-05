@@ -60,6 +60,14 @@ class PhotoViewer extends React.Component {
         /*
         const {setVisible, visible} = this.props;
         */
+
+        
+        if (this.props.photos.length === 0) {
+            return (<div className="text-center mt-4">
+                <h5>Currently there is no photo</h5>
+            </div>)
+        }
+
         let selectedPhotos = this.props.photos.length > 0 ? this.props.photos.map(photo => {
             return {...photo, src: photo.photoURL, alt: ""}
         }) : photos;
