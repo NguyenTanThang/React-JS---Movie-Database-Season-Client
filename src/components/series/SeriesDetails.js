@@ -101,6 +101,29 @@ class SeriesDetails extends Component {
         })
     }
 
+    renderRatingButton = () => {
+        const {loggedIn, loading} = this.state;
+
+        if (loading) {
+            return (
+                <Tooltip title={"Loading"}>
+                    <li className="like-button">
+                        <Loading/>
+                    </li>
+                 </Tooltip>
+            )
+        }
+
+        const {seriesItem} = this.props;
+        const seriesID = seriesItem._id;
+
+        if (loggedIn) {
+            return (
+                <RateMovieModal movieID={seriesID}/>
+            )
+        }
+    }
+
     renderLikeButton = () => {
         const {loggedIn, liked, loading} = this.state;
         const {changeLikeStatus} = this;
@@ -117,7 +140,7 @@ class SeriesDetails extends Component {
 
         if (loggedIn) {
             return (
-                <Tooltip title={liked ? "Dislike" : "Like"}>
+                <Tooltip title={liked ? "Remove from Watch Later" : "Add to Watch Later"}>
                     <li className="like-button" onClick={changeLikeStatus} style={liked ? {color: "#ff55a5", border: "1px solid #ff55a5"} : {}}>
                         <i className="fa fa-heart" aria-hidden="true"></i>
                     </li>
@@ -128,7 +151,7 @@ class SeriesDetails extends Component {
     }
 
     render() {
-        const {renderWatchButton, renderLikeButton} = this;
+        const {renderWatchButton, renderLikeButton, renderRatingButton} = this;
         const {seriesItem} = this.props;
 
         if (!seriesItem) {
@@ -172,18 +195,18 @@ class SeriesDetails extends Component {
                                 <img src={posterURL} alt=""/>
                             </div>
                             {renderWatchButton()}
-                            <RateMovieModal movieID={_id}/>
                         </div>
 
                         <div class="col-12 col-sm-8 col-md-8 col-lg-9 col-xl-7">
                             <div class="card__content">
                                 <div class="card__wrap">
-                                    <span class="card__rate"><i class="fas fa-star" aria-hidden="true"></i> {rating.toFixed(1)}/10</span>
+                                    <span class="card__rate"><i class="fas fa-star" aria-hidden="true"></i> {rating.toFixed(1)}/5</span>
 
                                     <ul class="card__list">
                                         <li>HD</li>
                                         <li>{Rated}</li>
                                         {renderLikeButton()}
+                                        {renderRatingButton()}
                                     </ul>
                                 </div>
 

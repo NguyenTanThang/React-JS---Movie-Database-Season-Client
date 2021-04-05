@@ -71,6 +71,18 @@ class WatchLater extends Component {
         let currentMovies = movieList;
         let currentSeries = seriesList;
 
+        currentSeries = currentSeries.map(currentSeriesItem => {
+            return {...currentSeriesItem, type: "series"}
+        })
+
+        let currentAllList = [...currentMovies, ...currentSeries];
+        currentAllList = currentAllList.sort(function(a,b){
+            return b.rating - a.rating;
+        });
+        const currentAllListPageObject = paginate(currentAllList.length, moviesCurrentPage, 10, 4);
+        currentAllList = currentAllList.slice(currentAllListPageObject.startIndex, currentAllListPageObject.endIndex + 1);
+
+        /*
         const seriesPageObject = paginate(currentSeries.length, seriesCurrentPage, 12, 4);
         const moviesPageObject = paginate(currentMovies.length, moviesCurrentPage, 12, 4);
 
@@ -98,6 +110,14 @@ class WatchLater extends Component {
         ]
 
         return <TabGenerator tabContents={tabContents} tabHeaders={tabHeaders}/>
+        */
+
+        return (
+            <>
+                <MovieList movies={currentAllList} loading={loading}/>
+                <Pagination pageObject={currentAllListPageObject} onChangePageNumber={changeMoviesPageNumber}/>
+            </>
+        )
     }
 
     render() {

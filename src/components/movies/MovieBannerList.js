@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import MovieItem from "./MovieItem";
+import MovieItem from "./MovieBannerItem";
 import { Empty } from 'antd';
 import Loading from "../partials/Loading";
 //import {connect} from "react-redux";
@@ -30,9 +30,8 @@ class MovieList extends Component {
         }
 
         return movies.map(movieItem => {
-            console.log(movieItem.type);
             return (
-                <div key={movieItem._id} className="col-6 col-sm-4 col-lg-3 col-xl-2 item-container">
+                <div key={movieItem._id} className="col-12 col-sm-6 col-lg-6 col-xl-3">
                     <MovieItem movieItem={movieItem} type={movieItem.type}/>
                 </div>
             )

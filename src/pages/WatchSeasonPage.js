@@ -275,7 +275,7 @@ class WatchSeasonPage extends Component {
                                         <h1 className="details__title">
                                             {currentEpisode.name}
                                         </h1>
-                                        <span className="card__rate"><i className="fas fa-star" aria-hidden="true"></i> {rating.toFixed(1)}/10</span>
+                                        <span className="card__rate"><i className="fas fa-star" aria-hidden="true"></i> {rating.toFixed(1)}/5</span>
                                     </div>
 
                                     <div className="episode-details-content__sub-header">

@@ -113,6 +113,29 @@ class MovieDetails extends Component {
         })
     }
 
+    renderRatingButton = () => {
+        const {loggedIn, loading} = this.state;
+
+        if (loading) {
+            return (
+                <Tooltip title={"Loading"}>
+                    <li className="like-button">
+                        <Loading/>
+                    </li>
+                 </Tooltip>
+            )
+        }
+
+        const {movieItem} = this.props;
+        const movieID = movieItem._id;
+
+        if (loggedIn) {
+            return (
+                <RateMovieModal movieID={movieID}/>
+            )
+        }
+    }
+
     renderLikeButton = () => {
         const {loggedIn, liked, loading} = this.state;
         const {changeLikeStatus} = this;
@@ -139,7 +162,7 @@ class MovieDetails extends Component {
     }
 
     render() {
-        const {renderWatchButton, renderLikeButton} = this;
+        const {renderWatchButton, renderLikeButton, renderRatingButton} = this;
         const {movieItem} = this.props;
 
         if (!movieItem) {
@@ -186,18 +209,18 @@ class MovieDetails extends Component {
                                 <img src={posterURL} alt=""/>
                             </div>
                             {renderWatchButton()}
-                            <RateMovieModal movieID={_id}/>
                         </div>
 
                         <div className="col-12 col-sm-8 col-md-8 col-lg-9 col-xl-7">
                             <div className="card__content">
                                 <div className="card__wrap">
-                                    <span className="card__rate"><i className="fas fa-star" aria-hidden="true"></i> {rating.toFixed(1)}/10</span>
+                                    <span className="card__rate"><i className="fas fa-star" aria-hidden="true"></i> {rating.toFixed(1)}/5</span>
 
                                     <ul className="card__list">
                                         <li>HD</li>
                                         <li>{Rated}</li>
                                         {renderLikeButton()}
+                                        {renderRatingButton()}
                                     </ul>
                                 </div>
 

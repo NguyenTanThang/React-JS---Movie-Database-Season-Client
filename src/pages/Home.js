@@ -18,6 +18,7 @@ import {connect} from "react-redux";
 import MovieList from "../components/movies/MovieList";
 import SpecialMovieList from "../components/movies/SpecialMovieList";
 import SpecialSeriesList from "../components/series/SpecialSeriesList";
+import MovieBannerList from "../components/movies/MovieBannerList";
 //import MovieCarousel from "../components/movies/MovieCarousel";
 import SeriesList from "../components/series/SeriesList";
 //import SeriesCarousel from "../components/series/SeriesCarousel";
@@ -58,10 +59,25 @@ class Home extends Component {
         let currentMovies = movies;
         let currentSeries = series;
         
-        currentMovies = getHighestRating(currentMovies).slice(0, 6);
-        currentSeries = getHighestRating(currentSeries).slice(0, 6);
+        currentMovies = getHighestRating(currentMovies).slice(0, 10);
+        currentSeries = getHighestRating(currentSeries).slice(0, 7);
+        currentSeries = currentSeries.map(currentSeriesItem => {
+            return {...currentSeriesItem, type: "series"}
+        })
+        const currentAllList = getHighestRating(shuffleArray([...currentMovies, ...currentSeries]));
 
-        let movieContent = <SpecialMovieList movies={currentMovies} loading={loading}/>;
+        /*
+            <SpecialMovieList movies={currentMovies.slice(4)} loading={loading}/>
+            */
+
+        /*
+        let movieContent = (<>
+            <MovieBannerList movies={currentMovies.slice(0, 4)} loading={loading}/>
+            
+            <div className="section-padding">
+                <MovieCarousel movies={currentMovies.slice(4)} loading={loading}/>
+            </div>
+        </>);
         let seriesContent = <SpecialSeriesList series={currentSeries} loading={loading}/>;
 
         
@@ -84,6 +100,23 @@ class Home extends Component {
         ]
 
         return <TabGenerator tabContents={tabContents} tabHeaders={tabHeaders}/>
+        */
+
+        if (deviceType === "mobile" || deviceType === "tablet") {
+            return (
+                <div className="section-padding">
+                    <MovieCarousel movies={currentAllList.slice(0, 6)} loading={loading}/>
+                </div>
+            )
+        }
+
+        return <>
+            <MovieBannerList movies={currentAllList.slice(0, 4)} loading={loading}/>
+            
+            <div className="section-padding">
+                <MovieCarousel movies={currentAllList.slice(4)} loading={loading}/>
+            </div>
+        </>
     }
 
     renderRecommendationSec = () => {
@@ -143,15 +176,26 @@ class Home extends Component {
         const {loading} = this.props;
         let maxItemNumber = 10;
 
-        if (deviceType === "mobile") {
+        if (deviceType === "mobile" || deviceType === "tablet") {
             maxItemNumber = 6;
         }
-
+        
         if (isShuffle) {
             currentMovies = shuffleArray(currentMovies);
             currentSeries = shuffleArray(currentSeries);
         }
 
+        currentSeries = currentSeries.map(currentSeriesItem => {
+            return {...currentSeriesItem, type: "series"}
+        })
+
+        let currentAllList = shuffleArray([...currentMovies.slice(0, maxItemNumber), ...currentSeries.slice(0, maxItemNumber)]);
+
+        currentAllList = currentAllList.sort(function(a,b){
+            return new Date(b.created_date) - new Date(a.created_date);
+          });
+
+        /*
         let movieContent = [];
         let seriesContent = [];
 
@@ -194,6 +238,23 @@ class Home extends Component {
         ]
 
         return <TabGenerator tabContents={tabContents} tabHeaders={tabHeaders}/>
+        */
+
+        if (deviceType === "mobile" || deviceType === "tablet") {
+            return (
+                <div className="section-padding">
+                    <MovieCarousel movies={currentAllList.slice(0, 6)} loading={loading}/>
+                </div>
+            )
+        }
+
+        return <>
+            <MovieBannerList movies={currentAllList.slice(0, 4)} loading={loading}/>
+            
+            <div className="section-padding">
+                <MovieCarousel movies={currentAllList.slice(4)} loading={loading}/>
+            </div>
+        </>
     }
 
     renderTabGen = (maxItemNumber) => {
@@ -255,7 +316,7 @@ class Home extends Component {
                                     <div className="col-12" key={"New Releases"}>
                                         <h2 className="content__title">New Releases</h2>
 
-                                        {renderTabGen(10)}
+                                        {renderTabGen(11)}
                                     </div>
                                 </div>
                             </div>

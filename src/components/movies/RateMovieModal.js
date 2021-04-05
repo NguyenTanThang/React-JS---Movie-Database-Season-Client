@@ -12,7 +12,7 @@ import {
   editRating
 } from "../../requests/reviewRequests";
 import {getAuthStatus} from "../../requests/authRequests";
-import {message} from "antd";
+import {message, Tooltip} from "antd";
 import {withRouter} from "react-router-dom";
 
 class RateMovieModal extends Component {
@@ -21,7 +21,8 @@ class RateMovieModal extends Component {
     grading: 0, 
     isRated: false, 
     reviewID: "" ,
-    loggedIn: ""
+    loggedIn: "",
+    loading: true
   };
 
   async componentDidMount() {
@@ -48,15 +49,17 @@ class RateMovieModal extends Component {
           grading: review.grading,
           isRated: true,
           reviewID: review._id,
-          loggedIn
+          loggedIn,
+          loading: false
         })
       }
     }
   }
 
   showModal = () => {
-    const {loggedIn} = this.state;
-    if (!loggedIn) {
+    const {loggedIn, loading} = this.state;
+
+    if (!loggedIn && !loading) {
       this.props.history.push("/sign-in");
       message.error("You can rate after logging in");
       return this.setState({
@@ -69,9 +72,9 @@ class RateMovieModal extends Component {
     });
   };
 
-  changeGrading = (e) => {
+  changeGrading = (grading) => {
     this.setState({
-        grading: e.target.value
+        grading
     })
   }
 
@@ -80,6 +83,9 @@ class RateMovieModal extends Component {
     const {movieID} = this.props;
     const {grading, isRated, reviewID} = this.state;
     const currentUser = authenticationService.currentUserValue;
+    if (grading === 0) {
+      return message.error("Please select a grade for the film");
+    }
     if (!currentUser) {
       return;
     }
@@ -104,16 +110,61 @@ class RateMovieModal extends Component {
     });
   };
 
+  renderStarWidget = () => {
+    const {changeGrading} = this;
+    const {grading, isRated} = this.state;
+
+    const starInputs = () => {
+      let ans = [];
+      for (let index = 1; index <= 5; index++) {
+        if (index === grading && isRated) {
+          ans.push(
+            <>
+              <input type="radio" onChange={() => changeGrading(index)} name="grading" id={`rate-${index}`} checked/>
+              <label for={`rate-${index}`} className="fas fa-star"></label>
+            </>
+          )
+        } else {
+          ans.push(
+            <>
+              <input type="radio" onChange={() => changeGrading(index)} name="grading" id={`rate-${index}`}/>
+              <label for={`rate-${index}`} className="fas fa-star"></label>
+            </>
+          )
+        }
+      }
+      return ans.reverse();
+    }
+
+    return (
+      <div className="star-widget-container">
+        <div className="star-widget">
+          {starInputs()}
+          <div>
+            <header></header>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   render() {
-    const {changeGrading, onSubmit} = this;
+    const {changeGrading, onSubmit, renderStarWidget} = this;
     const {grading, isRated} = this.state;
 
     return (
       <>
+      {/*
         <button className="section__btn" onClick={this.showModal}>
             <i className="fas fa-star fa-2x" aria-hidden="true" style={{paddingRight: "10px"}}></i>
             Rate Now
         </button>
+        */}
+        <Tooltip title={"Rate the film"}>
+          <li className="rating-button" onClick={this.showModal}>
+            <i className="fa fa-star" aria-hidden="true"></i>
+          </li>
+        </Tooltip>
         <Modal
           title="Rate the Movie"
           visible={this.state.visible}
@@ -122,10 +173,13 @@ class RateMovieModal extends Component {
           okButtonProps={{style: {display: "none"}}}
         >
           <form onSubmit={onSubmit}>
+            {renderStarWidget()}
+            {/*
             <div className="form-group">
                 <label htmlFor="grading">Grading: {grading}/10</label>
                 <input name="grading" id="grading" type="range" className="grading-slider" onChange={changeGrading} min="0" max="10" value={grading}/>
             </div>
+            */}
             <button type="submit" className="section__btn">{isRated ? "RE-RATE" : "RATE"}</button>
           </form>
         </Modal>

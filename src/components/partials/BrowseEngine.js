@@ -9,7 +9,8 @@ export default class BrowseEngine extends Component {
     state = {
         searchName: "",
         orderBy: "AtoZ",
-        sortGenres: []
+        sortGenres: [],
+        isGenreExpanded: false
     }
 
     componentDidMount() {
@@ -31,6 +32,12 @@ export default class BrowseEngine extends Component {
             })
         }
         
+    }
+
+    onGenreExpand = () => {
+        this.setState({
+            isGenreExpanded: !this.state.isGenreExpanded
+        })
     }
 
     renderGenreCheckBoxes = () => {
@@ -97,8 +104,8 @@ export default class BrowseEngine extends Component {
     }
 
     render() {
-        const {renderGenreCheckBoxes, onChangeInput} = this;
-        const {searchName, orderBy} = this.state;
+        const {renderGenreCheckBoxes, onChangeInput, onGenreExpand} = this;
+        const {searchName, orderBy, isGenreExpanded} = this.state;
 
         return (
             <Collapse defaultActiveKey={['1']}>
@@ -127,8 +134,11 @@ export default class BrowseEngine extends Component {
                             </div>
                             <div className="col-12 form-group">
                                 <label htmlFor="genres">Genres:</label>
-                                <div className="genre-clip-row row">
+                                <div className={`genre-clip-row row ${isGenreExpanded ? "active": ""}`}>
                                     {renderGenreCheckBoxes()}
+                                </div>
+                                <div className="genre-expand-button" onClick={onGenreExpand}>
+                                   {isGenreExpanded ? <i class="fas fa-chevron-up"></i> : <i class="fas fa-chevron-down"></i>} 
                                 </div>
                             </div>
                         </div>

@@ -87,8 +87,17 @@ class Browse extends Component {
         currentMovies = sortMoviesAndSeries(movies, searchObject)
         currentSeries = sortMoviesAndSeries(series, searchObject)
 
-        const seriesPageObject = paginate(currentSeries.length, seriesCurrentPage, 12, 4);
-        const moviesPageObject = paginate(currentMovies.length, moviesCurrentPage, 12, 4);
+        currentSeries = currentSeries.map(currentSeriesItem => {
+            return {...currentSeriesItem, type: "series"}
+        })
+
+        let currentAllList = [...currentMovies, ...currentSeries];
+        const currentAllListPageObject = paginate(currentAllList.length, moviesCurrentPage, 10, 4);
+        currentAllList = currentAllList.slice(currentAllListPageObject.startIndex, currentAllListPageObject.endIndex + 1);
+
+        /*
+        const seriesPageObject = paginate(currentSeries.length, seriesCurrentPage, 10, 4);
+        const moviesPageObject = paginate(currentMovies.length, moviesCurrentPage, 10, 4);
 
         currentMovies = currentMovies.slice(moviesPageObject.startIndex, moviesPageObject.endIndex + 1);
         currentSeries = currentSeries.slice(seriesPageObject.startIndex, seriesPageObject.endIndex + 1);
@@ -114,6 +123,14 @@ class Browse extends Component {
         ]
 
         return <TabGenerator tabContents={tabContents} tabHeaders={tabHeaders}/>
+        */
+
+        return (
+            <>
+                <MovieList movies={currentAllList} loading={loading}/>
+                <Pagination pageObject={currentAllListPageObject} onChangePageNumber={changeMoviesPageNumber}/>
+            </>
+        )
     }
 
     render() {

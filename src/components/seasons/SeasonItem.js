@@ -20,7 +20,7 @@ export default class SeasonItem extends Component {
             return (
                 <span className="card__rate">
                     <i className="fas fa-star" aria-hidden="true"></i>
-                    {rating.toFixed(1)}/10
+                    {rating.toFixed(1)}/5
                 </span>
             )
     }

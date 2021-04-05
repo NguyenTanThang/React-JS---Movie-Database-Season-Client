@@ -104,12 +104,35 @@ class SeasonDetails extends Component {
         })
     }
 
+    renderRatingButton = () => {
+        const {loggedIn, loading} = this.state;
+
+        if (loading) {
+            return (
+                <Tooltip title={"Loading"}>
+                    <li className="like-button">
+                        <Loading/>
+                    </li>
+                 </Tooltip>
+            )
+        }
+
+        const {seasonItem} = this.props;
+        const seasonID = seasonItem._id;
+
+        if (loggedIn) {
+            return (
+                <RateMovieModal movieID={seasonID}/>
+            )
+        }
+    }
+
     renderLikeButton = () => {
         return (<></>);
     }
 
     render() {
-        const {renderWatchButton, renderLikeButton} = this;
+        const {renderWatchButton, renderLikeButton, renderRatingButton} = this;
         const {seasonItem, currentSeries} = this.props;
 
         if (!seasonItem || !currentSeries) {
@@ -152,18 +175,18 @@ class SeasonDetails extends Component {
                                 <img src={posterURL} alt=""/>
                             </div>
                             {renderWatchButton()}
-                            <RateMovieModal movieID={_id}/>
                         </div>
 
                         <div class="col-12 col-sm-8 col-md-8 col-lg-9 col-xl-7">
                             <div class="card__content">
                                 <div class="card__wrap">
-                                    <span class="card__rate"><i class="fas fa-star" aria-hidden="true"></i> {rating.toFixed(1)}/10</span>
+                                    <span class="card__rate"><i class="fas fa-star" aria-hidden="true"></i> {rating.toFixed(1)}/5</span>
 
                                     <ul class="card__list">
                                         <li>HD</li>
                                         <li>{Rated}</li>
                                         {renderLikeButton()}
+                                        {renderRatingButton()}
                                     </ul>
                                 </div>
 

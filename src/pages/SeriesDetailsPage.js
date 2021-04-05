@@ -4,6 +4,7 @@ import {getSeriesByIDAxios} from "../requests/seriesRequests";
 import CommentSection from "../components/comments/CommentSection";
 import SeriesDetails from "../components/series/SeriesDetails";
 import MovieDescription from "../components/movies/MovieDescription";
+import PhotoViewer from "../components/partials/PhotoViewer";
 import BigLoading from "../components/partials/BigLoading";
 import {
     getAllSeries
@@ -11,6 +12,9 @@ import {
 import {
     getCommentsByMovieID
 } from "../requests/commentRequests";
+import {
+    getPhotosBySeriesID
+} from "../requests/photoRequests";
 import {connect} from "react-redux";
 import SeriesItem from "../components/series/SeriesItem";
 import {getRandom} from "../utils/utils";
@@ -24,7 +28,8 @@ class SeriesDetailsPage extends Component {
 
     state = {
         seriesItem: "",
-        comments: ""
+        comments: "",
+        photos: ""
     }
 
     async componentDidMount() {
@@ -35,10 +40,12 @@ class SeriesDetailsPage extends Component {
 
             const seriesItem = await getSeriesByIDAxios(seriesID);
             const comments = await getCommentsByMovieID(seriesID);
+            const photos = await getPhotosBySeriesID(seriesID);
 
             this.setState({
                 seriesItem,
-                comments
+                comments,
+                photos
             })
         } catch (error) {
             this.props.history.push("/error");
@@ -96,7 +103,7 @@ class SeriesDetailsPage extends Component {
 
     renderTabGen = () => {
         const seriesID = this.props.match.params.seriesID;
-        const {seriesItem, comments} = this.state;
+        const {seriesItem, comments, photos} = this.state;
         const {addComment, removeComment} = this;
         const {description} = seriesItem;
 
@@ -110,12 +117,19 @@ class SeriesDetailsPage extends Component {
                 <>
                     <CommentSection movieSeriesID={seriesID} comments={comments} removeComment={removeComment} addComment={addComment}/>
                 </>
+            ),
+            (
+                <>
+                    {/*<PhotoViewer visible={visible} setVisible={setVisible}/>*/}
+                    <PhotoViewer photos={photos}/>
+                </>
             )
         ]
 
         const tabHeaders = [
             "Description",
-            "Comments"
+            "Comments",
+            "Photos"
         ]
 
         return <TabGenerator tabContents={tabContents} tabHeaders={tabHeaders}/>
