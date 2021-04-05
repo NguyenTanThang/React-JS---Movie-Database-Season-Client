@@ -59,6 +59,9 @@ class RateMovieModalSync extends Component {
     e.preventDefault();
     const {review, movieID} = this.props;
     const {grading, isRated} = this.state;
+    if (grading === 0) {
+      return message.error("Please select a grade for the episode");
+    }
     if (isRated && review) {
         const reviewID = review._id;
       await editRating(reviewID, {movieID, grading, customerID})
@@ -80,9 +83,47 @@ class RateMovieModalSync extends Component {
     });
   };
 
-  render() {
-    const {changeGrading, onSubmit} = this;
+  renderStarWidget = () => {
+    const {changeGrading} = this;
     const {grading, isRated} = this.state;
+
+    const starInputs = () => {
+      let ans = [];
+      for (let index = 1; index <= 5; index++) {
+        if (index === grading && isRated) {
+          ans.push(
+            <>
+              <input type="radio" onChange={() => changeGrading(index)} name="grading" id={`rate-${index}`} checked/>
+              <label for={`rate-${index}`} className="fas fa-star"></label>
+            </>
+          )
+        } else {
+          ans.push(
+            <>
+              <input type="radio" onChange={() => changeGrading(index)} name="grading" id={`rate-${index}`}/>
+              <label for={`rate-${index}`} className="fas fa-star"></label>
+            </>
+          )
+        }
+      }
+      return ans.reverse();
+    }
+
+    return (
+      <div className="star-widget-container">
+        <div className="star-widget">
+          {starInputs()}
+          <div>
+            <header></header>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  render() {
+    const {renderStarWidget, onSubmit} = this;
+    const {isRated} = this.state;
 
     return (
       <>
@@ -98,10 +139,7 @@ class RateMovieModalSync extends Component {
           okButtonProps={{style: {display: "none"}}}
         >
           <form onSubmit={onSubmit}>
-            <div className="form-group">
-                <label htmlFor="grading">Grading: {grading}/10</label>
-                <input name="grading" id="grading" type="range" className="grading-slider" onChange={changeGrading} min="0" max="10" value={grading}/>
-            </div>
+            {renderStarWidget()}
             <button type="submit" className="section__btn">{isRated ? "RE-RATE" : "RATE"}</button>
           </form>
         </Modal>
