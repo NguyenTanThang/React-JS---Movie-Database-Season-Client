@@ -84,14 +84,12 @@ class Browse extends Component {
         let currentMovies = movies;
         let currentSeries = series;
 
-        currentMovies = sortMoviesAndSeries(movies, searchObject)
-        currentSeries = sortMoviesAndSeries(series, searchObject)
-
         currentSeries = currentSeries.map(currentSeriesItem => {
             return {...currentSeriesItem, type: "series"}
         })
 
         let currentAllList = [...currentMovies, ...currentSeries];
+        currentAllList = sortMoviesAndSeries(currentAllList, searchObject)
         const currentAllListPageObject = paginate(currentAllList.length, moviesCurrentPage, 10, 4);
         currentAllList = currentAllList.slice(currentAllListPageObject.startIndex, currentAllListPageObject.endIndex + 1);
 
