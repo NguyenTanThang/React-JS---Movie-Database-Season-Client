@@ -5,11 +5,12 @@ import {
     getRecord,
     secondsToHms,
     playVideo,
-    checkVideoStatus
+    checkVideoStatus,
+    playerControls,
+    playerSettings
 } from "../../config/jqueryCode";
 import Plyr from 'plyr';
 import {
-    blobFromURL,
     blobFromURLStandard
 } from "../../utils/utils";
 
@@ -36,7 +37,10 @@ export default class MovieVideo extends Component {
     }
 
     async componentDidMount() {
-        new Plyr('#player');
+        new Plyr('#player', {
+            controls: playerControls,
+            settings: playerSettings
+        });
         //const {subtitles, videoSRC} = this.props;
         const {subtitles, movieID} = this.props;
         getCurrentVideoTime(movieID);

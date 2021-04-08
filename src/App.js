@@ -9,7 +9,6 @@ import "./App.css";
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import IdleTimer from 'react-idle-timer'
-import {createNotification} from "./utils";
 import ScrollToTop from "./components/partials/ScrollToTop";
 
 /*
@@ -137,6 +136,7 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
+        
       <IdleTimer
           ref={ref => { this.idleTimer = ref }}
           timeout={1000 * 60 * 10}
