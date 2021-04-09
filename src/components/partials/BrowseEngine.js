@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Collapse } from 'antd';
-import Loading from "../partials/Loading";
 
 const { Panel } = Collapse;
 
@@ -138,7 +137,7 @@ export default class BrowseEngine extends Component {
                                     {renderGenreCheckBoxes()}
                                 </div>
                                 <div className="genre-expand-button" onClick={onGenreExpand}>
-                                   {isGenreExpanded ? <i class="fas fa-chevron-up"></i> : <i class="fas fa-chevron-down"></i>} 
+                                   {isGenreExpanded ? <i className="fas fa-chevron-up"></i> : <i className="fas fa-chevron-down"></i>} 
                                 </div>
                             </div>
                         </div>
