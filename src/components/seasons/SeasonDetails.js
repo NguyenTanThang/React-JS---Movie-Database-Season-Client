@@ -194,7 +194,7 @@ class SeasonDetails extends Component {
                                     <li>
                                         <span>Genre:</span> 
                                         {genres.map(genre => {
-                                            return <Link key={genre} to="/">{genre}</Link>
+                                            return <Link key={genre} to={`/browse?g=${genre}`}>{genre}</Link>
                                         })}
                                     </li>
                                     <li><span>Release year:</span> {Year}</li>
@@ -202,8 +202,8 @@ class SeasonDetails extends Component {
                                     <li><span>Country:</span> {Country}</li>
                                     <li>
                                         <span>Actors:</span>
-                                        {actors.map(actor => {
-                                            return <Link key={actor} to="/">{actor}</Link>
+                                        {!Actors ? actors : actors.map(actor => {
+                                            return <Link key={actor} to={`/browse?t=${actor}`}>{actor}</Link>
                                         })}
                                     </li>
                                     {Director !== "N/A" ? (<li><span>Director:</span> <Link to="/">{Director}</Link></li>) : <></>}
