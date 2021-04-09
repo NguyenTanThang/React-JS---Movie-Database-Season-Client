@@ -59,7 +59,7 @@ class Home extends Component {
         let currentMovies = movies;
         let currentSeries = series;
         
-        currentMovies = getHighestRating(currentMovies).slice(0, 10);
+        currentMovies = getHighestRating(currentMovies).slice(0, 9);
         currentSeries = getHighestRating(currentSeries).slice(0, 7);
         currentSeries = currentSeries.map(currentSeriesItem => {
             return {...currentSeriesItem, type: "series"}
@@ -189,7 +189,7 @@ class Home extends Component {
             return {...currentSeriesItem, type: "series"}
         })
 
-        let currentAllList = shuffleArray([...currentMovies.slice(0, maxItemNumber), ...currentSeries.slice(0, maxItemNumber)]);
+        let currentAllList = shuffleArray([...currentMovies.slice(0, maxItemNumber ), ...currentSeries.slice(0, maxItemNumber)]);
 
         currentAllList = currentAllList.sort(function(a,b){
             return new Date(b.created_date) - new Date(a.created_date);
@@ -252,7 +252,7 @@ class Home extends Component {
             <MovieBannerList movies={currentAllList.slice(0, 4)} loading={loading}/>
             
             <div className="section-padding">
-                <MovieCarousel movies={currentAllList.slice(4)} loading={loading}/>
+                <MovieCarousel movies={currentAllList.slice(4, currentAllList.length - 1)} loading={loading}/>
             </div>
         </>
     }
