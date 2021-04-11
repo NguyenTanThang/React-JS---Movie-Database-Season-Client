@@ -110,14 +110,16 @@ class MovieDetailsPage extends Component {
     calculateRating = () => {
         const {reviews, loading} = this.props;
     
-        if (!loading && reviews.length > 0) {
-            let meanRating = 0;
+        if (!loading) {
+            if (reviews.length > 0) {
+                let meanRating = 0;
     
-            reviews.forEach(reviewItem => {
-                meanRating += reviewItem.grading;
-            });
-            meanRating = meanRating / reviews.length;
-            return meanRating;
+                reviews.forEach(reviewItem => {
+                    meanRating += reviewItem.grading;
+                });
+                meanRating = meanRating / reviews.length;
+                return meanRating;
+            }
         }
 
         return 0;
