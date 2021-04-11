@@ -95,6 +95,7 @@ export const resetPassword = async (token, newPassword) => {
         const resMessage = res.data.message;
 
         if (!success) {
+            console.log(res);
             return message.error(resMessage, 5);
         }
 
@@ -106,6 +107,7 @@ export const resetPassword = async (token, newPassword) => {
 
         return data;
     } catch (error) {
+        console.log(error);
         message.error(error.message, 5);
     }
 }

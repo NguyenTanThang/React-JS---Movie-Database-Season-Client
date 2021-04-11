@@ -22,7 +22,7 @@ export default class SignIn extends Component {
         const customer = await getResetPasswordToken(token);
         console.log(customer);
         if (!token || !customer) {
-            return this.props.history.push("/");
+            return this.props.history.push("/sign-in");
         }
     }
 
@@ -42,7 +42,7 @@ export default class SignIn extends Component {
             } 
             const data = await resetPassword(token, newPassword);
             if (data.success) {
-                this.props.history.push("/");
+                this.props.history.push("/sign-in");
             }
         } catch (error) {
             console.log(error);
