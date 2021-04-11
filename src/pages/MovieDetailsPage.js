@@ -10,6 +10,11 @@ import {
     getAllMovies
 } from "../actions/movieActions";
 import {
+    getReviewsByMovieID,
+    addReview,
+    editReview
+} from "../actions/reviewActions";
+import {
     getCommentsByMovieID
 } from "../requests/commentRequests";
 import {
@@ -38,6 +43,7 @@ class MovieDetailsPage extends Component {
 
             const movieID = this.props.match.params.movieID;
 
+            this.props.getReviewsByMovieID(movieID);
             const movieItem = await getMovieByIDAxios(movieID);
             const comments = await getCommentsByMovieID(movieID);
             const photos = await getPhotosByMovieID(movieID);
@@ -101,6 +107,22 @@ class MovieDetailsPage extends Component {
         
     }
 
+    calculateRating = () => {
+        const {reviews, loading} = this.props;
+    
+        if (!loading && reviews.length > 0) {
+            let meanRating = 0;
+    
+            reviews.forEach(reviewItem => {
+                meanRating += reviewItem.grading;
+            });
+            meanRating = meanRating / reviews.length;
+            return meanRating;
+        }
+
+        return 0;
+    }
+
     renderTabGen = () => {
         const movieID = this.props.match.params.movieID;
         const {addComment, removeComment, setVisible} = this;
@@ -137,6 +159,7 @@ class MovieDetailsPage extends Component {
 
     render() {
         const {renderTabGen, renderRNGMovieItems} = this;
+        const {addReview, editReview} = this.props;
         const {movieItem} = this.state;
 
         if (movieItem === "") {
@@ -166,7 +189,7 @@ class MovieDetailsPage extends Component {
                 <Navbar/>
 
                 <div>
-                <MovieDetails movieIDFromPage={movieIDFromPage} movieItem={movieItem}/>
+                <MovieDetails movieIDFromPage={movieIDFromPage} movieItem={movieItem} addReview={addReview} editReview={editReview} totalRating={this.calculateRating()}/>
                 <div className="container">
                     <div className="row">
                         <div className="col-12 col-lg-8 col-xl-8 movie-details-tab">
@@ -194,13 +217,24 @@ const mapDispatchToProps = (dispatch) => {
     return {
         getAllMovies: () => {
             dispatch(getAllMovies())
+        },
+        getReviewsByMovieID: (movieID) => {
+            dispatch(getReviewsByMovieID(movieID))
+        },
+        addReview: (newReview) => {
+            dispatch(addReview(newReview))
+        },
+        editReview: (updatedReview) => {
+            dispatch(editReview(updatedReview._id, updatedReview))
         }
     }
 }
 
 const mapStateToProps = (state) => {
     return {
-        movies: state.movieReducer.movies
+        movies: state.movieReducer.movies,
+        reviews: state.reviewReducer.reviews,
+        loading: state.loadingReducer.loading
     }
 }
 

@@ -214,7 +214,7 @@ class MovieDetails extends Component {
                         <div className="col-12 col-sm-8 col-md-8 col-lg-9 col-xl-7">
                             <div className="card__content">
                                 <div className="card__wrap">
-                                    <span className="card__rate"><i className="fas fa-star" aria-hidden="true"></i> {rating.toFixed(1)}/5</span>
+                                    <span className="card__rate"><i className="fas fa-star" aria-hidden="true"></i> {this.props.totalRating.toFixed(1)}/5</span>
 
                                     <ul className="card__list">
                                         <li>HD</li>

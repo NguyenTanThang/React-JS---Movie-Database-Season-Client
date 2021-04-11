@@ -14,6 +14,12 @@ import {
 import {getAuthStatus} from "../../requests/authRequests";
 import {message, Tooltip} from "antd";
 import {withRouter} from "react-router-dom";
+import {
+  getReviewsByMovieID,
+  addReview,
+  editReview
+} from "../../actions/reviewActions";
+import {connect} from "react-redux";
 
 class RateMovieModal extends Component {
   state = { 
@@ -91,14 +97,19 @@ class RateMovieModal extends Component {
     }
     const customerID = currentUser.customerItem._id;
     if (isRated) {
-      await editRating(reviewID, {movieID, grading, customerID})
+      const updatedRating = await editRating(reviewID, {movieID, grading, customerID});
+      this.props.editReview(updatedRating);
       this.setState({
-        visible: false
+        visible: false,
+        isRated: true,
       })
     } else {
-      await addRating({movieID, grading, customerID})
+      const newRating = await addRating({movieID, grading, customerID});
+      this.props.addReview(newRating);
       this.setState({
-        visible: false
+        visible: false,
+        isRated: true,
+        reviewID: newRating._id
       })
     }
   }
@@ -121,14 +132,14 @@ class RateMovieModal extends Component {
           ans.push(
             <React.Fragment key={`rate-${index}`}>
               <input type="radio" onChange={() => changeGrading(index)} name="grading" id={`rate-${index}`} checked/>
-              <label for={`rate-${index}`} className="fas fa-star"></label>
+              <label htmlFor={`rate-${index}`} className="fas fa-star"></label>
             </React.Fragment>
           )
         } else {
           ans.push(
             <React.Fragment key={`rate-${index}`}>
               <input type="radio" onChange={() => changeGrading(index)} name="grading" id={`rate-${index}`}/>
-              <label for={`rate-${index}`} className="fas fa-star"></label>
+              <label htmlFor={`rate-${index}`} className="fas fa-star"></label>
             </React.Fragment>
           )
         }
@@ -188,4 +199,24 @@ class RateMovieModal extends Component {
   }
 }
 
-export default withRouter(RateMovieModal);
+const mapDispatchToProps = (dispatch) => {
+  return {
+      getReviewsByMovieID: (movieID) => {
+          dispatch(getReviewsByMovieID(movieID))
+      },
+      addReview: (newReview) => {
+          dispatch(addReview(newReview))
+      },
+      editReview: (updatedReview) => {
+          dispatch(editReview(updatedReview))
+      }
+  }
+}
+
+const mapStateToProps = (state) => {
+  return {
+      reviews: state.reviewReducer.reviews
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(RateMovieModal));
