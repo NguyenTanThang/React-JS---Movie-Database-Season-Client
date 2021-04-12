@@ -3500,8 +3500,14 @@ input[type=range]::-ms-thumb {
     width: 100% !important; 
 }
 
-.plyr__controls__item.plyr__menu {
-    margin-left: auto;
+.plyr__controls__item.plyr__time--duration.plyr__time {
+    margin-right: auto;
+}
+
+@media screen and (min-width: 320px) and (max-width: 767px) {
+    .plyr__controls__item.plyr__time--current.plyr__time {
+        margin-right: auto;
+    }
 }
 
 /*==============================
