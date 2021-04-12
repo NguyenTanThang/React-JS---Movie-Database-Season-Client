@@ -33,8 +33,6 @@ export const addComment = async ({customerID, movieSeriesID, content}) => {
 
         const comment = res.data.data;
 
-        console.log(res.data);
-
         return comment;
     } catch (error) {
         message.error(error.message, 5);

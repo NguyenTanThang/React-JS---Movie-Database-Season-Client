@@ -26,12 +26,6 @@ const reviewsReducer = (state = initialState, action) => {
             return {
                 ...state,
                 reviews: state.reviews.map(review => {
-                    console.log("review");
-                    console.log(review);
-                    console.log("action.payload.review");
-                    console.log(action.payload.review);
-                    console.log("review.customerID === action.payload.review.customerID");
-                    console.log(review.customerID === action.payload.review.customerID);
                     if (review.customerID === action.payload.review.customerID) {
                         return action.payload.review;
                     }

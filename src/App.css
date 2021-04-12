@@ -3491,6 +3491,19 @@ input[type=range]::-ms-thumb {
     filter: none;
 }
 
+.plyr__controls {
+    flex-wrap: wrap;
+}
+
+.plyr__progress__container {
+    flex: 100% !important;
+    width: 100% !important; 
+}
+
+.plyr__controls__item.plyr__menu {
+    margin-left: auto;
+}
+
 /*==============================
 	Episode
 ==============================*/
@@ -3499,6 +3512,17 @@ input[type=range]::-ms-thumb {
     margin-top: 0;
     padding-top: 0;
     padding-bottom: 30px;
+}
+
+.series-watch-container {
+    position: relative;
+}
+
+.next-btn-cotainer {
+    position: absolute;
+    top: -10px;
+    right: 10px;
+    z-index: 3;
 }
 
 .episode-details-content__sub-header h6 {
@@ -3568,7 +3592,7 @@ input[type=range]::-ms-thumb {
 
 .series-watch-container .plyr__video-wrapper
  {
-    height: 400px;
+    height: 500px;
 }
 
 .movie-watch-container .plyr__video-wrapper {
@@ -3699,6 +3723,7 @@ input[type=range]::-ms-thumb {
     left: 0;
     right: 0;
     bottom: -1.7%;
+    z-index: 4;
 }
 
 .continue-modal {
@@ -3710,6 +3735,7 @@ input[type=range]::-ms-thumb {
     transform: translate(-50%, -50%);
     background-color: #2f2b30;
     border-radius: 10px;
+    z-index: 5;
 }
 
 .continue-modal h4 {

@@ -20,6 +20,9 @@ import MovieDescription from "../components/movies/MovieDescription";
 import {
     getReviewByCustomerID,
 } from "../requests/reviewRequests";
+import {
+    getRecord
+} from "../config/jqueryCode"
 
 const customerID = localStorage.getItem("userID")
 
@@ -31,7 +34,8 @@ class WatchSeasonPage extends Component {
         currentEpisode: "",
         currentEpisodeNum: 1,
         ratingEpisodeList: [],
-        subtitles: []
+        subtitles: [],
+        isAboutToEnd: false
     }
 
     async componentDidMount() {
@@ -57,9 +61,6 @@ class WatchSeasonPage extends Component {
             await addWatchHistory(userID, seriesID);
 
             const reviews = await getReviewByCustomerID(customerID);
-            console.log("reviews");
-            console.log(reviews);
-
             for (let i = 0; i < episodeList.length; i++) {
                 const episodeItem = episodeList[i];
                 
@@ -86,22 +87,32 @@ class WatchSeasonPage extends Component {
             }
 
             const subtitles = await getSubtitlesByEpisodeID(episodeList.filter(episodeItem => {
-                console.log(episodeItem.episodeNum === this.state.currentEpisodeNum)
                 return episodeItem.episodeNum === this.state.currentEpisodeNum
             })[0]._id);
-            console.log(episodeList.filter(episodeItem => {
-                console.log(episodeItem.episodeNum === this.state.currentEpisodeNum)
-                return episodeItem.episodeNum === this.state.currentEpisodeNum
-            })[0]._id);
-            console.log(subtitles)
-        
+
             this.setState({
                 episodeList,
                 seasonItem,
                 currentEpisode: episodeList[0],
                 ratingEpisodeList,
                 subtitles
-            })
+            });
+
+            setInterval(() => {
+                const currentEpsiodeRecord = getRecord(this.state.currentEpisode._id);
+                let isAboutToEnd = false;
+
+                if (currentEpsiodeRecord) {
+                    let {currentTime, duration} = currentEpsiodeRecord;
+                    if (duration - currentTime < 20 && this.state.currentEpisodeNum < episodeList.length) {
+                        isAboutToEnd = true
+                    }
+                }
+                
+                this.setState({
+                    isAboutToEnd
+                });
+            }, 1000);
         } catch (error) {
             this.props.history.push("/error");
         }
@@ -112,6 +123,17 @@ class WatchSeasonPage extends Component {
         this.setState({
             currentEpisode,
             currentEpisodeNum: currentEpisode.episodeNum
+        })
+    }
+
+    changeCurrentEpisodeNum = (currentEpisodeNum) => {
+        const currentEpisode = this.state.episodeList.filter(episodeItem => {
+            return episodeItem.episodeNum === currentEpisodeNum;
+        })[0];
+        localStorage.setItem("ratingMovieID", currentEpisode._id);
+        this.setState({
+            currentEpisode,
+            currentEpisodeNum: currentEpisodeNum
         })
     }
 
@@ -166,8 +188,6 @@ class WatchSeasonPage extends Component {
             else {
                 tabHeaders.push(`Ep. ${beginEp} - Ep. ${maxEp}`);
             }
-            console.log("episodeTabs");
-            console.log(episodeTabs);
         }
 
         /*
@@ -182,8 +202,6 @@ class WatchSeasonPage extends Component {
 
         */
 
-       console.log(tabContents);
-
         /*
         const tabHeaders = episodeList.map(episodeItem => {
             const {episodeNum} = episodeItem;
@@ -194,15 +212,11 @@ class WatchSeasonPage extends Component {
 
         */
 
-       console.log(tabHeaders);
-
         return <TabGenerator tabContents={tabContents} tabHeaders={tabHeaders}/>
     }
 
     renderEpisodeListWatchItems = () => {
         const {episodeList, subtitles} = this.state;
-        console.log(episodeList);
-        console.log(subtitles);
         
         if (!episodeList || episodeList.length === 0) {
             return(<></>);
@@ -217,8 +231,6 @@ class WatchSeasonPage extends Component {
             )
         })
 
-        console.log(tabContents);
-
         const tabHeaders = episodeList.map(episodeItem => {
             const {episodeNum} = episodeItem;
             return (
@@ -226,14 +238,12 @@ class WatchSeasonPage extends Component {
             )
         })
 
-        console.log(tabHeaders);
-
         return <TabGenerator tabContents={tabContents} tabHeaders={tabHeaders}/>
     }
 
     render() {
-        const {renderEpisodeListWatchItems, renderEpisodeContainerTabs} = this;
-        const {seasonItem, currentEpisode, ratingEpisodeList, subtitles} = this.state;
+        const {renderEpisodeListWatchItems, renderEpisodeContainerTabs, changeCurrentEpisodeNum} = this;
+        const {seasonItem, currentEpisode, ratingEpisodeList, subtitles, isAboutToEnd, currentEpisodeNum} = this.state;
         const {rating} = currentEpisode;
         const ratingEpisodeItem = ratingEpisodeList.filter(item => {
             return item.episodeNum === currentEpisode.episodeNum
@@ -268,6 +278,12 @@ class WatchSeasonPage extends Component {
                             <div className="col-12">
                                 <div key={currentEpisode._id}className="series-watch-container">
                                     <MovieVideo videoSRC={currentEpisode.episodeURL} subtitles={subtitles} movieID={currentEpisode._id}/>
+                                    
+                                    {/*
+                                    {isAboutToEnd ? (<div className="next-btn-cotainer">
+                                            <button onClick={() => changeCurrentEpisodeNum(currentEpisodeNum + 1)}className="next-btn section__btn">Next Episode</button>
+                                        </div>) : (<></>)}
+                                    */}
                                 </div>
                                 <div className="episode-details">
                                     <div className="episode-details__content">
@@ -295,6 +311,7 @@ class WatchSeasonPage extends Component {
                             </div>
                         </div>
                     </div>
+
                 </section>
             </>
             </motion.div>

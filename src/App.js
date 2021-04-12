@@ -93,7 +93,6 @@ class App extends React.Component {
         isWatched = true;
       } else {
         this.handleResumeIdle();
-        console.log(this.idleTimer.getRemainingTime());
       }
     }
 

@@ -77,7 +77,6 @@ class RateMovieModalSync extends Component {
   }
 
   handleCancel = e => {
-    console.log(e);
     this.setState({
       visible: false,
     });
@@ -92,17 +91,17 @@ class RateMovieModalSync extends Component {
       for (let index = 1; index <= 5; index++) {
         if (index === grading && isRated) {
           ans.push(
-            <>
+            <React.Fragment key={`rate-${index}`}>
               <input type="radio" onChange={() => changeGrading(index)} name="grading" id={`rate-${index}`} checked/>
               <label for={`rate-${index}`} className="fas fa-star"></label>
-            </>
+            </React.Fragment>
           )
         } else {
           ans.push(
-            <>
+            <React.Fragment key={`rate-${index}`}>
               <input type="radio" onChange={() => changeGrading(index)} name="grading" id={`rate-${index}`}/>
               <label for={`rate-${index}`} className="fas fa-star"></label>
-            </>
+            </React.Fragment>
           )
         }
       }

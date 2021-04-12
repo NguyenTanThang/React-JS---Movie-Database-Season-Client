@@ -12,8 +12,6 @@ export const getPhotosByMovieID = async (movieID) => {
     try {
         const res = await axios.get(`${PHOTO_URL}/movieID/${movieID}`);
 
-        console.log(res);
-
         const photos = res.data.data;
 
         return photos;
@@ -26,8 +24,6 @@ export const getPhotosByMovieID = async (movieID) => {
 export const getPhotosBySeriesID = async (seriesID) => {
     try {
         const res = await axios.get(`${PHOTO_URL}/seriesID/${seriesID}`);
-
-        console.log(res);
 
         const photos = res.data.data;
 
@@ -42,8 +38,6 @@ export const getPhotosBySeriesID = async (seriesID) => {
 export const getPhotosBySeasonID = async (seasonID) => {
     try {
         const res = await axios.get(`${PHOTO_URL}/seasonID/${seasonID}`);
-
-        console.log(res);
 
         const photos = res.data.data;
 

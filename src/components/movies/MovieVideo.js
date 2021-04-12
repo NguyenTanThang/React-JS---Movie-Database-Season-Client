@@ -7,7 +7,8 @@ import {
     playVideo,
     checkVideoStatus,
     playerControls,
-    playerSettings
+    playerSettings,
+    playerControlsSeries
 } from "../../config/jqueryCode";
 import Plyr from 'plyr';
 import {
@@ -39,6 +40,7 @@ export default class MovieVideo extends Component {
     async componentDidMount() {
         new Plyr('#player', {
             controls: playerControls,
+            //controls: playerControlsSeries,
             settings: playerSettings
         });
         //const {subtitles, videoSRC} = this.props;
@@ -85,7 +87,6 @@ export default class MovieVideo extends Component {
 
         return subtitles.map((subtitleItem, index) => {
             const {languageLabel, _id, subtitleURL} = subtitleItem;
-            console.log(subtitleURL);
             if (index === 0) {
                 return (
                     <track kind="captions" key={_id} label={languageLabel} src={base64SubtitlesURL[index]} default />

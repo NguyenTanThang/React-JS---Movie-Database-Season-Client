@@ -55,8 +55,6 @@ class WatchLater extends Component {
         let movieList = [];
         let seriesList = [];
 
-        console.log(watchLater);
-
         if (!watchLater.movieList || !watchLater.seriesList) {
             return <></>;
         }

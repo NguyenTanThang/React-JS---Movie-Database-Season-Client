@@ -37,8 +37,6 @@ class MovieDetails extends Component {
             const customerID = currentUser.customerItem._id;
             const watchLaterItem = await getWatchLaterByCustomerIDAndMovieID(customerID, movieID);
 
-            console.log(watchLaterItem);
-    
             if (!watchLaterItem || isObjectEmpty(watchLaterItem)) {
                 liked = false;
             } else {

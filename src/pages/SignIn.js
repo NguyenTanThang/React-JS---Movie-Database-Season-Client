@@ -16,7 +16,6 @@ export default class SignIn extends Component {
     constructor(props) {
         super(props);
 
-        console.log(authenticationService.currentUserValue);
         // redirect to home if already logged in
         if (authenticationService.currentUserValue) { 
             this.props.history.push('/');
@@ -50,7 +49,6 @@ export default class SignIn extends Component {
             authenticationService.login(email, password)
             .then(
                 user => {
-                    console.log(user);
                     const { from } = this.props.location.state || { from: { pathname: "/" } };
                     this.props.history.push(from);
                 },

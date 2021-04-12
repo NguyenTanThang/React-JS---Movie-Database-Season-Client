@@ -40,7 +40,6 @@ class WatchSeriesPage extends Component {
 
     renderEpisodeListWatchItems = () => {
         const {episodeList} = this.state;
-        console.log(episodeList);
         
         if (!episodeList || episodeList.length === 0) {
             return(<></>);
@@ -55,16 +54,12 @@ class WatchSeriesPage extends Component {
             )
         })
 
-        console.log(tabContents);
-
         const tabHeaders = episodeList.map(episodeItem => {
             const {episodeNum} = episodeItem;
             return (
                 `Ep. ${episodeNum}`
             )
         })
-
-        console.log(tabHeaders);
 
         return <TabGenerator tabContents={tabContents} tabHeaders={tabHeaders}/>
     }

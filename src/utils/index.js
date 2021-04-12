@@ -3,7 +3,6 @@ import queryString from "query-string";
 
 export const extractQueryString = (props) => {
     const parsed = queryString.parse(props.location.search);
-    console.log(parsed);
     return parsed;
 }
 

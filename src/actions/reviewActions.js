@@ -21,11 +21,9 @@ export const getReviewsByMovieID = (movieID) => {
             const res = await axios.get(`${REVIEWS_URL}/movieID/${movieID}`);
     
             const reviews = res.data.data;
-            console.log(res);
 
             dispatch(clearLoading());
 
-            console.log(GET_REVIEWS_BY_MOVIES_ID);
             return dispatch({
                 type: GET_REVIEWS_BY_MOVIES_ID,
                 payload: {

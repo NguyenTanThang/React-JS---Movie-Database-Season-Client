@@ -21,7 +21,6 @@ export const addSubscription = async (planID) => {
         });
 
         const sub = res.data.data;
-        console.log(sub);
 
         return sub;
     } catch (error) {

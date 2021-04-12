@@ -14,8 +14,6 @@ export const getZaloPayURL = async (customerID, obj) => {
 
         const res = await axios.get(`${ZALOS_URL}/amount/${amount}/customerID/${customerID}/planID/${planID}`);
 
-        console.log(res.data);
-
         const orderUrl = res.data.order_url;
 
         return orderUrl;
@@ -30,8 +28,6 @@ export const getZaloPayGatewayURL = async (customerID, obj) => {
         const {amount, planID} = obj;
 
         const res = await axios.get(`${ZALOS_URL}/gateway/amount/${amount}/customerID/${customerID}/planID/${planID}`);
-
-        console.log(res.data);
 
         const orderUrl = res.data.order_url;
 

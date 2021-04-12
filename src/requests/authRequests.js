@@ -18,8 +18,6 @@ export const editCustomer = async (updatedCustomer) => {
     try {
         message.loading("Saving...", 0);
 
-        console.log(updatedCustomer);
-
         if (!authenticationService.currentUserValue) {
             return false;
         }
@@ -43,8 +41,6 @@ export const editCustomer = async (updatedCustomer) => {
         }
 
         const data = res.data;
-
-        console.log(data);
 
         message.destroy();
         message.success(resMessage, 5);
@@ -73,8 +69,6 @@ export const resetPasswordToken = async (email) => {
 
         const data = res.data;
 
-        console.log(data);
-
         message.success(resMessage, 5);
 
         return data;
@@ -95,13 +89,10 @@ export const resetPassword = async (token, newPassword) => {
         const resMessage = res.data.message;
 
         if (!success) {
-            console.log(res);
             return message.error(resMessage, 5);
         }
 
         const data = res.data;
-
-        console.log(data);
 
         message.success(resMessage, 5);
 
@@ -137,8 +128,6 @@ export const changePassword = async (userID, updatePasswordObject) => {
         }
 
         const data = res.data;
-
-        console.log(data);
 
         message.destroy();
         message.success("Successfully changed password", 5);
@@ -209,8 +198,6 @@ export const getSubStatus = async () => {
 
         const status = res.data.data;
 
-        console.log(status);
-
         return status;
     } catch (error) {
         message.error(error.message, 5);
@@ -253,8 +240,6 @@ export const signup = async (newUser) => {
 
         const data = res.data;
 
-        console.log(data);
-
         message.success("Please go to the email to validate the new account to login", 5);
 
         return data;
@@ -286,8 +271,6 @@ export const login = async (currentUser) => {
 
         const data = res.data;
         const user = res.data.data;
-
-        console.log(data);
 
         message.success("Successfully logged in", 5);
         setCurrentUser(user);
@@ -381,8 +364,6 @@ export const sessionAutoRefreshMechanic = async () => {
                 if (!currentSession) {
                     return authenticationService.logout();
                 }
-
-                //console.log(+new Date(currentSession.expiry_date) - +Date.now());
 
                 if (+new Date(currentSession.expiry_date) - +Date.now() <= 1000 * 60  * 1.5 && +new Date(currentSession.expiry_date) - +Date.now() > 0) {
                     const session = await refreshSession();

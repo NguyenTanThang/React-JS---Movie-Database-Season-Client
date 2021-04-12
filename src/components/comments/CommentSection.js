@@ -28,8 +28,6 @@ export default class CommentSection extends Component {
     renderCommentItems = () => {
         const {comments, removeComment} = this.props;
 
-        console.log(comments);
-
         if (!comments) {
             return (<></>)
         }

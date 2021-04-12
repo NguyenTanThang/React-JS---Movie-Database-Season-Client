@@ -36,7 +36,6 @@ export default class AddCommentForm extends Component {
                 movieSeriesID,
                 content
             });
-            console.log(comment);
 
             insertComment(comment);
 

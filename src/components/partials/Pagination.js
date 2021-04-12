@@ -5,8 +5,7 @@ export default class Pagination extends Component {
     renderPaginatorItem = () => {
         const {pageObject, onChangePageNumber} = this.props;
         const {pages, currentPage} = pageObject;
-        console.log(pageObject);
-
+        
         return pages.map(page => {
             if (currentPage === page) {
                 return (

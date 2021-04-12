@@ -1,9 +1,17 @@
 import React, { Component } from 'react';
 import Plyr from 'plyr';
+import {
+    playerControls,
+    playerSettings,
+} from "../../config/jqueryCode";
 
 export default class MovieVideo extends Component {
     async componentDidMount() {
-        new Plyr('#player');
+        new Plyr('#player', {
+            controls: playerControls,
+            //controls: playerControlsSeries,
+            settings: playerSettings
+        });
     }
 
     render() {

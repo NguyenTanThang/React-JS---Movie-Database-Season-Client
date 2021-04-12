@@ -39,9 +39,6 @@ class WatchMoviePage extends Component {
             await deleteWatchHistory(userID, movieID);
             await addWatchHistory(userID, movieID);
 
-            console.log("subtitles-WatchMoviePage")
-            console.log(subtitles)
-
             this.setState({
                 movieItem,
                 subtitles
