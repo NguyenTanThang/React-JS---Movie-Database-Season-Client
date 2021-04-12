@@ -107,24 +107,6 @@ class MovieDetailsPage extends Component {
         
     }
 
-    calculateRating = () => {
-        const {reviews, loading} = this.props;
-    
-        if (!loading) {
-            if (reviews.length > 0) {
-                let meanRating = 0;
-    
-                reviews.forEach(reviewItem => {
-                    meanRating += reviewItem.grading;
-                });
-                meanRating = meanRating / reviews.length;
-                return meanRating;
-            }
-        }
-
-        return 0;
-    }
-
     renderTabGen = () => {
         const movieID = this.props.match.params.movieID;
         const {addComment, removeComment, setVisible} = this;
@@ -191,7 +173,7 @@ class MovieDetailsPage extends Component {
                 <Navbar/>
 
                 <div>
-                <MovieDetails movieIDFromPage={movieIDFromPage} movieItem={movieItem} addReview={addReview} editReview={editReview} totalRating={this.calculateRating()}/>
+                <MovieDetails movieIDFromPage={movieIDFromPage} movieItem={movieItem} addReview={addReview} editReview={editReview}/>
                 <div className="container">
                     <div className="row">
                         <div className="col-12 col-lg-8 col-xl-8 movie-details-tab">

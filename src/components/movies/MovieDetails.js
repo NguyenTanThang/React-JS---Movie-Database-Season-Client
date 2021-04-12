@@ -9,6 +9,10 @@ import {addWatchLater, deleteWatchLater, getWatchLaterByCustomerIDAndMovieID} fr
 import {isObjectEmpty} from '../../utils/validate';
 import {authenticationService} from '../../_services';
 import {getSubStatus, getAuthStatus} from "../../requests/authRequests";
+import {
+    getReviewsByMovieID
+} from "../../actions/reviewActions";
+import {connect} from "react-redux";
 
 class MovieDetails extends Component {
 
@@ -20,10 +24,10 @@ class MovieDetails extends Component {
     }
 
     async componentDidMount() {
+        const movieID = this.props.movieIDFromPage;
+        this.props.getReviewsByMovieID(movieID);
         const subStatus = await getSubStatus();
         const loggedIn = await getAuthStatus();
-
-        const movieID = this.props.movieIDFromPage;
 
         let liked = false;
     
@@ -48,6 +52,24 @@ class MovieDetails extends Component {
             loggedIn,
             loading: false
         })
+    }
+
+    calculateRating = () => {
+        const {reviews, loading} = this.props;
+
+        if (!loading && reviews) {
+            let meanRating = 0;
+
+            for (let i = 0; i < reviews.length; i++) {
+                const reviewItem = reviews[i];
+                meanRating += reviewItem.grading;
+            }
+
+            meanRating = meanRating / reviews.length;
+            return meanRating;
+        }
+
+        return 0;
     }
 
     renderWatchButton = () => {
@@ -214,7 +236,7 @@ class MovieDetails extends Component {
                         <div className="col-12 col-sm-8 col-md-8 col-lg-9 col-xl-7">
                             <div className="card__content">
                                 <div className="card__wrap">
-                                    <span className="card__rate"><i className="fas fa-star" aria-hidden="true"></i> {this.props.totalRating.toFixed(1)}/5</span>
+                                    <span className="card__rate"><i className="fas fa-star" aria-hidden="true"></i> {this.calculateRating().toFixed(1)}/5</span>
 
                                     <ul className="card__list">
                                         <li>HD</li>
@@ -285,4 +307,19 @@ class MovieDetails extends Component {
     }
 }
 
-export default MovieDetails;
+const mapDispatchToProps = (dispatch) => {
+    return {
+        getReviewsByMovieID: (movieID) => {
+            dispatch(getReviewsByMovieID(movieID))
+        },
+    }
+}
+
+const mapStateToProps = (state) => {
+    return {
+        reviews: state.reviewReducer.reviews,
+        loading: state.loadingReducer.loading
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(MovieDetails);
