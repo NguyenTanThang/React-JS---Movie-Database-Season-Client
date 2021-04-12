@@ -4,18 +4,17 @@ import {sectionBG} from "../../config/jqueryCode";
 import RateMovieModal from "../movies/RateMovieModal";
 import {Link} from "react-router-dom";
 import { Tooltip } from 'antd';
-import {addWatchLater, deleteWatchLater, getWatchLaterByCustomerIDAndMovieID} from "../../requests/watchLaterRequests";
-import {isObjectEmpty} from '../../utils/validate';
 import {getSubStatus, getAuthStatus} from "../../requests/authRequests";
 import MovieTrailer from "../movies/MovieTrailer";
 import Loading from "../partials/Loading";
-
-const customerID = localStorage.getItem("userID")
+import {
+    getReviewsByMovieID
+} from "../../actions/reviewActions";
+import {connect} from "react-redux";
 
 class SeasonDetails extends Component {
 
     state = {
-        liked: false,
         subStatus: "",
         loggedIn: "",
         loading: true
@@ -23,24 +22,12 @@ class SeasonDetails extends Component {
 
     async componentDidMount() {
         sectionBG();
-
+        const seasonID = this.props.seasonIDFromPage;
+        this.props.getReviewsByMovieID(seasonID);
         const subStatus = await getSubStatus();
         const loggedIn = await getAuthStatus();
 
-        const seasonID = this.props.seasonIDFromPage;
-
-        let liked = false;
-    
-        const watchLaterItem = await getWatchLaterByCustomerIDAndMovieID(customerID, seasonID);
-    
-        if (!watchLaterItem || isObjectEmpty(watchLaterItem)) {
-            liked = false;
-        } else {
-            liked = true;
-        }
-    
         this.setState({
-            liked,
             subStatus,
             loggedIn,
             loading: false
@@ -89,21 +76,6 @@ class SeasonDetails extends Component {
         }
     }
 
-    changeLikeStatus = async () => {
-        const {seasonItem} = this.props;
-        const seasonID = seasonItem._id;
-
-        if (!this.state.liked === true) {
-            await addWatchLater(customerID, seasonID)
-        } else {
-            await deleteWatchLater(customerID, seasonID)
-        }
-
-        this.setState({
-            liked: !this.state.liked
-        })
-    }
-
     renderRatingButton = () => {
         const {loggedIn, loading} = this.state;
 
@@ -127,19 +99,36 @@ class SeasonDetails extends Component {
         }
     }
 
-    renderLikeButton = () => {
-        return (<></>);
+    calculateRating = () => {
+        const {reviews, loading} = this.props;
+
+        if (!loading && reviews) {
+            let meanRating = 0;
+
+            for (let i = 0; i < reviews.length; i++) {
+                const reviewItem = reviews[i];
+                meanRating += reviewItem.grading;
+            }
+
+            if (reviews.length && reviews.length > 0) {
+                meanRating = meanRating / reviews.length;
+            }
+
+            return meanRating;
+        }
+
+        return 0;
     }
 
     render() {
-        const {renderWatchButton, renderLikeButton, renderRatingButton} = this;
+        const {renderWatchButton, renderRatingButton} = this;
         const {seasonItem, currentSeries} = this.props;
 
         if (!seasonItem || !currentSeries) {
             return (<></>);
         }
 
-        const {posterURL, name, trailerURL, _id, rating} = seasonItem;
+        const {posterURL, name, trailerURL} = seasonItem;
         const {imdbSeries, genres} = currentSeries;
         const {
             Year,
@@ -155,42 +144,41 @@ class SeasonDetails extends Component {
 
         return (
             <div>
-	<section class="section details">
-    <div class="details__bg" data-bg={homeBg}></div>
+	<section className="section details">
+    <div className="details__bg" data-bg={homeBg}></div>
 
-    <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <h1 class="details__title">
+    <div className="container">
+        <div className="row">
+            <div className="col-12">
+                <h1 className="details__title">
                     {name}
                 </h1>
                 
             </div>
 
-            <div class="col-12 col-xl-6">
-                <div class="card card--details">
-                    <div class="row">
-                        <div class="col-12 col-sm-4 col-md-4 col-lg-3 col-xl-5">
-                            <div class="card__cover">
+            <div className="col-12 col-xl-6">
+                <div className="card card--details">
+                    <div className="row">
+                        <div className="col-12 col-sm-4 col-md-4 col-lg-3 col-xl-5">
+                            <div className="card__cover">
                                 <img src={posterURL} alt=""/>
                             </div>
                             {renderWatchButton()}
                         </div>
 
-                        <div class="col-12 col-sm-8 col-md-8 col-lg-9 col-xl-7">
-                            <div class="card__content">
-                                <div class="card__wrap">
-                                    <span class="card__rate"><i class="fas fa-star" aria-hidden="true"></i> {rating.toFixed(1)}/5</span>
+                        <div className="col-12 col-sm-8 col-md-8 col-lg-9 col-xl-7">
+                            <div className="card__content">
+                                <div className="card__wrap">
+                                    <span className="card__rate"><i className="fas fa-star" aria-hidden="true"></i> {this.calculateRating().toFixed(1)}/5</span>
 
-                                    <ul class="card__list">
+                                    <ul className="card__list">
                                         <li>HD</li>
                                         <li>{Rated}</li>
-                                        {renderLikeButton()}
                                         {renderRatingButton()}
                                     </ul>
                                 </div>
 
-                                <ul class="card__meta">
+                                <ul className="card__meta">
                                     <li>
                                         <span>Genre:</span> 
                                         {genres.map(genre => {
@@ -220,21 +208,21 @@ class SeasonDetails extends Component {
                 </div>
             </div>
 
-            <div class="col-12 col-xl-6 video-player-container video-player-container--trailer">
+            <div className="col-12 col-xl-6 video-player-container video-player-container--trailer">
                 <MovieTrailer videoSRC={trailerURL}/>
             </div>
 
-            <div class="col-12" style={{marginTop: "50px"}}>
-                    <div class="details__share">
-                        <span class="details__share-title">Share with friends:</span>
+            <div className="col-12" style={{marginTop: "50px"}}>
+                    <div className="details__share">
+                        <span className="details__share-title">Share with friends:</span>
 
-                        <ul class="details__share-list">
-                            <li class="facebook">
+                        <ul className="details__share-list">
+                            <li className="facebook">
                                 <a href={`https://www.facebook.com/sharer/sharer.php?app_id=${763684077493968}&sdk=joey&u=${encodeURIComponent(document.URL)}&display=popup&ref=plugin&src=share_button`} target="_blank" rel="noopener noreferrer">
                                     <i className="fab fa-facebook-square" aria-hidden="true"></i>
                                 </a>
                             </li>
-                            <li class="twitter">
+                            <li className="twitter">
                                 <a href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(document.URL)}`} target="_blank" rel="noopener noreferrer">
                                     <i className="fab fa-twitter" aria-hidden="true"></i>
                                 </a>
@@ -251,4 +239,19 @@ class SeasonDetails extends Component {
     }
 }
 
-export default SeasonDetails;
+const mapDispatchToProps = (dispatch) => {
+    return {
+        getReviewsByMovieID: (movieID) => {
+            dispatch(getReviewsByMovieID(movieID))
+        },
+    }
+}
+
+const mapStateToProps = (state) => {
+    return {
+        reviews: state.reviewReducer.reviews,
+        loading: state.loadingReducer.loading
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SeasonDetails);

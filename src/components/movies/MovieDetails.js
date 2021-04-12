@@ -63,7 +63,9 @@ class MovieDetails extends Component {
                 meanRating += reviewItem.grading;
             }
 
-            meanRating = meanRating / reviews.length;
+            if (reviews.length && reviews.length > 0) {
+                meanRating = meanRating / reviews.length;
+            }
             return meanRating;
         }
 
@@ -189,7 +191,7 @@ class MovieDetails extends Component {
             return (<></>);
         }
 
-        const {posterURL, name, trailerURL, genres, _id, rating, imdbMovie} = movieItem;
+        const {posterURL, name, trailerURL, genres, imdbMovie} = movieItem;
         const {
             Year,
             Rated,

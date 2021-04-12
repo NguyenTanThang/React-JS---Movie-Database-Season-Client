@@ -28,7 +28,8 @@ class RateMovieModal extends Component {
     isRated: false, 
     reviewID: "" ,
     loggedIn: "",
-    loading: true
+    loading: true,
+    value: this.props.value ? this.props.value : false
   };
 
   async componentDidMount() {
@@ -120,6 +121,8 @@ class RateMovieModal extends Component {
     });
   };
 
+  on
+
   renderStarWidget = () => {
     const {changeGrading} = this;
     const {grading, isRated} = this.state;
@@ -161,6 +164,7 @@ class RateMovieModal extends Component {
   render() {
     const {changeGrading, onSubmit, renderStarWidget} = this;
     const {grading, isRated} = this.state;
+    const {isButton} = this.props;
 
     return (
       <>
@@ -170,11 +174,18 @@ class RateMovieModal extends Component {
             Rate Now
         </button>
         */}
-        <Tooltip title={"Rate the film"}>
+        {isButton ? (
+          <button className="section__btn" onClick={this.showModal}>
+          <i className="fas fa-star fa-2x" aria-hidden="true" style={{paddingRight: "10px"}}></i>
+          Rate Now
+      </button>
+        ) : (
+      <Tooltip title={"Rate the film"}>
           <li className="rating-button" onClick={this.showModal}>
             <i className="fa fa-star" aria-hidden="true"></i>
           </li>
         </Tooltip>
+        )}
         <Modal
           title="Rate the Movie"
           visible={this.state.visible}

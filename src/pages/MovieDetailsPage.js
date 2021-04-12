@@ -11,8 +11,6 @@ import {
 } from "../actions/movieActions";
 import {
     getReviewsByMovieID,
-    addReview,
-    editReview
 } from "../actions/reviewActions";
 import {
     getCommentsByMovieID
@@ -109,8 +107,8 @@ class MovieDetailsPage extends Component {
 
     renderTabGen = () => {
         const movieID = this.props.match.params.movieID;
-        const {addComment, removeComment, setVisible} = this;
-        const {movieItem, comments, visible, photos} = this.state;
+        const {addComment, removeComment} = this;
+        const {movieItem, comments, photos} = this.state;
         const {description} = movieItem;
 
         const tabContents = [
@@ -143,7 +141,6 @@ class MovieDetailsPage extends Component {
 
     render() {
         const {renderTabGen, renderRNGMovieItems} = this;
-        const {addReview, editReview} = this.props;
         const {movieItem} = this.state;
 
         if (movieItem === "") {
@@ -173,7 +170,7 @@ class MovieDetailsPage extends Component {
                 <Navbar/>
 
                 <div>
-                <MovieDetails movieIDFromPage={movieIDFromPage} movieItem={movieItem} addReview={addReview} editReview={editReview}/>
+                <MovieDetails movieIDFromPage={movieIDFromPage} movieItem={movieItem}/>
                 <div className="container">
                     <div className="row">
                         <div className="col-12 col-lg-8 col-xl-8 movie-details-tab">
@@ -205,12 +202,6 @@ const mapDispatchToProps = (dispatch) => {
         getReviewsByMovieID: (movieID) => {
             dispatch(getReviewsByMovieID(movieID))
         },
-        addReview: (newReview) => {
-            dispatch(addReview(newReview))
-        },
-        editReview: (updatedReview) => {
-            dispatch(editReview(updatedReview._id, updatedReview))
-        }
     }
 }
 

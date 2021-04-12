@@ -16,15 +16,15 @@ import {Helmet} from "react-helmet";
 import { motion } from "framer-motion";
 import {pageStyle, pageTransition, pageVariants} from "../config/animation";
 import RateMovieModalSync from "../components/movies/RateMovieModalSync";
+import RateMovieModal from "../components/movies/RateMovieModal";
 import MovieDescription from "../components/movies/MovieDescription";
 import {
-    getReviewByCustomerID,
-} from "../requests/reviewRequests";
-import {
     getRecord
-} from "../config/jqueryCode"
-
-const customerID = localStorage.getItem("userID")
+} from "../config/jqueryCode";
+import {
+    getReviewsByMovieID
+} from "../actions/reviewActions";
+import {connect} from "react-redux";
 
 class WatchSeasonPage extends Component {
 
@@ -46,6 +46,8 @@ class WatchSeasonPage extends Component {
             
             const loggedIn = currentUser;
             const episodeList = await getEpisodesBySeasonIDAxios(seasonID);
+            const currentlyReviewedID = this.state.currentEpisode._id || episodeList[0]._id;
+            this.props.getReviewsByMovieID(currentlyReviewedID);
             const seasonItem = await getSeasonByIDAxios(seasonID);
             const subStatus = await getSubStatus();
 
@@ -60,10 +62,11 @@ class WatchSeasonPage extends Component {
             await deleteWatchHistory(userID, seriesID);
             await addWatchHistory(userID, seriesID);
 
-            const reviews = await getReviewByCustomerID(customerID);
+            //const reviews = await getReviewByCustomerID(userID);
             for (let i = 0; i < episodeList.length; i++) {
                 const episodeItem = episodeList[i];
                 
+                /*
                 let review = {};
                 let filterReviews = reviews.filter(reviewItem => {
                     return reviewItem.movieID === episodeItem._id
@@ -73,16 +76,27 @@ class WatchSeasonPage extends Component {
                 } else {
                     review = filterReviews[0];
                 }
+                */
 
                 ratingEpisodeList.push(
                     {
                         episodeNum: episodeItem.episodeNum,
                         content: (
                             <div key={episodeItem._id}className="episode-details__rating">
-                                <RateMovieModalSync movieID={episodeItem._id} loggedIn={loggedIn} review={review} />
+                                <RateMovieModal isButton movieID={episodeItem._id} />
                             </div>
                         )
                     }
+                   /*
+                    {
+                        episodeNum: episodeItem.episodeNum,
+                        content: (
+                            <div key={episodeItem._id}className="episode-details__rating">
+                                <RateMovieModal movieID={episodeItem._id} />
+                            </div>
+                        )
+                    }
+                    */
                 )
             }
 
@@ -98,21 +112,6 @@ class WatchSeasonPage extends Component {
                 subtitles
             });
 
-            setInterval(() => {
-                const currentEpsiodeRecord = getRecord(this.state.currentEpisode._id);
-                let isAboutToEnd = false;
-
-                if (currentEpsiodeRecord) {
-                    let {currentTime, duration} = currentEpsiodeRecord;
-                    if (duration - currentTime < 20 && this.state.currentEpisodeNum < episodeList.length) {
-                        isAboutToEnd = true
-                    }
-                }
-                
-                this.setState({
-                    isAboutToEnd
-                });
-            }, 1000);
         } catch (error) {
             this.props.history.push("/error");
         }
@@ -120,20 +119,10 @@ class WatchSeasonPage extends Component {
 
     changeCurrentEpisode = (currentEpisode) => {
         localStorage.setItem("ratingMovieID", currentEpisode._id);
+        this.props.getReviewsByMovieID(currentEpisode._id);
         this.setState({
             currentEpisode,
             currentEpisodeNum: currentEpisode.episodeNum
-        })
-    }
-
-    changeCurrentEpisodeNum = (currentEpisodeNum) => {
-        const currentEpisode = this.state.episodeList.filter(episodeItem => {
-            return episodeItem.episodeNum === currentEpisodeNum;
-        })[0];
-        localStorage.setItem("ratingMovieID", currentEpisode._id);
-        this.setState({
-            currentEpisode,
-            currentEpisodeNum: currentEpisodeNum
         })
     }
 
@@ -241,10 +230,29 @@ class WatchSeasonPage extends Component {
         return <TabGenerator tabContents={tabContents} tabHeaders={tabHeaders}/>
     }
 
+    calculateRating = () => {
+        const {reviews, loading} = this.props;
+
+        if (!loading && reviews) {
+            let meanRating = 0;
+
+            for (let i = 0; i < reviews.length; i++) {
+                const reviewItem = reviews[i];
+                meanRating += reviewItem.grading;
+            }
+
+            if (reviews.length && reviews.length > 0) {
+                meanRating = meanRating / reviews.length;
+            }
+            return meanRating;
+        }
+
+        return 0;
+    }
+
     render() {
-        const {renderEpisodeListWatchItems, renderEpisodeContainerTabs, changeCurrentEpisodeNum} = this;
-        const {seasonItem, currentEpisode, ratingEpisodeList, subtitles, isAboutToEnd, currentEpisodeNum} = this.state;
-        const {rating} = currentEpisode;
+        const {renderEpisodeContainerTabs} = this;
+        const {seasonItem, currentEpisode, ratingEpisodeList, subtitles} = this.state;
         const ratingEpisodeItem = ratingEpisodeList.filter(item => {
             return item.episodeNum === currentEpisode.episodeNum
         })[0];
@@ -278,12 +286,6 @@ class WatchSeasonPage extends Component {
                             <div className="col-12">
                                 <div key={currentEpisode._id}className="series-watch-container">
                                     <MovieVideo videoSRC={currentEpisode.episodeURL} subtitles={subtitles} movieID={currentEpisode._id}/>
-                                    
-                                    {/*
-                                    {isAboutToEnd ? (<div className="next-btn-cotainer">
-                                            <button onClick={() => changeCurrentEpisodeNum(currentEpisodeNum + 1)}className="next-btn section__btn">Next Episode</button>
-                                        </div>) : (<></>)}
-                                    */}
                                 </div>
                                 <div className="episode-details">
                                     <div className="episode-details__content">
@@ -291,7 +293,7 @@ class WatchSeasonPage extends Component {
                                         <h1 className="details__title">
                                             {currentEpisode.name}
                                         </h1>
-                                        <span className="card__rate"><i className="fas fa-star" aria-hidden="true"></i> {rating.toFixed(1)}/5</span>
+                                        <span className="card__rate"><i className="fas fa-star" aria-hidden="true"></i> {this.calculateRating().toFixed(1)}/5</span>
                                     </div>
 
                                     <div className="episode-details-content__sub-header">
@@ -319,4 +321,19 @@ class WatchSeasonPage extends Component {
     }
 }
 
-export default WatchSeasonPage;
+const mapDispatchToProps = (dispatch) => {
+    return {
+        getReviewsByMovieID: (movieID) => {
+            dispatch(getReviewsByMovieID(movieID))
+        },
+    }
+}
+
+const mapStateToProps = (state) => {
+    return {
+        reviews: state.reviewReducer.reviews,
+        loading: state.loadingReducer.loading
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(WatchSeasonPage);

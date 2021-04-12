@@ -28,7 +28,7 @@ export const editCustomer = async (updatedCustomer) => {
             return false;
         }
 
-        const res = await axios.put(`${CUSTOMER_URL}/edit/${customerID}`, updatedCustomer);
+        const res = await axios.put(`${CUSTOMER_URL}/edit-profile/${customerID}`, updatedCustomer);
 
         const {
             success
