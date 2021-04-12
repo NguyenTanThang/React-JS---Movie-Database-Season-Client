@@ -3606,6 +3606,14 @@ input[type=range]::-ms-thumb {
 }
 
 @media (min-width: 320px) and (max-width: 767px) {
+    .series-watch-container {
+        margin-bottom: 0;
+    }
+
+    .episode-details {
+        display: none;
+    }
+
     .episode-tab {
         flex: 43%;
         max-width: 43%;
@@ -4410,7 +4418,7 @@ input[type=range]::-ms-thumb {
     } 
 
     .card-carousel-item .card__cover img {
-        min-height: 360px;
+        min-height: 440px;
     }
 
     .slick-dots {
