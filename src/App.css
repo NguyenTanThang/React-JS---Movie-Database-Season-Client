@@ -4459,3 +4459,13 @@ input[type=range]::-ms-thumb {
         max-width: 45%;
     }
 }
+
+/*empty-message-container*/
+.empty-message-container {
+    text-align: center;
+}
+
+.empty-message-container > * {
+    color: #FFF;
+    margin-bottom: 20px;
+}

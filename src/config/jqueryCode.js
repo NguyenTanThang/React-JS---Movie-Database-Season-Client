@@ -151,7 +151,7 @@ export const detailBg = () => {
 	});
 }
 
-export const playerControls = measureDeviceWidth() === "mobile" ? ["progress", "rewind", "play-large", "play", "fast-forward", "current-time", "duration", "captions", "settings", "airplay", "googlecast", "fullscreen", "mobile-ui"] : ["progress", "rewind", "play-large", "play", "fast-forward", "mute", "volume", "current-time", "duration", "captions", "settings", "pip", "airplay", "googlecast", "fullscreen", "mobile-ui"]
+export const playerControls = measureDeviceWidth() === "mobile" ? ["progress", "play-large", "play", "rewind", "fast-forward", "current-time", "duration", "captions", "settings", "airplay", "googlecast", "fullscreen", "mobile-ui"] : ["progress", "play-large", "play", "rewind", "fast-forward", "mute", "volume", "current-time", "duration", "captions", "settings", "pip", "airplay", "googlecast", "fullscreen", "mobile-ui"]
 export const playerControlsSeries = `
 <div class="plyr__controls">
 <button type="button" class="plyr__control" data-plyr="restart">

@@ -12,6 +12,7 @@ import BigLoading from "../components/partials/BigLoading";
 import {Helmet} from "react-helmet";
 import { motion } from "framer-motion";
 import {pageStyle, pageTransition, pageVariants} from "../config/animation";
+import { Link } from 'react-router-dom';
 
 const helpBreadcumbs = [
     {
@@ -116,6 +117,14 @@ class WatchHistory extends Component {
 
         return <TabGenerator tabContents={tabContents} tabHeaders={tabHeaders}/>
         */
+
+        if (currentAllList.length === 0) {
+            return <div className="empty-message-container">
+                <h4>Currently you don't have any movies in your watch history list</h4>
+                <p>You can browse to find the one you like</p>
+                <Link to="/browse" className="section__btn">Browse Now</Link>
+            </div>
+        }
 
         return (
             <>
