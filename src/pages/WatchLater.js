@@ -55,9 +55,11 @@ class WatchLater extends Component {
         let movieList = [];
         let seriesList = [];
 
-        if (!watchLater.movieList || !watchLater.seriesList) {
+        if (!watchLater.movieList || !watchLater.seriesList || !watchLater.watchLaters) {
             return <></>;
         }
+
+        console.log(watchLater.watchLaters);
 
         watchLater.movieList.forEach(movieItem => {
             movieList.push(movieItem);
@@ -74,9 +76,11 @@ class WatchLater extends Component {
         })
 
         let currentAllList = [...currentMovies, ...currentSeries];
-        currentAllList = currentAllList.sort(function(a,b){
-            return b.rating - a.rating;
-        });
+        currentAllList = watchLater.watchLaters.map(watchLaterItem => {
+            return currentAllList.filter(currentAllItem => {
+                return currentAllItem._id === watchLaterItem.movieID;
+            })[0];
+        })
         const currentAllListPageObject = paginate(currentAllList.length, moviesCurrentPage, 10, 4);
         currentAllList = currentAllList.slice(currentAllListPageObject.startIndex, currentAllListPageObject.endIndex + 1);
 
