@@ -38,7 +38,11 @@ const browseBreadcumbs = [
 class Browse extends Component {
 
     state = {
-        searchObject: {},
+        searchObject: {
+            searchName: "",
+            orderBy: "AtoZ",
+            sortGenres: []
+        },
         seriesCurrentPage: 1,
         moviesCurrentPage: 1
     }
