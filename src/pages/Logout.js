@@ -6,7 +6,6 @@ class Logout extends Component {
 
     componentWillMount() {
         authenticationService.logout();
-        this.props.history.push("/sign-in")
     }
 
     render() {
