@@ -18,7 +18,7 @@ export default class SignUp extends Component {
         password: ""
     }
 
-    async componentDidMount() {
+    async componentWillMount() {
         try {
             sectionBG();
             const loggedIn = await getAuthStatus();

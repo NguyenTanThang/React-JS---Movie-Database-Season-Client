@@ -32,7 +32,7 @@ class WatchHistory extends Component {
         moviesCurrentPage: 1
     }
 
-    componentDidMount() {
+    componentWillMount() {
         this.props.getAllWatchHistoryByCustomerID();
     }
 

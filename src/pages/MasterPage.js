@@ -10,7 +10,7 @@ class MasterPage extends Component {
         loggedIn: ""
     }
 
-    async componentDidMount() {
+    async componentWillMount() {
         try {
             const loggedIn = await getAuthStatus();
             this.setState({

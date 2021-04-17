@@ -5,7 +5,7 @@ import {message} from "antd";
 
 class MomoPaymentPage extends Component {
 
-    async componentDidMount() {
+    async componentWillMount() {
         try {
             const subStatus = await getSubStatus();
             const loggedIn = await getAuthStatus();

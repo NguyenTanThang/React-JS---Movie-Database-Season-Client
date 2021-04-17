@@ -63,7 +63,7 @@ class Browse extends Component {
         })
     }
 
-    componentDidMount() {
+    componentWillMount() {
         this.props.getAllMovies();
         this.props.getAllSeries();
         this.props.getAllGenres();

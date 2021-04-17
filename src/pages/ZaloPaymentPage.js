@@ -7,7 +7,7 @@ import BigLoading from "../components/partials/BigLoading"
 
 class ZaloPaymentPage extends Component {
 
-    async componentDidMount() {
+    async componentWillMount() {
         try {
             const subStatus = await getSubStatus();
             const loggedIn = await getAuthStatus();

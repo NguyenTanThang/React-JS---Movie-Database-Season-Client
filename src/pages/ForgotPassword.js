@@ -49,6 +49,7 @@ export default class SignIn extends Component {
             }
         } catch (error) {
             console.log(error);
+            this.props.history.push("/error");
         }
     }
 

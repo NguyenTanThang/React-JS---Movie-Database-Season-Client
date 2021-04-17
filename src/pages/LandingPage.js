@@ -23,7 +23,7 @@ const PlanList = loadable(() => import('../components/plans/PlanList'));
 
 class LandingPage extends Component {
 
-    componentDidMount() {
+    componentWillMount() {
         this.props.getAllPlans();
         //detectLeavePage();
     }

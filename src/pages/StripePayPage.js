@@ -14,7 +14,7 @@ class StripePayPage extends Component {
         plan: ""
     }
 
-    async componentDidMount() {
+    async componentWillMount() {
         try {
             const planID = localStorage.getItem("planID");
             if (!planID) {

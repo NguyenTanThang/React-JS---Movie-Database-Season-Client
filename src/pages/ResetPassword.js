@@ -16,7 +16,7 @@ export default class SignIn extends Component {
         confirmNewPassword: ""
     }
 
-    async componentDidMount() {
+    async componentWillMount() {
         sectionBG();
         const token = this.props.match.params.token;
         const customer = await getResetPasswordToken(token);

@@ -35,7 +35,7 @@ class MovieDetailsPage extends Component {
         photos: ""
     }
 
-    async componentDidMount() {
+    async componentWillMount() {
         try {
             this.props.getAllMovies();
 

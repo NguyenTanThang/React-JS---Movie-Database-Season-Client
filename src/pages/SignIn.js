@@ -28,7 +28,7 @@ export default class SignIn extends Component {
         password: ""
     }
 
-    async componentDidMount() {
+    async componentWillMount() {
         try {
             sectionBG();
         } catch (error) {

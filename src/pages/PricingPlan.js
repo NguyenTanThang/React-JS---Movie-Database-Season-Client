@@ -23,7 +23,7 @@ const pricingBreadcumbs = [
 
 class PricingPlan extends Component {
 
-    async componentDidMount() {
+    async componentWillMount() {
         /*
         const subStatus = await getSubStatus();
 

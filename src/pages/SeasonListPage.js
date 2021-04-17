@@ -34,7 +34,7 @@ class SeasonListPage extends Component {
         seriesItem: ""
     }
 
-    async componentDidMount() {
+    async componentWillMount() {
         try {
             const seriesID = this.props.match.params.seriesID;
             localStorage.setItem("currentSeriesID", seriesID);

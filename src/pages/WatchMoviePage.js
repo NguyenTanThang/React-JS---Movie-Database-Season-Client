@@ -21,7 +21,7 @@ class WatchMoviePage extends Component {
         subtitles: []
     }
 
-    async componentDidMount() {
+    async componentWillMount() {
         try {
             const movieID = this.props.match.params.movieID;
 

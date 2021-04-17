@@ -4,7 +4,7 @@ import {authenticationService} from "../_services";
  
 class Logout extends Component {
 
-    componentDidMount() {
+    componentWillMount() {
         authenticationService.logout();
         this.props.history.push("/sign-in")
     }

@@ -38,7 +38,7 @@ class WatchSeasonPage extends Component {
         isAboutToEnd: false
     }
 
-    async componentDidMount() {
+    async componentWillMount() {
         try {
             const seasonID = this.props.match.params.seasonID;
             const seriesID = localStorage.getItem("currentSeriesID");

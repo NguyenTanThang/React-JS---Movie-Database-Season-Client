@@ -33,7 +33,7 @@ class SeasonDetailsPage extends Component {
         photos: ""
     }
 
-    async componentDidMount() {
+    async componentWillMount() {
         try {
             const seriesID = localStorage.getItem("currentSeriesID");
 
