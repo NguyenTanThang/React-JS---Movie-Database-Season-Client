@@ -151,12 +151,18 @@ class WatchSeasonPage extends Component {
                 if (currentEpisodeNum === currentEpisode.episodeNum) {
                     episodeTabs.push(
                         <div key={currentEpisode._id} className="episode-tab active" onClick={() => changeCurrentEpisode(currentEpisode)}>
+                            <div className="episode-tab__icon">
+                                <i class="fas fa-play-circle"></i>
+                            </div>
                             <p>Episode {currentEpisode.episodeNum}</p>
                         </div>
                     )
                 } else {
                     episodeTabs.push(
                         <div className="episode-tab" key={currentEpisode._id} onClick={() => changeCurrentEpisode(currentEpisode)}>
+                            <div className="episode-tab__icon">
+                                <i class="fas fa-play-circle"></i>
+                            </div>
                             <p>Episode {currentEpisode.episodeNum}</p>
                         </div>
                     )
@@ -308,7 +314,7 @@ class WatchSeasonPage extends Component {
                                     </div>
                                 </div>
                             </div>
-                            <div className="col-12">
+                            <div className="col-12 episode-tabs-container">
                                 {renderEpisodeContainerTabs()}
                             </div>
                         </div>

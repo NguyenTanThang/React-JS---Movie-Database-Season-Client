@@ -694,6 +694,7 @@ form input:focus,
 
 .genre-clip-row {
     padding-left: 10px;
+    padding-right: 10px;
     justify-content: space-between;
     max-height: 85px;
     overflow: hidden;
@@ -2601,9 +2602,9 @@ input[type=range]::-ms-thumb {
 .feature__icon {
     display: block;
     position: absolute;
-    top: -10px;
-    left: 0;
-    font-size: 46px;
+    top: 0px;
+    left: 10px;
+    font-size: 30px;
 }
 
 .feature__icon:before {
@@ -2616,7 +2617,7 @@ input[type=range]::-ms-thumb {
 .feature__title {
     color: #fff;
     display: block;
-    font-size: 18px;
+    font-size: 14px;
     font-weight: 500;
     margin-bottom: 10px;
 }
@@ -2624,7 +2625,7 @@ input[type=range]::-ms-thumb {
 .feature__text {
     display: block;
     color: rgba(255, 255, 255, 0.7);
-    font-size: 15px;
+    font-size: 12px;
     line-height: 25px;
     font-family: 'Open Sans', sans-serif;
     margin: 0;
@@ -3623,6 +3624,9 @@ input[type=range]::-ms-thumb {
     margin-bottom: 10px;
     border-radius: 10px;
     cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .episode-tab.active {
@@ -3631,6 +3635,13 @@ input[type=range]::-ms-thumb {
     background-image: -webkit-linear-gradient(90deg, #ff55a5 0%, #ff5860 100%);
     background-image: -ms-linear-gradient(90deg, #ff55a5 0%, #ff5860 100%);
     background-image: linear-gradient(90deg, #ff55a5 0%, #ff5860 100%);
+}
+
+.episode-tab__icon {
+    font-size: 30px;
+    color: #FFF;
+    padding-right: 15px;
+    transform: translateY(-6px);
 }
 
 .series-watch-container .plyr__video-wrapper
@@ -3656,6 +3667,17 @@ input[type=range]::-ms-thumb {
         max-width: 43%;
         margin-left: 10px;
     }
+
+    .episode-tabs-container {
+        margin-top: 20px;
+    }
+
+    .episode-tab__icon {
+        font-size: 20px;
+        color: #FFF;
+        padding-right: 15px;
+        transform: translateY(-6px);
+    }
 }
 
 @media (min-width: 320px) and (max-width: 767px) and (orientation: portrait) {
@@ -3678,12 +3700,19 @@ input[type=range]::-ms-thumb {
 
 @media (min-width: 768px) and (max-width: 1024px) {
     .episode-tab {
-        flex: 18%;
-        max-width: 18%;
+        flex: 23.5%;
+        max-width: 23.5%;
     }
     
     .movie-watch-container .plyr__video-wrapper {
         height: 500px;
+    }
+
+    .episode-tab__icon {
+        font-size: 25px;
+        color: #FFF;
+        padding-right: 10px;
+        transform: translateY(-6px);
     }
 }
 

@@ -8,6 +8,7 @@ import {message} from "antd";
 import {Helmet} from "react-helmet";
 import { motion } from "framer-motion";
 import {pageStyle, pageTransition, pageVariants} from "../config/animation";
+import {validatePassword} from "../utils/validate";
 
 export default class SignIn extends Component {
 
@@ -39,9 +40,11 @@ export default class SignIn extends Component {
             if (confirmNewPassword !== newPassword) {
                 return message.error("The confirm password must be macthed with the new password");
             } 
-            const data = await resetPassword(token, newPassword);
-            if (data.success) {
-                this.props.history.push("/sign-in");
+            if (validatePassword(newPassword)) {
+                const data = await resetPassword(token, newPassword);
+                if (data.success) {
+                    this.props.history.push("/sign-in");
+                }
             }
         } catch (error) {
             console.log(error);

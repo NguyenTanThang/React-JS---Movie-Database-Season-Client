@@ -12,6 +12,7 @@ import {message} from "antd";
 import {Helmet} from "react-helmet";
 import { motion } from "framer-motion";
 import {pageStyle, pageTransition, pageVariants} from "../config/animation";
+import {validatePassword} from "../utils/validate";
 
 export default class SignIn extends Component {
 
@@ -50,13 +51,15 @@ export default class SignIn extends Component {
             }
             const currentUser = authenticationService.currentUserValue;
             const userID = currentUser.customerItem._id;
-            const data = await changePassword(userID, {
-                email,
-                oldPassword,
-                newPassword
-            });
-            if (data.success) {
-                this.props.history.push("/");
+            if (validatePassword(newPassword)) {
+                const data = await changePassword(userID, {
+                    email,
+                    oldPassword,
+                    newPassword
+                });
+                if (data.success) {
+                    this.props.history.push("/");
+                }
             }
         } catch (error) {
             console.log(error);

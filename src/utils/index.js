@@ -23,6 +23,6 @@ export const createNotification = (type, config) => {
             backgroundColor: "#2b2b31",
             color: "#FFF"
         },
-        duration: 10,
+        duration: 5,
     });
 }

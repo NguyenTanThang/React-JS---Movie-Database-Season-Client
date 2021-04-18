@@ -9,6 +9,7 @@ import {message} from "antd";
 import {Helmet} from "react-helmet";
 import { motion } from "framer-motion";
 import {pageStyle, pageTransition, pageVariants} from "../config/animation";
+import {validatePassword} from "../utils/validate";
 
 export default class SignUp extends Component {
 
@@ -41,7 +42,9 @@ export default class SignUp extends Component {
         try {
             e.preventDefault();
             const {username, email, password} = this.state;
-            await signup({username, email, password});
+            if (validatePassword(password)) {
+                await signup({username, email, password});
+            }
         } catch (error) {
             console.log(error);
         }
