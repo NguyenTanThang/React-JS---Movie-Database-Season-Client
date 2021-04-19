@@ -71,7 +71,8 @@ class PlanModal extends Component {
         if (!currentUser) {
             return (
                 <button className="paypal__btn plan__btn" onClick={(e) => {
-                    message.error("You need to login to use this feature")
+                    message.error("You need to login to perform payment");
+                    return this.props.history.push("/sign-in"); 
                 }}>
                     <i class="fab fa-paypal"></i>
                     Pay with Paypal
@@ -146,12 +147,10 @@ class PlanModal extends Component {
                         <i className="fas fa-wallet"></i> 
                         Pay with ZaloPay
                     </button>
-                    {/*
                     <button className="momo__btn plan__btn" onClick={payWithMomo}>
                         <i className="fas fa-wallet"></i> 
                         Pay with MoMo
                     </button>
-                    */}
                     <button className="stripe__btn plan__btn" onClick={payWithVisa}>
                         <i className="fab fa-cc-visa"></i> 
                         Pay with VISA

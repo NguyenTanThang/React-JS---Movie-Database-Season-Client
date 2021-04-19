@@ -22,7 +22,7 @@ class PaypalV2 extends Component {
 
         style = {{
             label: 'pay',
-            color: 'blue',
+            color: 'silver',
         }}
         
         onError={(err) => {
