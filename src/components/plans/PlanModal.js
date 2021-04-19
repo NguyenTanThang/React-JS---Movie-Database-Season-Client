@@ -29,7 +29,12 @@ class PlanModal extends Component {
     };
 
     payWithMomo = () => {
-        const {planItem} = this.props;
+        const {planItem, subStatus} = this.props;
+
+        if (subStatus === "active") {
+            return message.error("Your subscription is still valid")
+        }
+        
         const {vndPrice} = this.state;
         localStorage.setItem("amount", parseInt(vndPrice));
         localStorage.setItem("planID", planItem._id);
