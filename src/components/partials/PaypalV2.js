@@ -1,9 +1,11 @@
 import { PayPalButton } from "react-paypal-button-v2";
 import React, {Component} from "react";
 import axios from "axios";
+import {message} from "antd";
 import {MAIN_PROXY_URL} from "../../config/config";
+import {withRouter} from "react-router-dom";
 
-export default class PaypalV2 extends Component {
+class PaypalV2 extends Component {
 
   render() {
     const {total, planID, customerID} = this.props;
@@ -40,8 +42,9 @@ export default class PaypalV2 extends Component {
             planID
           });
 
-          if (paymentRes.data.status === "COMPLETED") {
-              return console.log("Transaction completed");
+          if (paymentRes.data.data.status === "COMPLETED") {
+              message.success("Successfully subscribed", 5);
+              return this.props.history.push("/");
           }
 
           /*
@@ -59,3 +62,5 @@ export default class PaypalV2 extends Component {
     );
   }
 }
+
+export default withRouter(PaypalV2);

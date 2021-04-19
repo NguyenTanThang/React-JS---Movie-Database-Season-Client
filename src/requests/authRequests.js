@@ -156,7 +156,7 @@ export const getAuthStatus = async () => {
             success
         } = res.data;
         const user = res.data.data;
-
+ 
         if (!success) {
             return false;
         }

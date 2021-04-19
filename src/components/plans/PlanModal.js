@@ -47,7 +47,12 @@ class PlanModal extends Component {
     }
 
     payWithZalo = () => {
-        const {planItem} = this.props;
+        const {planItem, subStatus} = this.props;
+
+        if (subStatus === "active") {
+            return message.error("Your subscription is still valid")
+        }
+
         const {vndPrice} = this.state;
         localStorage.setItem("amount", parseInt(vndPrice));
         localStorage.setItem("planID", planItem._id);
@@ -55,7 +60,12 @@ class PlanModal extends Component {
     }
 
     payWithVisa = () => {
-        const {planItem} = this.props;
+        const {planItem, subStatus} = this.props;
+
+        if (subStatus === "active") {
+            return message.error("Your subscription is still valid")
+        }
+
         const {price} = planItem;
         localStorage.setItem("amount", Math.round(price * 100));
         localStorage.setItem("planID", planItem._id);

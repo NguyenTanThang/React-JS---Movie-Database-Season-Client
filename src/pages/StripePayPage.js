@@ -46,7 +46,7 @@ class StripePayPage extends Component {
     render() {
         const {plan} = this.state;
 
-        if (plan) {
+        if (!plan) {
             return (
                 <>
                     <BigLoading/>    
