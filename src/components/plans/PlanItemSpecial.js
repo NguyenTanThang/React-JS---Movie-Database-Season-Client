@@ -9,14 +9,14 @@ export default class PlanItem extends Component {
         let splitDescription = description.split(", ");
 
         return splitDescription.map(splitDescriptionItem => {
-            return (<div className="price__item">
+            return (<div key={splitDescriptionItem} className="price__item">
                 <span>{splitDescriptionItem}</span>
             </div>)
         })
     }
 
     render() {
-        const {planItem, vndRate} = this.props;
+        const {planItem, vndRate, subStatus} = this.props;
         const {name, price} = planItem;
 
         return (
@@ -24,7 +24,7 @@ export default class PlanItem extends Component {
                 <div className="price price--premium">
                     <div className="price__item price__item--first"><span>{name}</span> <span>${price}</span></div>
                     {this.renderDescription()}
-                    <PlanModal vndRate={vndRate} planItem={planItem}/>
+                    <PlanModal subStatus={subStatus} vndRate={vndRate} planItem={planItem}/>
                 </div>
             </div>
         )

@@ -4535,3 +4535,33 @@ input[type=range]::-ms-thumb {
     color: #FFF;
     margin-bottom: 20px;
 }
+
+/*Paypal*/
+.zoid-outlet {
+    width: 100% !important;
+    margin-top: 20px;
+    border-radius: 20px;
+}
+
+.paypal-button-tagline {
+    opacity: 0 !important;
+}
+
+@media only screen and (min-width: 300px) {
+    .paypal-button-tagline {
+        display: none !important;
+    }
+}
+
+/*Paypal V2*/
+.paypal-button-container {
+    margin-top: 20px !important;
+}
+
+.paypal-powered-by {
+    display: none !important;
+}
+
+.paypal-button-number-1 {
+    border: 1px solid #fff !important;
+}

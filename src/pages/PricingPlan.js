@@ -23,21 +23,23 @@ const pricingBreadcumbs = [
 
 class PricingPlan extends Component {
 
+    state = {
+        subStatus: ""
+    }
+
     async componentWillMount() {
-        /*
         const subStatus = await getSubStatus();
 
-        if (subStatus === "active") {
-            message.error("Your subscription is still valid");
-            this.props.history.goBack();
-        }
-        */
-
         this.props.getAllPlans();
+
+        this.setState({
+            subStatus
+        })
     }
 
     render() {
         const planList = this.props.plans;
+        const {subStatus} = this.state;
 
         return (
             <motion.div
@@ -119,7 +121,7 @@ class PricingPlan extends Component {
                 
                 <div className="section">
                     <div className="container">
-                        <PlanList planList={planList}/>
+                        <PlanList subStatus={subStatus} planList={planList}/>
                     </div>
                 </div>
             </div>

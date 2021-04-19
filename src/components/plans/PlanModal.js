@@ -1,7 +1,19 @@
 import React, { Component } from 'react';
-import {Modal} from "antd";
+import {Modal, message} from "antd";
 import {withRouter} from "react-router-dom";
 import {USDtoVNDWithRate} from "../../requests/currencyRequests";
+import Paypal from '../partials/Paypal';
+import PaypalV2 from '../partials/PaypalV2';
+import {authenticationService} from "../../_services/authentication.service";
+
+/*
+<Paypal
+    toPay={price}
+    onSuccess={transactionSuccess}
+    transactionError={transactionError}
+    transactionCanceled={transactionCanceled}
+/>
+*/
 
 class PlanModal extends Component {
 
@@ -50,6 +62,45 @@ class PlanModal extends Component {
         this.props.history.push("/stripe-pay");
     }
 
+    renderPaypalButton = () => {
+        const {planItem, subStatus} = this.props;
+        const {name, price, _id} = planItem;
+
+        const currentUser = authenticationService.currentUserValue
+
+        if (!currentUser) {
+            return (
+                <button className="paypal__btn plan__btn" onClick={(e) => {
+                    message.error("You need to login to use this feature")
+                }}>
+                    <i class="fab fa-paypal"></i>
+                    Pay with Paypal
+                </button>
+            );
+        }
+
+        if (subStatus) {
+            return (
+                <button className="paypal__btn plan__btn" onClick={(e) => {
+                    message.error("Your subscription is still valid")
+                }}>
+                    <i class="fab fa-paypal"></i>
+                    Pay with Paypal
+                </button>
+            );
+        }
+            
+        const currentUserItem = currentUser.customerItem;
+
+        return (
+            <PaypalV2
+                total={price}
+                planID={_id}
+                customerID={currentUserItem._id}
+            />
+        )
+    }
+
     handleOk = e => {
         console.log(e);
         this.setState({
@@ -64,10 +115,22 @@ class PlanModal extends Component {
         });
       };
 
+    transactionSuccess = (data) => {
+        console.log(data);
+    }
+
+    transactionError = () => {
+        console.log('Paypal error')
+    }
+
+    transactionCanceled = () => {
+        console.log('Transaction canceled')
+    }
+
     render() {
-        const {showModal, payWithMomo, payWithVisa, payWithZalo} = this;
+        const {showModal, payWithMomo, payWithVisa, payWithZalo, transactionSuccess, transactionError, transactionCanceled, renderPaypalButton} = this;
         const {planItem} = this.props;
-        const {name} = planItem;
+        const {name, price, _id} = planItem;
 
         return (
             <>
@@ -93,6 +156,8 @@ class PlanModal extends Component {
                         <i className="fab fa-cc-visa"></i> 
                         Pay with VISA
                     </button>
+
+                    {renderPaypalButton()}
                 </Modal>  
             </>
         )

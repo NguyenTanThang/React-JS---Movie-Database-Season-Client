@@ -374,7 +374,7 @@ export const sessionAutoRefreshMechanic = async () => {
                     return authenticationService.logout();
                 }
             }
-        }, 1000);
+        }, 5000);
     } catch (error) {
         message.error(error.message);
     }
