@@ -33,7 +33,6 @@
     "react-idle-timer": "^4.5.2",
     "react-lazyload": "^3.1.0",
     "react-paypal-button-v2": "^2.6.3",
-    "react-paypal-express-checkout": "^1.0.5",
     "react-player": "^2.7.0",
     "react-plyr": "^2.2.0",
     "react-redux": "^7.2.1",

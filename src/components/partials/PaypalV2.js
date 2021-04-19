@@ -21,7 +21,8 @@ class PaypalV2 extends Component {
         }}
 
         style = {{
-            label: 'pay'
+            label: 'pay',
+            color: 'blue',
         }}
         
         onError={(err) => {
@@ -29,11 +30,7 @@ class PaypalV2 extends Component {
         }}
 
         onSuccess={async (details, data) => {
-          //alert("Transaction completed by " + details.payer.name.given_name);
-          console.log("details")
-          console.log(details)
-          console.log("data")
-          console.log(data)
+          message.loading("Checking your payment...", 0);
 
           const paymentRes = await axios.post(`${MAIN_PROXY_URL}/paypal/callback`, {
             orderID: data.orderID,
@@ -42,9 +39,13 @@ class PaypalV2 extends Component {
             planID
           });
 
+          message.destroy();
+
           if (paymentRes.data.data.status === "COMPLETED") {
               message.success("Successfully subscribed", 5);
               return this.props.history.push("/");
+          } else {
+            message.error("An error occur during payment process", 5);
           }
 
           /*

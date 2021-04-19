@@ -2,18 +2,8 @@ import React, { Component } from 'react';
 import {Modal, message} from "antd";
 import {withRouter} from "react-router-dom";
 import {USDtoVNDWithRate} from "../../requests/currencyRequests";
-import Paypal from '../partials/Paypal';
 import PaypalV2 from '../partials/PaypalV2';
 import {authenticationService} from "../../_services/authentication.service";
-
-/*
-<Paypal
-    toPay={price}
-    onSuccess={transactionSuccess}
-    transactionError={transactionError}
-    transactionCanceled={transactionCanceled}
-/>
-*/
 
 class PlanModal extends Component {
 
@@ -74,7 +64,7 @@ class PlanModal extends Component {
 
     renderPaypalButton = () => {
         const {planItem, subStatus} = this.props;
-        const {name, price, _id} = planItem;
+        const {price, _id} = planItem;
 
         const currentUser = authenticationService.currentUserValue
 
@@ -138,9 +128,9 @@ class PlanModal extends Component {
     }
 
     render() {
-        const {showModal, payWithMomo, payWithVisa, payWithZalo, transactionSuccess, transactionError, transactionCanceled, renderPaypalButton} = this;
+        const {showModal, payWithMomo, payWithVisa, payWithZalo, renderPaypalButton} = this;
         const {planItem} = this.props;
-        const {name, price, _id} = planItem;
+        const {name} = planItem;
 
         return (
             <>
