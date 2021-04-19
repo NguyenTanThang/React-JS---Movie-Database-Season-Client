@@ -79,7 +79,7 @@ class PlanModal extends Component {
             );
         }
 
-        if (subStatus) {
+        if (subStatus === "active") {
             return (
                 <button className="paypal__btn plan__btn" onClick={(e) => {
                     message.error("Your subscription is still valid")
