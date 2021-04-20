@@ -3653,6 +3653,11 @@ input[type=range]::-ms-thumb {
     height: 600px;
 }
 
+.movie-watch-container .basic-video {
+    height: 300px;
+    background-color: #000;
+}
+
 @media (min-width: 320px) and (max-width: 767px) {
     .series-watch-container {
         margin-bottom: 0;

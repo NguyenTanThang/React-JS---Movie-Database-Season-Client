@@ -12,7 +12,8 @@ import {
 } from "../../config/jqueryCode";
 import Plyr from 'plyr';
 import {
-    blobFromURLStandard
+    blobFromURLStandard,
+    measureDeviceWidth
 } from "../../utils/utils";
 
 export default class MovieVideo extends Component {
@@ -38,7 +39,7 @@ export default class MovieVideo extends Component {
     }
 
     async componentDidMount() {
-        new Plyr('#player', {
+        new Plyr(".player-modified", {
             controls: playerControls,
             //controls: playerControlsSeries,
             settings: playerSettings
@@ -114,19 +115,15 @@ export default class MovieVideo extends Component {
         playVideo();
     }
 
-    render() {
-        const {renderSubtitlesTrack, onFormBeginning, onContinueWatching} = this;
+    renderVideo = () => {
+        const {renderSubtitlesTrack} = this;
         const {modalActive} = this.state;
-        const {videoSRC, movieID} = this.props;
-        const record = getRecord(movieID);
-        //const {videoBlobURL} = this.state;
-        //poster={"https://wallpaperaccess.com/full/1512225.jpg"}
-        
+        const {videoSRC} = this.props;
+        const deviceWidth = measureDeviceWidth();
 
-        return (
-            <>
-                <video
-                controls={modalActive ? false : true} src={videoSRC} playsInline={true} id="player" height="100%" width="100%">
+        if (deviceWidth === "desktop" || deviceWidth === "tablet") {
+            return (<video
+                controls={modalActive ? false : true} src={videoSRC} playsInline={true} id="player" className="player-modified" height="100%" width="100%">
 
                     {/*
                         <source src={videoSRC} type="video/mp4"/>
@@ -134,7 +131,33 @@ export default class MovieVideo extends Component {
                     */}
 
                     {renderSubtitlesTrack()}
-                </video>
+            </video>)
+        } else {
+            return (<video
+                controls={modalActive ? false : true} src={videoSRC} playsInline={true} height="100%" width="100%" controlsList="nodownload" id="player" className="basic-video">
+
+                    {/*
+                        <source src={videoSRC} type="video/mp4"/>
+                        <source src={videoBlobURL} type="video/mp4"/>
+                    */}
+
+                    {renderSubtitlesTrack()}
+            </video>)
+        }
+    }
+
+    render() {
+        const {renderVideo, onFormBeginning, onContinueWatching} = this;
+        const {modalActive} = this.state;
+        const {movieID} = this.props;
+        const record = getRecord(movieID);
+        //const {videoBlobURL} = this.state;
+        //poster={"https://wallpaperaccess.com/full/1512225.jpg"}
+        
+
+        return (
+            <>
+                {renderVideo()}
                 {record ? (
                     <>
                     <div className="control-hider" style={{display: modalActive ? "block" : "none"}}></div>
