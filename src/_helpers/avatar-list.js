@@ -39,4 +39,12 @@ export const avatarList = [
         name: "Morgan Freeman",
         avatarURL: "https://i.imgur.com/JsA1cSx.jpg"
     },
+    {
+        name: "Jason Statham",
+        avatarURL: "https://i.imgur.com/tF8VJbS.jpg"
+    },
+    {
+        name: "Arnold Schwarzenegger",
+        avatarURL: "https://i.imgur.com/u9MufDz.jpg"
+    },
 ]

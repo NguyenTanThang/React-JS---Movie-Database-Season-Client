@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import TabGenerator from "../components/partials/TabGenerator";
 import {getSeasonByIDAxios} from "../requests/seasonRequests";
-import CommentSection from "../components/comments/CommentSection";
+//import CommentSection from "../components/comments/CommentSection";
+import SyncCommentSection from "../components/comments/SyncCommentSection";
 import SeasonDetails from "../components/seasons/SeasonDetails";
 import MovieDescription from "../components/movies/MovieDescription";
 import BigLoading from "../components/partials/BigLoading";
@@ -29,7 +30,7 @@ class SeasonDetailsPage extends Component {
     state = {
         seasonItem: "",
         currentSeries: "",
-        comments: "",
+        //comments: "",
         photos: ""
     }
 
@@ -42,13 +43,13 @@ class SeasonDetailsPage extends Component {
             const seasonID = this.props.match.params.seasonID;
             const seasonItem = await getSeasonByIDAxios(seasonID);
             const currentSeries = await getSeriesByIDAxios(seriesID);
-            const comments = await getCommentsByMovieID(seasonID);
+            //const comments = await getCommentsByMovieID(seasonID);
             const photos = await getPhotosBySeasonID(seasonID);
 
             this.setState({
                 seasonItem,
                 currentSeries,
-                comments,
+                //comments,
                 photos
             })
         } catch (error) {
@@ -82,6 +83,7 @@ class SeasonDetailsPage extends Component {
         }
     }
 
+    /*
     addComment = (comment) => {
         this.setState({
             comments: [comment, ...this.state.comments]
@@ -95,11 +97,14 @@ class SeasonDetailsPage extends Component {
             })
         })
     }
+    */
 
     renderTabGen = () => {
         const seasonID = this.props.match.params.seasonID;
-        const {seasonItem, comments, photos} = this.state;
-        const {addComment, removeComment} = this;
+        const {seasonItem, 
+            //comments, 
+            photos} = this.state;
+        //const {addComment, removeComment} = this;
         const {description} = seasonItem;
 
         const tabContents = [
@@ -108,9 +113,16 @@ class SeasonDetailsPage extends Component {
                     <MovieDescription description={description}/>
                 </>
             ),
+            /*
             (
                 <>
                     <CommentSection movieSeriesID={seasonID} comments={comments} removeComment={removeComment} addComment={addComment}/>
+                </>
+            ),
+            */
+            (
+                <>
+                    <SyncCommentSection movieSeriesID={seasonID}/>
                 </>
             ),
             (

@@ -3,7 +3,8 @@ import TabGenerator from "../components/partials/TabGenerator";
 import {getMovieByIDAxios} from "../requests/movieRequests";
 import MovieDetails from "../components/movies/MovieDetails";
 import MovieDescription from "../components/movies/MovieDescription";
-import CommentSection from "../components/comments/CommentSection";
+//import CommentSection from "../components/comments/CommentSection";
+import SyncCommentSection from "../components/comments/SyncCommentSection";
 import PhotoViewer from "../components/partials/PhotoViewer";
 import BigLoading from "../components/partials/BigLoading";
 import {
@@ -31,7 +32,7 @@ class MovieDetailsPage extends Component {
 
     state = {
         movieItem: "",
-        comments: "",
+        //comments: "",
         photos: ""
     }
 
@@ -43,12 +44,12 @@ class MovieDetailsPage extends Component {
 
             this.props.getReviewsByMovieID(movieID);
             const movieItem = await getMovieByIDAxios(movieID);
-            const comments = await getCommentsByMovieID(movieID);
+            //const comments = await getCommentsByMovieID(movieID);
             const photos = await getPhotosByMovieID(movieID);
 
             this.setState({
                 movieItem,
-                comments,
+                //comments,
                 photos
             })
         } catch (error) {
@@ -56,6 +57,7 @@ class MovieDetailsPage extends Component {
         }
     }
 
+    /*
     addComment = (comment) => {
         this.setState({
             comments: [comment, ...this.state.comments]
@@ -69,6 +71,7 @@ class MovieDetailsPage extends Component {
             })
         })
     }
+    */
 
     renderRNGMovieItems = () => {
         const {movies} = this.props;
@@ -107,8 +110,10 @@ class MovieDetailsPage extends Component {
 
     renderTabGen = () => {
         const movieID = this.props.match.params.movieID;
-        const {addComment, removeComment} = this;
-        const {movieItem, comments, photos} = this.state;
+        //const {addComment, removeComment} = this;
+        const {movieItem, 
+            //comments, 
+            photos} = this.state;
         const {description} = movieItem;
 
         const tabContents = [
@@ -117,9 +122,16 @@ class MovieDetailsPage extends Component {
                     <MovieDescription description={description}/>
                 </>
             ),
+            /*
             (
                 <>
                     <CommentSection movieSeriesID={movieID} comments={comments} removeComment={removeComment} addComment={addComment}/>
+                </>
+            ),
+            */
+            (
+                <>
+                    <SyncCommentSection movieSeriesID={movieID}/>
                 </>
             ),
             (

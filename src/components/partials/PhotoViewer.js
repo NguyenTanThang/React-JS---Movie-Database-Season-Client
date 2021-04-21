@@ -77,7 +77,11 @@ class PhotoViewer extends React.Component {
                 <div className="photo-viewer-list">
                     {renderPhotoItem()}
                 </div>
-              <button className="section__btn" onClick={() => { setVisible(true); } }>View More</button>
+                {
+                    selectedPhotos.length > 6 ? (
+                        <button className="section__btn" onClick={() => { setVisible(true); } }>View More</button>
+                    ) : (<></>)
+                }
               <Viewer
               visible={visible}
               onClose={() => { setVisible(false); } }

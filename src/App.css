@@ -1799,6 +1799,11 @@ input[type=range]::-ms-thumb {
         height: 200px;
         width: 100%;
     }
+
+    .video-player-container--trailer video {
+        height: 250px;
+        background-color: #000;
+    }
 }
 
 
@@ -2168,6 +2173,12 @@ input[type=range]::-ms-thumb {
 
 .card--details .card__rate {
     margin-top: 0;
+}
+
+@media screen and (min-width: 320px) and (max-width: 767px) {
+    .card--details .card__cover img {
+        width: 70%;
+    }
 }
 
 @media (min-width: 576px) {
@@ -3864,9 +3875,18 @@ input[type=range]::-ms-thumb {
         width: 90%;
     }
 
+    .continue-modal h4 {
+        font-size: 1.2rem;
+    }
+
+    .continue-modal h5 {
+        font-size: 1rem;
+    }
+
     .continue-modal-footer button {
         flex: 100%;
         max-width: 100%;
+        font-size: 0.9rem;
     }
 
     .continue-modal-footer button:first-child {

@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import TabGenerator from "../components/partials/TabGenerator";
 import {getSeriesByIDAxios} from "../requests/seriesRequests";
-import CommentSection from "../components/comments/CommentSection";
+//import CommentSection from "../components/comments/CommentSection";
+import SyncCommentSection from "../components/comments/SyncCommentSection";
 import SeriesDetails from "../components/series/SeriesDetails";
 import MovieDescription from "../components/movies/MovieDescription";
 import PhotoViewer from "../components/partials/PhotoViewer";
@@ -28,7 +29,7 @@ class SeriesDetailsPage extends Component {
 
     state = {
         seriesItem: "",
-        comments: "",
+        //comments: "",
         photos: ""
     }
 
@@ -39,12 +40,12 @@ class SeriesDetailsPage extends Component {
             const seriesID = this.props.match.params.seriesID;
 
             const seriesItem = await getSeriesByIDAxios(seriesID);
-            const comments = await getCommentsByMovieID(seriesID);
+            //const comments = await getCommentsByMovieID(seriesID);
             const photos = await getPhotosBySeriesID(seriesID);
 
             this.setState({
                 seriesItem,
-                comments,
+                //comments,
                 photos
             })
         } catch (error) {
@@ -87,6 +88,7 @@ class SeriesDetailsPage extends Component {
         
     }
 
+    /*
     addComment = (comment) => {
         this.setState({
             comments: [comment, ...this.state.comments]
@@ -100,11 +102,14 @@ class SeriesDetailsPage extends Component {
             })
         })
     }
+    */
 
     renderTabGen = () => {
         const seriesID = this.props.match.params.seriesID;
-        const {seriesItem, comments, photos} = this.state;
-        const {addComment, removeComment} = this;
+        const {seriesItem, 
+            //comments, 
+            photos} = this.state;
+        //const {addComment, removeComment} = this;
         const {description} = seriesItem;
 
         const tabContents = [
@@ -113,9 +118,16 @@ class SeriesDetailsPage extends Component {
                     <MovieDescription description={description}/>
                 </>
             ),
+            /*
             (
                 <>
                     <CommentSection movieSeriesID={seriesID} comments={comments} removeComment={removeComment} addComment={addComment}/>
+                </>
+            ),
+            */
+            (
+                <>
+                    <SyncCommentSection movieSeriesID={seriesID}/>
                 </>
             ),
             (
