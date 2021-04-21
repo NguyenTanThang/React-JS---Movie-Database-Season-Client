@@ -82,7 +82,7 @@ export default class Pagination extends Component {
                         <li className="paginator__item paginator__item--next" onClick={moveToNextPage}>
                             {isNotToTop ? (
                             <span>
-                            <i className="fas fa-arrow-left" aria-hidden="true"></i>
+                            <i className="fas fa-arrow-right" aria-hidden="true"></i>
                         </span>
                             ) : (
                                 
