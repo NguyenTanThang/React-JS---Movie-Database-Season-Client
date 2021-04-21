@@ -7,11 +7,16 @@ import {
 import {
     withRouter
 } from "react-router-dom";
+import Loading from "../partials/Loading";
+import Pagination from "../partials/Pagination";
+import {paginate} from "../../utils/paginate";
 
 class CommentSection extends Component {
 
     state = {
         comments: "",
+        loading: true,
+        commentCurrentPage: 1,
     }
 
     async componentWillMount() {
@@ -22,6 +27,7 @@ class CommentSection extends Component {
 
             this.setState({
                 comments,
+                loading: false
             })
         } catch (error) {
             this.props.history.push("/error");
@@ -42,12 +48,21 @@ class CommentSection extends Component {
         })
     }
 
-    renderCommentItems = () => {
-        const {comments} = this.state;
-        const {removeComment} = this;
+    changeSeasonPageNumber = (pageNumber) => {
+        this.setState({
+            commentCurrentPage: pageNumber
+        })
+    }
 
-        if (!comments) {
-            return (<></>)
+    renderCommentItems = () => {
+        const {comments, loading} = this.state;
+        const {removeComment, changeSeasonPageNumber} = this;
+        const {commentCurrentPage} = this.state;
+        
+        if (!comments || loading) {
+            return (<>
+                <Loading/>
+            </>)
         }
 
         if (comments.length === 0) {
@@ -56,9 +71,20 @@ class CommentSection extends Component {
             </div>)
         }
 
-        return comments.map((comment, index) => {
-            return <CommentItem removeComment={removeComment} commentItem={comment}/>
-        })
+        let currentComments = comments;
+
+        const seriesPageObject = paginate(currentComments.length, commentCurrentPage, 5, 4);
+
+        currentComments = currentComments.slice(seriesPageObject.startIndex, seriesPageObject.endIndex + 1);
+
+        return (
+            <>
+                {currentComments.map((comment, index) => {
+                    return <CommentItem removeComment={removeComment} commentItem={comment}/>
+                })}
+                <Pagination pageObject={seriesPageObject} onChangePageNumber={changeSeasonPageNumber}/>
+            </>
+        )
     }
 
     render() {
