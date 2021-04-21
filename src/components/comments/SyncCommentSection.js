@@ -82,7 +82,7 @@ class CommentSection extends Component {
                 {currentComments.map((comment, index) => {
                     return <CommentItem removeComment={removeComment} commentItem={comment}/>
                 })}
-                <Pagination pageObject={seriesPageObject} onChangePageNumber={changeSeasonPageNumber}/>
+                <Pagination isNotToTop pageObject={seriesPageObject} onChangePageNumber={changeSeasonPageNumber}/>
             </>
         )
     }
