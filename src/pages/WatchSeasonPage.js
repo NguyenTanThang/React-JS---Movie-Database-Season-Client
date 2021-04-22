@@ -44,7 +44,6 @@ class WatchSeasonPage extends Component {
             const seriesID = localStorage.getItem("currentSeriesID");
             const currentUser = authenticationService.currentUserValue;
             
-            const loggedIn = currentUser;
             const episodeList = await getEpisodesBySeasonIDAxios(seasonID);
             const currentlyReviewedID = this.state.currentEpisode._id || episodeList[0]._id;
             this.props.getReviewsByMovieID(currentlyReviewedID);
@@ -100,9 +99,10 @@ class WatchSeasonPage extends Component {
                 )
             }
 
-            const subtitles = await getSubtitlesByEpisodeID(episodeList.filter(episodeItem => {
+            const currentEpsiodeID = episodeList.filter(episodeItem => {
                 return episodeItem.episodeNum === this.state.currentEpisodeNum
-            })[0]._id);
+            })[0]._id;
+            const subtitles = await getSubtitlesByEpisodeID(currentEpsiodeID);
 
             this.setState({
                 episodeList,
@@ -117,12 +117,14 @@ class WatchSeasonPage extends Component {
         }
     }
 
-    changeCurrentEpisode = (currentEpisode) => {
+    changeCurrentEpisode = async (currentEpisode) => {
         localStorage.setItem("ratingMovieID", currentEpisode._id);
         this.props.getReviewsByMovieID(currentEpisode._id);
+        const subtitles = await getSubtitlesByEpisodeID(currentEpisode._id);
         this.setState({
             currentEpisode,
-            currentEpisodeNum: currentEpisode.episodeNum
+            currentEpisodeNum: currentEpisode.episodeNum,
+            subtitles
         })
     }
 
