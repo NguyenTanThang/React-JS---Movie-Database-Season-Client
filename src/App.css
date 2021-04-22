@@ -3669,6 +3669,11 @@ input[type=range]::-ms-thumb {
     background-color: #000;
 }
 
+.series-watch-container .basic-video {
+    height: 300px;
+    background-color: #000;
+}
+
 @media (min-width: 320px) and (max-width: 767px) {
     .series-watch-container {
         margin-bottom: 0;
@@ -3691,17 +3696,22 @@ input[type=range]::-ms-thumb {
     .episode-tab__icon {
         font-size: 20px;
         color: #FFF;
-        padding-right: 15px;
+        padding-right: 10px;
         transform: translateY(-6px);
+    }
+    
+    .episode-tab p {
+        font-size: 11px;
+        padding-bottom: 4px;
     }
 }
 
 @media (min-width: 320px) and (max-width: 767px) and (orientation: portrait) {
     .episode-tab {
-        flex: 43%;
-        max-width: 43%;
-        margin-left: 10px;
-        margin-right: 10px;
+        flex: 45%;
+        max-width: 45%;
+        margin-left: 5px;
+        margin-right: 5px;
     }
         
     .movie-watch-container .plyr__video-wrapper {

@@ -142,8 +142,14 @@
     border-bottom: 16px solid #fff;
 }
 
-.like-button .loader-container {
+
+.like-button .loader-container{
     padding: 0;
+}
+
+.episode-tab .loader-container {
+    padding-top: 7.5px;
+    padding-bottom: 7.5px;
 }
 
 .like-button .loader {

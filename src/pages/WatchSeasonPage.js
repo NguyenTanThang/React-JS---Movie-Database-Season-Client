@@ -15,12 +15,9 @@ import {message} from "antd";
 import {Helmet} from "react-helmet";
 import { motion } from "framer-motion";
 import {pageStyle, pageTransition, pageVariants} from "../config/animation";
-import RateMovieModalSync from "../components/movies/RateMovieModalSync";
 import RateMovieModal from "../components/movies/RateMovieModal";
 import MovieDescription from "../components/movies/MovieDescription";
-import {
-    getRecord
-} from "../config/jqueryCode";
+import Loading from "../components/partials/Loading";
 import {
     getReviewsByMovieID
 } from "../actions/reviewActions";
@@ -35,7 +32,8 @@ class WatchSeasonPage extends Component {
         currentEpisodeNum: 1,
         ratingEpisodeList: [],
         subtitles: [],
-        isAboutToEnd: false
+        isAboutToEnd: false,
+        //episodeLoading: false
     }
 
     async componentWillMount() {
@@ -118,18 +116,26 @@ class WatchSeasonPage extends Component {
     }
 
     changeCurrentEpisode = async (currentEpisode) => {
+        /*
+        this.setState({
+            //episodeLoading: true,
+        })
+        */
         localStorage.setItem("ratingMovieID", currentEpisode._id);
         this.props.getReviewsByMovieID(currentEpisode._id);
         const subtitles = await getSubtitlesByEpisodeID(currentEpisode._id);
         this.setState({
+            subtitles,
             currentEpisode,
             currentEpisodeNum: currentEpisode.episodeNum,
-            subtitles
+            //episodeLoading: false,
         })
     }
 
     renderEpisodeContainerTabs = () => {
-        const {episodeList, currentEpisodeNum} = this.state;
+        const {episodeList, currentEpisodeNum, 
+            //episodeLoading
+        } = this.state;
         const {changeCurrentEpisode} = this;
         const numberOfEp = episodeList.length;
         const numberOfTabs = Math.ceil(numberOfEp / 10);
@@ -151,6 +157,27 @@ class WatchSeasonPage extends Component {
             for (let j = epCounter; j < maxEp; j++) {
                 const currentEpisode = episodeList[j];
                 if (currentEpisodeNum === currentEpisode.episodeNum) {
+                    /*
+                    if (episodeLoading) {
+                        episodeTabs.push(
+                            <div key={currentEpisode._id} className="episode-tab loading__btn active" onClick={() => changeCurrentEpisode(currentEpisode)}>
+                                <div className="episode-tab__icon">
+                                    <Loading/>
+                                </div>
+                                <p>Episode {currentEpisode.episodeNum}</p>
+                            </div>
+                        )
+                    } else {
+                        episodeTabs.push(
+                            <div key={currentEpisode._id} className="episode-tab active" onClick={() => changeCurrentEpisode(currentEpisode)}>
+                                <div className="episode-tab__icon">
+                                    <i class="fas fa-play-circle"></i>
+                                </div>
+                                <p>Episode {currentEpisode.episodeNum}</p>
+                            </div>
+                        )
+                    }
+                    */
                     episodeTabs.push(
                         <div key={currentEpisode._id} className="episode-tab active" onClick={() => changeCurrentEpisode(currentEpisode)}>
                             <div className="episode-tab__icon">
