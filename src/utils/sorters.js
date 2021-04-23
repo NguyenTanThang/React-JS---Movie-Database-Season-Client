@@ -6,16 +6,16 @@ export const sortMoviesAndSeries = (list, searchObject) => {
     } = searchObject;
     let returnedList = list;
 
+    if (sortGenres && sortGenres.length > 0) {
+        returnedList = sortMoviesAndSeriesByGenres(returnedList, sortGenres);
+    }
+
     if (searchName) {
         returnedList = sortMoviesAndSeriesByName(returnedList, searchName);
     }
 
     if (orderBy) {
         returnedList = sortMoviesAndSeriesOrderBy(returnedList, orderBy);
-    }
-
-    if (sortGenres && sortGenres.length > 0) {
-        returnedList = sortMoviesAndSeriesByGenres(returnedList, sortGenres);
     }
 
     return returnedList;
