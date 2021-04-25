@@ -16,7 +16,7 @@ export default class PlanItem extends Component {
     }
 
     render() {
-        const {planItem, vndRate, subStatus} = this.props;
+        const {planItem, vndRate, subStatus, subscription} = this.props;
         const {name, price} = planItem;
 
         return (
@@ -24,7 +24,7 @@ export default class PlanItem extends Component {
                 <div className="price">
                     <div className="price__item price__item--first"><span>{name}</span> <span>${price}</span></div>
                     {this.renderDescription()}
-                    <PlanModal subStatus={subStatus} vndRate={vndRate} planItem={planItem}/>
+                    <PlanModal subStatus={subStatus} vndRate={vndRate} planItem={planItem} subscription={subscription}/>
                 </div>
             </div>
         )

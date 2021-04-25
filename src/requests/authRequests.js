@@ -204,6 +204,43 @@ export const getSubStatus = async () => {
     }
 }
 
+export const getDetailedSubStatus = async () => {
+    try {
+        const currentUser = authenticationService.currentUserValue;
+
+        if (!currentUser) {
+            return false;
+        }
+
+        const customerID = authenticationService.currentUserValue.customerItem._id;
+
+        if (!customerID) {
+            return false;
+        }
+
+        const res = await axios.get(`${SUB_URL}/status/customerID/${customerID}`);
+
+        const {
+            success
+        } = res.data;
+        const resMessage = res.data.message;
+
+        if (!success) {
+            return message.error(resMessage, 5);
+        }
+
+        const status = res.data.data;
+        const subscription = res.data.subscription;
+
+        return {
+            status,
+            subscription
+        };
+    } catch (error) {
+        message.error(error.message, 5);
+    }
+}
+
 export const logout = () => {
     localStorage.clear();
 }

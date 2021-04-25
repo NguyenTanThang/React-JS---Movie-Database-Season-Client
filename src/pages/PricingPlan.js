@@ -4,7 +4,7 @@ import Navbar from "../components/partials/Navbar";
 import {connect} from "react-redux";
 import {getAllPlans} from "../actions/planActions";
 import PlanList from "../components/plans/PlanList";
-import {getSubStatus} from "../requests/authRequests";
+import {getSubStatus, getDetailedSubStatus} from "../requests/authRequests";
 import {message} from "antd";
 import {Helmet} from "react-helmet";
 import { motion } from "framer-motion";
@@ -24,22 +24,25 @@ const pricingBreadcumbs = [
 class PricingPlan extends Component {
 
     state = {
-        subStatus: ""
+        subStatus: "",
+        subscription: ""
     }
 
     async componentWillMount() {
-        const subStatus = await getSubStatus();
+        const detailedSubStatus = await getDetailedSubStatus();
 
         this.props.getAllPlans();
 
+        const {subStatus, subscription} = detailedSubStatus;
         this.setState({
-            subStatus
+            subStatus,
+            subscription
         })
     }
 
     render() {
         const planList = this.props.plans;
-        const {subStatus} = this.state;
+        const {subStatus, subscription} = this.state;
 
         return (
             <motion.div
@@ -121,7 +124,7 @@ class PricingPlan extends Component {
                 
                 <div className="section">
                     <div className="container">
-                        <PlanList subStatus={subStatus} planList={planList}/>
+                        <PlanList subStatus={subStatus} planList={planList} subscription={subscription}/>
                     </div>
                 </div>
             </div>
