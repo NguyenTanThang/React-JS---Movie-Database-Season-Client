@@ -34,9 +34,10 @@ class PricingPlan extends Component {
         this.props.getAllPlans();
 
         const {subStatus, subscription} = detailedSubStatus;
+
         this.setState({
             subStatus,
-            subscription
+            subscription: subscription[0]
         })
     }
 

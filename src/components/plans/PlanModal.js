@@ -17,7 +17,7 @@ class PlanModal extends Component {
         const {vndRate, planItem} = this.props;
         const {price} = planItem;
         const vndPrice = USDtoVNDWithRate(price, vndRate);
-        
+
         this.setState({
             vndPrice
         })
@@ -33,7 +33,7 @@ class PlanModal extends Component {
         const {planItem, subStatus, subscription} = this.props;
 
         if (subStatus === "active") {
-            return message.error(`Your subscription is still valid. Your subscription is ended on ${parseDateMoment(subscription.created_date)}`);
+            return message.error(`Your subscription is still valid. Your subscription is ended on ${parseDateMoment(subscription.ended_date)}`);
         }
         
         const {vndPrice} = this.state;
@@ -46,7 +46,7 @@ class PlanModal extends Component {
         const {planItem, subStatus, subscription} = this.props;
 
         if (subStatus === "active") {
-            return message.error(`Your subscription is still valid. Your subscription is ended on ${parseDateMoment(subscription.created_date)}`);
+            return message.error(`Your subscription is still valid. Your subscription is ended on ${parseDateMoment(subscription.ended_date)}`);
         }
 
         const {vndPrice} = this.state;
@@ -59,7 +59,7 @@ class PlanModal extends Component {
         const {planItem, subStatus, subscription} = this.props;
 
         if (subStatus === "active") {
-            return message.error(`Your subscription is still valid. Your subscription is ended on ${parseDateMoment(subscription.created_date)}`);
+            return message.error(`Your subscription is still valid. Your subscription is ended on ${parseDateMoment(subscription.ended_date)}`);
         }
         const {price} = planItem;
         localStorage.setItem("amount", Math.round(price * 100));
@@ -88,7 +88,7 @@ class PlanModal extends Component {
         if (subStatus === "active") {
             return (
                 <button className="paypal__btn plan__btn" onClick={(e) => {
-                    return message.error(`Your subscription is still valid. Your subscription is ended on ${parseDateMoment(subscription.created_date)}`);
+                    return message.error(`Your subscription is still valid. Your subscription is ended on ${parseDateMoment(subscription.ended_date)}`);
                 }}>
                     <i class="fab fa-paypal"></i>
                     Pay with Paypal
@@ -120,18 +120,6 @@ class PlanModal extends Component {
           visible: false,
         });
       };
-
-    transactionSuccess = (data) => {
-        console.log(data);
-    }
-
-    transactionError = () => {
-        console.log('Paypal error')
-    }
-
-    transactionCanceled = () => {
-        console.log('Transaction canceled')
-    }
 
     render() {
         const {showModal, payWithMomo, payWithVisa, payWithZalo, renderPaypalButton} = this;

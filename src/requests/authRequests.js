@@ -233,7 +233,7 @@ export const getDetailedSubStatus = async () => {
         const subscription = res.data.subscription;
 
         return {
-            status,
+            subStatus: status,
             subscription
         };
     } catch (error) {
