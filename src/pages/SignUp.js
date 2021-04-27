@@ -10,8 +10,9 @@ import {Helmet} from "react-helmet";
 import { motion } from "framer-motion";
 import {pageStyle, pageTransition, pageVariants} from "../config/animation";
 import {validatePassword} from "../utils/validate";
+import {withRouter} from "react-router-dom";
 
-export default class SignUp extends Component {
+class SignUp extends Component {
 
     state = {
 		username: "",
@@ -43,7 +44,11 @@ export default class SignUp extends Component {
             e.preventDefault();
             const {username, email, password} = this.state;
             if (validatePassword(password)) {
-                await signup({username, email, password});
+                const signUpData = await signup({username, email, password});
+
+                if (signUpData.success) {
+                    this.props.history.push("/sign-in")
+                }
             }
         } catch (error) {
             console.log(error);
@@ -107,3 +112,5 @@ export default class SignUp extends Component {
         )
     }
 }
+
+export default withRouter(SignUp);
