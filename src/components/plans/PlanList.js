@@ -18,7 +18,7 @@ export default class PlanList extends Component {
     }
 
     renderPlanItems = () => {
-        const {planList} = this.props;
+        const {planList, subStatus, subscription} = this.props;
         const {vndRate} = this.state;
 
         if (!vndRate || !planList) {
@@ -31,9 +31,9 @@ export default class PlanList extends Component {
             const key = `plan-${planItem._id}`
 
             if (index % 2) {
-                return <PlanItemSpecial key={key} planItem={planItem} vndRate={vndRate}/>
+                return <PlanItemSpecial subStatus={subStatus} key={key} planItem={planItem} vndRate={vndRate} subscription={subscription}/>
             }
-            return <PlanItem key={key} planItem={planItem} vndRate={vndRate}/>
+            return <PlanItem subStatus={subStatus} key={key} planItem={planItem} vndRate={vndRate} subscription={subscription}/>
         })
     }
 

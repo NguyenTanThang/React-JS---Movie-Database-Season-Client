@@ -1,16 +1,21 @@
 import React, { Component } from 'react';
 import TabGenerator from "../components/partials/TabGenerator";
 import {getSeasonByIDAxios} from "../requests/seasonRequests";
-import CommentSection from "../components/comments/CommentSection";
+//import CommentSection from "../components/comments/CommentSection";
+import SyncCommentSection from "../components/comments/SyncCommentSection";
 import SeasonDetails from "../components/seasons/SeasonDetails";
 import MovieDescription from "../components/movies/MovieDescription";
 import BigLoading from "../components/partials/BigLoading";
+import PhotoViewer from "../components/partials/PhotoViewer";
 import {
     getSeasonsBySeriesID
 } from "../actions/seasonActions";
 import {
     getCommentsByMovieID
 } from "../requests/commentRequests";
+import {
+    getPhotosBySeasonID
+} from "../requests/photoRequests";
 import {connect} from "react-redux";
 import SeasonItem from "../components/seasons/SeasonItem";
 import {getRandom} from "../utils/utils";
@@ -25,10 +30,11 @@ class SeasonDetailsPage extends Component {
     state = {
         seasonItem: "",
         currentSeries: "",
-        comments: ""
+        //comments: "",
+        photos: ""
     }
 
-    async componentDidMount() {
+    async componentWillMount() {
         try {
             const seriesID = localStorage.getItem("currentSeriesID");
 
@@ -37,12 +43,14 @@ class SeasonDetailsPage extends Component {
             const seasonID = this.props.match.params.seasonID;
             const seasonItem = await getSeasonByIDAxios(seasonID);
             const currentSeries = await getSeriesByIDAxios(seriesID);
-            const comments = await getCommentsByMovieID(seasonID);
+            //const comments = await getCommentsByMovieID(seasonID);
+            const photos = await getPhotosBySeasonID(seasonID);
 
             this.setState({
                 seasonItem,
                 currentSeries,
-                comments
+                //comments,
+                photos
             })
         } catch (error) {
             this.props.history.push("/error");
@@ -75,6 +83,7 @@ class SeasonDetailsPage extends Component {
         }
     }
 
+    /*
     addComment = (comment) => {
         this.setState({
             comments: [comment, ...this.state.comments]
@@ -88,11 +97,14 @@ class SeasonDetailsPage extends Component {
             })
         })
     }
+    */
 
     renderTabGen = () => {
         const seasonID = this.props.match.params.seasonID;
-        const {seasonItem, comments} = this.state;
-        const {addComment, removeComment} = this;
+        const {seasonItem, 
+            //comments, 
+            photos} = this.state;
+        //const {addComment, removeComment} = this;
         const {description} = seasonItem;
 
         const tabContents = [
@@ -101,16 +113,30 @@ class SeasonDetailsPage extends Component {
                     <MovieDescription description={description}/>
                 </>
             ),
+            /*
             (
                 <>
                     <CommentSection movieSeriesID={seasonID} comments={comments} removeComment={removeComment} addComment={addComment}/>
+                </>
+            ),
+            */
+            (
+                <>
+                    <SyncCommentSection movieSeriesID={seasonID}/>
+                </>
+            ),
+            (
+                <>
+                    {/*<PhotoViewer visible={visible} setVisible={setVisible}/>*/}
+                    <PhotoViewer photos={photos}/>
                 </>
             )
         ]
 
         const tabHeaders = [
             "Description",
-            "Comments"
+            "Comments",
+            "Photos"
         ]
 
         return <TabGenerator tabContents={tabContents} tabHeaders={tabHeaders}/>

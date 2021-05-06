@@ -12,6 +12,7 @@ import BigLoading from "../components/partials/BigLoading";
 import {Helmet} from "react-helmet";
 import { motion } from "framer-motion";
 import {pageStyle, pageTransition, pageVariants} from "../config/animation";
+import { Link } from 'react-router-dom';
 
 const helpBreadcumbs = [
     {
@@ -31,7 +32,7 @@ class WatchLater extends Component {
         moviesCurrentPage: 1
     }
 
-    componentDidMount() {
+    componentWillMount() {
         this.props.getAllWatchLaterByCustomerID();
     }
 
@@ -55,11 +56,11 @@ class WatchLater extends Component {
         let movieList = [];
         let seriesList = [];
 
-        console.log(watchLater);
-
-        if (!watchLater.movieList || !watchLater.seriesList) {
+        if (!watchLater.movieList || !watchLater.seriesList || !watchLater.watchLaters) {
             return <></>;
         }
+
+        console.log(watchLater.watchLaters);
 
         watchLater.movieList.forEach(movieItem => {
             movieList.push(movieItem);
@@ -71,6 +72,20 @@ class WatchLater extends Component {
         let currentMovies = movieList;
         let currentSeries = seriesList;
 
+        currentSeries = currentSeries.map(currentSeriesItem => {
+            return {...currentSeriesItem, type: "series"}
+        })
+
+        let currentAllList = [...currentMovies, ...currentSeries];
+        currentAllList = watchLater.watchLaters.map(watchLaterItem => {
+            return currentAllList.filter(currentAllItem => {
+                return currentAllItem._id === watchLaterItem.movieID;
+            })[0];
+        })
+        const currentAllListPageObject = paginate(currentAllList.length, moviesCurrentPage, 10, 4);
+        currentAllList = currentAllList.slice(currentAllListPageObject.startIndex, currentAllListPageObject.endIndex + 1);
+
+        /*
         const seriesPageObject = paginate(currentSeries.length, seriesCurrentPage, 12, 4);
         const moviesPageObject = paginate(currentMovies.length, moviesCurrentPage, 12, 4);
 
@@ -98,6 +113,22 @@ class WatchLater extends Component {
         ]
 
         return <TabGenerator tabContents={tabContents} tabHeaders={tabHeaders}/>
+        */
+
+        if (currentAllList.length === 0) {
+            return <div className="empty-message-container">
+                <h4>Currently you don't have any movies in your watch later list</h4>
+                <p>You can browse to find the one you like</p>
+                <Link to="/browse" className="section__btn">Browse Now</Link>
+            </div>
+        }
+
+        return (
+            <>
+                <MovieList movies={currentAllList} loading={loading}/>
+                <Pagination pageObject={currentAllListPageObject} onChangePageNumber={changeMoviesPageNumber}/>
+            </>
+        )
     }
 
     render() {

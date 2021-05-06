@@ -25,7 +25,7 @@ class SeasonList extends Component {
         }
 
         return seasons.map(seasonItem => {
-            return <div  key={seasonItem._id} className="col-6 col-sm-4 col-lg-3 col-xl-2">
+            return <div  key={seasonItem._id} className="col-6 col-sm-4 col-lg-3 col-xl-2 item-container">
                 <SeasonItem seasonItem={seasonItem}/>
             </div>
         })

@@ -41,7 +41,7 @@ export const addRating = async ({customerID, movieID, grading}) => {
         });
 
         message.destroy();
-        message.success("Successfully added. Please reload to update the rating", 5);
+        message.success("Successfully rated", 5);
 
         const review = res.data.data;
 
@@ -60,7 +60,7 @@ export const editRating = async (reviewID, {customerID, movieID, grading}) => {
         });
 
         message.destroy();
-        message.success("Successfully added. Please reload to update the rating", 5);
+        message.success("Successfully re-rated.", 5);
 
         const review = res.data.data;
 

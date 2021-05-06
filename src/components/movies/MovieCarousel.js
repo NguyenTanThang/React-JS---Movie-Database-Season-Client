@@ -50,7 +50,7 @@ class MovieCarousel extends Component {
         return movies.map(movieItem => {
             return (
                 <div key={movieItem._id} className="card-carousel-item">
-                    <MovieItem movieItem={movieItem}/>
+                    <MovieItem  type={movieItem.type} movieItem={movieItem}/>
                 </div>
             )
         })
@@ -62,7 +62,7 @@ class MovieCarousel extends Component {
             dots: true,
             infinite: false,
             speed: 500,
-            slidesToShow: 6,
+            slidesToShow: 5,
             slidesToScroll: 2,
             nextArrow: <SampleNextArrow />,
             prevArrow: <SamplePrevArrow />,
@@ -70,7 +70,7 @@ class MovieCarousel extends Component {
                 {
                   breakpoint: 1025,
                   settings: {
-                    slidesToShow: 6,
+                    slidesToShow: 5,
                     slidesToScroll: 2
                   }
                 },
@@ -85,15 +85,15 @@ class MovieCarousel extends Component {
                   breakpoint: 800,
                   settings: {
                     slidesToShow: 3,
-                    slidesToScroll: 2,
+                    slidesToScroll: 1,
                   }
                 },
                 {
                   breakpoint: 380,
                   infinite: true,
                   settings: {
-                    slidesToShow: 2,
-                    slidesToScroll: 2
+                    slidesToShow: 1,
+                    slidesToScroll: 1
                   }
                 }
               ]

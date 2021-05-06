@@ -3,7 +3,6 @@ import queryString from "query-string";
 
 export const extractQueryString = (props) => {
     const parsed = queryString.parse(props.location.search);
-    console.log(parsed);
     return parsed;
 }
 
@@ -24,6 +23,6 @@ export const createNotification = (type, config) => {
             backgroundColor: "#2b2b31",
             color: "#FFF"
         },
-        duration: 10,
+        duration: 5,
     });
 }

@@ -6,16 +6,16 @@ export const sortMoviesAndSeries = (list, searchObject) => {
     } = searchObject;
     let returnedList = list;
 
+    if (sortGenres && sortGenres.length > 0) {
+        returnedList = sortMoviesAndSeriesByGenres(returnedList, sortGenres);
+    }
+
     if (searchName) {
         returnedList = sortMoviesAndSeriesByName(returnedList, searchName);
     }
 
     if (orderBy) {
         returnedList = sortMoviesAndSeriesOrderBy(returnedList, orderBy);
-    }
-
-    if (sortGenres && sortGenres.length > 0) {
-        returnedList = sortMoviesAndSeriesByGenres(returnedList, sortGenres);
     }
 
     return returnedList;
@@ -46,11 +46,9 @@ const sortMoviesAndSeriesByName = (list, searchName) => {
 
     for (let index = 0; index < list.length; index++) {
         const item = list[index];
-        //console.log(item);
         const {name, genres} = item;
         let imdbMovie = item.imdbMovie || item.imdbSeries;
         const {Actors, Director} = imdbMovie;
-        console.log(imdbMovie);
 
         if (name.toLowerCase().includes(searchName.toLowerCase())) {
             ans.push(item);

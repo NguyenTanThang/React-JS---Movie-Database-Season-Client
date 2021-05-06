@@ -19,9 +19,7 @@ class RateMovieModal extends Component {
       return avatarList.map((avatarItem, index) => {
         const {avatarURL, name} = avatarItem;
         return <div className="avatar-item col-lg-2 col-md-4 col-sm-6 col-6" key={index} onClick={() => onAvatarClicked(avatarURL)}>
-            <Tooltip title={name}>
-                <img src={avatarURL} className="img-fluid" alt={name}/>
-            </Tooltip>
+            <img src={avatarURL} className="img-fluid" alt={name}/>
         </div>
       })
   }

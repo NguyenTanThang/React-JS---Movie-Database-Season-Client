@@ -14,8 +14,6 @@ export const getMovieByIDAxios = async (movieID) => {
 
         const movie = res.data.data;
 
-        console.log(movie);
-
         return movie;
     } catch (error) {
         console.log(error);

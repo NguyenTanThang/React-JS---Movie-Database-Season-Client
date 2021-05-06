@@ -12,8 +12,6 @@ export const getSubtitlesByMovieID = async (movieID) => {
     try {
         const res = await axios.get(`${SUB_URL}/movieID/${movieID}`);
 
-        console.log(res);
-
         const subtitles = res.data.data;
 
         return subtitles;

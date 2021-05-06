@@ -7,12 +7,12 @@ import BigLoading from "../components/partials/BigLoading"
 
 class ZaloPaymentPage extends Component {
 
-    async componentDidMount() {
+    async componentWillMount() {
         try {
             const subStatus = await getSubStatus();
             const loggedIn = await getAuthStatus();
             if (!loggedIn) {
-                message.error("You need to login to perform payment")
+                message.error("You need to login to perform payment");
                 return this.props.history.push("/sign-in");
             }
             if (subStatus === "active") {

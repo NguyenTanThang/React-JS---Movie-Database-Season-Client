@@ -1,27 +1,34 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 
 export default class Pagination extends Component {
 
     renderPaginatorItem = () => {
-        const {pageObject, onChangePageNumber} = this.props;
+        const {pageObject, onChangePageNumber, isNotToTop} = this.props;
         const {pages, currentPage} = pageObject;
-        console.log(pageObject);
-
+        
         return pages.map(page => {
             if (currentPage === page) {
                 return (
                     <li className="paginator__item paginator__item--active" key={page} onClick={()=>onChangePageNumber(page)}>
-                        <a href="#">
+                        {isNotToTop ? (
                             <span>{page}</span>
-                        </a>
+                        ) : (
+                            <a href="#">
+                                <span>{page}</span>
+                            </a>
+                        )}
                     </li>
                 )
             }
             return (
                 <li className="paginator__item" key={page} onClick={()=>onChangePageNumber(page)}>
-                    <a href="#">
+                   {isNotToTop ? (
                         <span>{page}</span>
-                    </a>
+                    ) : (
+                        <a href="#">
+                            <span>{page}</span>
+                        </a>
+                    )}
                 </li>
             )
         })
@@ -47,7 +54,7 @@ export default class Pagination extends Component {
 
     render() {
         const {moveToPreviousPage, moveToNextPage, renderPaginatorItem} = this;
-        const {pageObject} = this.props;
+        const {pageObject, isNotToTop} = this.props;
         const {totalPages} = pageObject;
 
         if (totalPages === 0) {
@@ -57,19 +64,34 @@ export default class Pagination extends Component {
         return (
             <ul className="paginator">
 						<li className="paginator__item paginator__item--prev" onClick={moveToPreviousPage}>
+                        {isNotToTop ? (
+                            
+                        <span>
+                        <i className="fas fa-arrow-left" aria-hidden="true"></i>
+                    </span>
+                        ) : (
                             <a href="#">
-                                <span>
-                                    <i className="fas fa-arrow-left" aria-hidden="true"></i>
-                                </span>
-                            </a>
+                            <span>
+                                <i className="fas fa-arrow-left" aria-hidden="true"></i>
+                            </span>
+                        </a>
+                        )}
+                            
 						</li>
                         {renderPaginatorItem()}
                         <li className="paginator__item paginator__item--next" onClick={moveToNextPage}>
-                            <a href="#">
+                            {isNotToTop ? (
+                            <span>
+                            <i className="fas fa-arrow-right" aria-hidden="true"></i>
+                        </span>
+                            ) : (
+                                
+                                <a href="#">
                                 <span>
                                     <i className="fas fa-arrow-right" aria-hidden="true"></i>
                                 </span>
                             </a>
+                            )}
 						</li>
 			</ul>
         )

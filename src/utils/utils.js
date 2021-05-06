@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const getDaysDiff = (date) => {
     const dateMili = dateToMili(date);
-    const dateNowMili = dateToMili(new Date.now());
+    const dateNowMili = dateToMili(Date.now());
     const diffTime = Math.abs(dateNowMili - dateMili);
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
     return diffDays; 
@@ -25,7 +25,6 @@ export const measureDeviceWidth = () => {
         device = indicateDeviceType(screenWidth, screenHeight);
     })
     */
-    console.log(device);
     return device;
 }
 
@@ -71,7 +70,6 @@ export const shuffleArray = (array) => {
   }
 
 export const detectLeavePage = () => {
-    console.log("detectLeavePage");
     /*
     window.addEventListener('beforeunload', (event) => {
         // Cancel the event as stated by the standard.
@@ -83,17 +81,11 @@ export const detectLeavePage = () => {
     */
 
     document.addEventListener('mouseleave', e=>{
-        //do some async code
-        console.log(e);
     });
    
     document.addEventListener('visibilitychange', e=>{
         if (document.visibilityState === 'visible') {
-            console.log(e);
-            console.log(document);
         } else {
-            console.log(e);
-            console.log(document);
         }  
     });
 }
@@ -127,9 +119,6 @@ export const blobFromURL = async (url) => {
 
         const base64URL = Buffer.from(response.data, 'binary').toString('base64');
 
-        console.log(response);
-        console.log(`data:video/mp4;base64,${base64URL}`);
-
         return `data:video/mp4;base64,${base64URL}`;
     } catch (error) {
         console.log(error);
@@ -146,8 +135,6 @@ export const blobFromURLStandard = async (prefix, url) => {
         })
 
         const base64URL = Buffer.from(response.data, 'binary').toString('base64');
-
-        console.log(`${prefix}${base64URL}`);
 
         return `${prefix}${base64URL}`;
     } catch (error) {

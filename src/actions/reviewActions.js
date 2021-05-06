@@ -6,15 +6,23 @@ import {
     EDIT_REVIEW,
     GET_REVIEWS_BY_MOVIES_ID
 } from "./types";   
+import {
+    setLoading,
+    clearLoading
+} from "./loadingActions";
 
 const REVIEWS_URL = `${MAIN_PROXY_URL}/reviews`;
 
 export const getReviewsByMovieID = (movieID) => {
     return async (dispatch) => {
         try {
+            dispatch(setLoading());
+
             const res = await axios.get(`${REVIEWS_URL}/movieID/${movieID}`);
     
             const reviews = res.data.data;
+
+            dispatch(clearLoading());
 
             return dispatch({
                 type: GET_REVIEWS_BY_MOVIES_ID,
@@ -31,13 +39,7 @@ export const getReviewsByMovieID = (movieID) => {
 export const addReview = (newReview) => {
     return async (dispatch) => {
         try {
-            const {movieID, grading, customerID} = newReview;
-
-            const res = await axios.post(`${REVIEWS_URL}/add`, {
-                movieID, grading, customerID
-            });
-    
-            const review = res.data.data;
+            const review = newReview;
 
             return dispatch({
                 type: ADD_REVIEW,
@@ -51,16 +53,10 @@ export const addReview = (newReview) => {
     }
 }
 
-export const editReview = (reviewID, updatedReview) => {
+export const editReview = (updatedReview) => {
     return async (dispatch) => {
         try {
-            const {movieID, grading, customerID} = updatedReview;
-
-            const res = await axios.put(`${REVIEWS_URL}/edit/${reviewID}`, {
-                movieID, grading, customerID
-            });
-    
-            const review = res.data.data;
+            const review = updatedReview;
 
             return dispatch({
                 type: EDIT_REVIEW,

@@ -36,7 +36,6 @@ export default class AddCommentForm extends Component {
                 movieSeriesID,
                 content
             });
-            console.log(comment);
 
             insertComment(comment);
 
@@ -59,7 +58,7 @@ export default class AddCommentForm extends Component {
 
         return (
             <form action="#" onSubmit={onAddComment} class="form">
-                <textarea id="content" name="content" class="form__textarea" required placeholder="Add comment" onChange={onChange}>{content}</textarea>
+                <textarea id="content" name="content" class="form__textarea" required placeholder="Add comment" onChange={onChange} value={content}></textarea>
                 <button type="submit" class="form__btn">Send</button>
             </form>
         )

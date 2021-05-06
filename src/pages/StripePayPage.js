@@ -7,6 +7,7 @@ import {message} from "antd";
 import {Helmet} from "react-helmet";
 import { motion } from "framer-motion";
 import {pageStyle, pageTransition, pageVariants} from "../config/animation";
+import BigLoading from "../components/partials/BigLoading"
 
 class StripePayPage extends Component {
 
@@ -14,7 +15,7 @@ class StripePayPage extends Component {
         plan: ""
     }
 
-    async componentDidMount() {
+    async componentWillMount() {
         try {
             const planID = localStorage.getItem("planID");
             if (!planID) {
@@ -44,6 +45,14 @@ class StripePayPage extends Component {
 
     render() {
         const {plan} = this.state;
+
+        if (!plan) {
+            return (
+                <>
+                    <BigLoading/>    
+                </>
+            )
+        }
 
         return (
             <motion.div

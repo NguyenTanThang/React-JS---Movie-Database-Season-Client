@@ -1,19 +1,19 @@
 import React, { Component } from 'react';
 //import {logout} from "../requests/authRequests";
 import {authenticationService} from "../_services";
+import BigLoading from "../components/partials/BigLoading"
  
 class Logout extends Component {
 
-    componentDidMount() {
+    componentWillMount() {
         authenticationService.logout();
-        this.props.history.push("/sign-in")
     }
 
     render() {
         return (
-            <div>
-                
-            </div>
+            <>
+                <BigLoading/>  
+            </>
         )
     }
 }

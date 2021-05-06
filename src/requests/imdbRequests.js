@@ -7,7 +7,5 @@ const getOMDBURL = (IMDB_ID) => {
 export const getOMDBMovie = async (IMDB_ID) => {
     const res = await axios.get(getOMDBURL(IMDB_ID));
 
-    console.log(res);
-
     return res.data;
 }

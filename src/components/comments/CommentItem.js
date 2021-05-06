@@ -36,6 +36,25 @@ export default class CommentItem extends Component {
         
     }
 
+    renderCommentActions = () => {
+        const currentUser = authenticationService.currentUserValue;
+        const {commentItem} = this.props;
+        
+        if (!currentUser || currentUser.customerItem._id != commentItem.customerID._id) {
+            return <></>
+        }
+
+        return (
+            <div class="comments__actions">
+                <div class="comments__rate">
+                    
+                </div>
+
+                {this.renderDeleteComment()}
+            </div>
+        )
+    }
+
     renderDeleteComment = () => {
         const {onDeleteComment} = this;
         const {commentItem} = this.props;
@@ -69,13 +88,7 @@ export default class CommentItem extends Component {
                     <span class="comments__time">{parseDateMomentWithTime(created_date)}</span>
                 </div>
                 <p class="comments__text">{content}</p>
-                <div class="comments__actions">
-                    <div class="comments__rate">
-                        
-                    </div>
-
-                    {this.renderDeleteComment()}
-                </div>
+                {this.renderCommentActions()}
             </li>
         )
     }

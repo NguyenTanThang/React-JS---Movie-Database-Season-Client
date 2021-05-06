@@ -25,7 +25,12 @@ const reviewsReducer = (state = initialState, action) => {
         case EDIT_REVIEW:
             return {
                 ...state,
-                //reviews: action.payload.reviews
+                reviews: state.reviews.map(review => {
+                    if (review.customerID === action.payload.review.customerID) {
+                        return action.payload.review;
+                    }
+                    return review;
+                })
             }
             break;
         default:

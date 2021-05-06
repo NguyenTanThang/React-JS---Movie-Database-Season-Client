@@ -23,7 +23,7 @@ export default class Navbar extends Component {
         if (customer) {
             return (
                 <Link to="/profile" className="header__sign-in">
-                    <i class="fas fa-user-cog"></i>
+                    <i className="fas fa-user-cog"></i>
                     <span>profile</span>
                 </Link>
             )

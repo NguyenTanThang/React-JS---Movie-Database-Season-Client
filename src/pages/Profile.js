@@ -23,7 +23,7 @@ class Profile extends Component {
         counter: 0
     }
 
-    componentDidMount() {
+    componentWillMount() {
         sectionBG();
 
         const currentUser = authenticationService.currentUserValue

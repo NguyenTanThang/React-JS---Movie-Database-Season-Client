@@ -4,7 +4,7 @@ import Navbar from "../components/partials/Navbar";
 import {connect} from "react-redux";
 import {getAllPlans} from "../actions/planActions";
 import PlanList from "../components/plans/PlanList";
-import {getSubStatus} from "../requests/authRequests";
+import {getSubStatus, getDetailedSubStatus} from "../requests/authRequests";
 import {message} from "antd";
 import {Helmet} from "react-helmet";
 import { motion } from "framer-motion";
@@ -23,21 +23,27 @@ const pricingBreadcumbs = [
 
 class PricingPlan extends Component {
 
-    async componentDidMount() {
-        /*
-        const subStatus = await getSubStatus();
+    state = {
+        subStatus: "",
+        subscription: ""
+    }
 
-        if (subStatus === "active") {
-            message.error("Your subscription is still valid");
-            this.props.history.goBack();
-        }
-        */
+    async componentWillMount() {
+        const detailedSubStatus = await getDetailedSubStatus();
 
         this.props.getAllPlans();
+
+        const {subStatus, subscription} = detailedSubStatus;
+
+        this.setState({
+            subStatus,
+            subscription: subscription[0]
+        })
     }
 
     render() {
         const planList = this.props.plans;
+        const {subStatus, subscription} = this.state;
 
         return (
             <motion.div
@@ -119,7 +125,7 @@ class PricingPlan extends Component {
                 
                 <div className="section">
                     <div className="container">
-                        <PlanList planList={planList}/>
+                        <PlanList subStatus={subStatus} planList={planList} subscription={subscription}/>
                     </div>
                 </div>
             </div>

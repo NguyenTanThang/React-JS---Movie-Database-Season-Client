@@ -18,8 +18,6 @@ export const editCustomer = async (updatedCustomer) => {
     try {
         message.loading("Saving...", 0);
 
-        console.log(updatedCustomer);
-
         if (!authenticationService.currentUserValue) {
             return false;
         }
@@ -30,7 +28,7 @@ export const editCustomer = async (updatedCustomer) => {
             return false;
         }
 
-        const res = await axios.put(`${CUSTOMER_URL}/edit/${customerID}`, updatedCustomer);
+        const res = await axios.put(`${CUSTOMER_URL}/edit-profile/${customerID}`, updatedCustomer);
 
         const {
             success
@@ -43,8 +41,6 @@ export const editCustomer = async (updatedCustomer) => {
         }
 
         const data = res.data;
-
-        console.log(data);
 
         message.destroy();
         message.success(resMessage, 5);
@@ -73,8 +69,6 @@ export const resetPasswordToken = async (email) => {
 
         const data = res.data;
 
-        console.log(data);
-
         message.success(resMessage, 5);
 
         return data;
@@ -100,12 +94,11 @@ export const resetPassword = async (token, newPassword) => {
 
         const data = res.data;
 
-        console.log(data);
-
         message.success(resMessage, 5);
 
         return data;
     } catch (error) {
+        console.log(error);
         message.error(error.message, 5);
     }
 }
@@ -136,8 +129,6 @@ export const changePassword = async (userID, updatePasswordObject) => {
 
         const data = res.data;
 
-        console.log(data);
-
         message.destroy();
         message.success("Successfully changed password", 5);
 
@@ -165,7 +156,7 @@ export const getAuthStatus = async () => {
             success
         } = res.data;
         const user = res.data.data;
-
+ 
         if (!success) {
             return false;
         }
@@ -207,9 +198,44 @@ export const getSubStatus = async () => {
 
         const status = res.data.data;
 
-        console.log(status);
-
         return status;
+    } catch (error) {
+        message.error(error.message, 5);
+    }
+}
+
+export const getDetailedSubStatus = async () => {
+    try {
+        const currentUser = authenticationService.currentUserValue;
+
+        if (!currentUser) {
+            return false;
+        }
+
+        const customerID = authenticationService.currentUserValue.customerItem._id;
+
+        if (!customerID) {
+            return false;
+        }
+
+        const res = await axios.get(`${SUB_URL}/status/customerID/${customerID}`);
+
+        const {
+            success
+        } = res.data;
+        const resMessage = res.data.message;
+
+        if (!success) {
+            return message.error(resMessage, 5);
+        }
+
+        const status = res.data.data;
+        const subscription = res.data.subscription;
+
+        return {
+            subStatus: status,
+            subscription
+        };
     } catch (error) {
         message.error(error.message, 5);
     }
@@ -251,8 +277,6 @@ export const signup = async (newUser) => {
 
         const data = res.data;
 
-        console.log(data);
-
         message.success("Please go to the email to validate the new account to login", 5);
 
         return data;
@@ -284,8 +308,6 @@ export const login = async (currentUser) => {
 
         const data = res.data;
         const user = res.data.data;
-
-        console.log(data);
 
         message.success("Successfully logged in", 5);
         setCurrentUser(user);
@@ -376,24 +398,20 @@ export const sessionAutoRefreshMechanic = async () => {
             if (authenticationService.currentUserValue) {
                 const currentSession = authenticationService.currentUserValue.session;
 
-                console.log(currentSession);
-
                 if (!currentSession) {
-                    authenticationService.logout();
+                    return authenticationService.logout();
                 }
 
-                //console.log(+new Date(currentSession.expiry_date) - +Date.now());
-
-                if (+new Date(currentSession.expiry_date) - +Date.now() <= 1000 * 60  * 1.5 && +new Date(currentSession.expiry_date) - +Date.now() > 0) {
+                if (+new Date(currentSession.expiry_date) - +Date.now() <= 1000 * 60  * 2 && +new Date(currentSession.expiry_date) - +Date.now() > 0) {
                     const session = await refreshSession();
-                    authenticationService.setNewSession(session);
+                    return authenticationService.setNewSession(session);
                 } 
                 
                 if (+new Date(currentSession.expiry_date) - +Date.now() <= 0) {
-                    authenticationService.logout();
+                    return authenticationService.logout();
                 }
             }
-        }, 1000);
+        }, 5000);
     } catch (error) {
         message.error(error.message);
     }

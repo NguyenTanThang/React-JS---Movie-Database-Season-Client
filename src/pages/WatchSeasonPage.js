@@ -15,13 +15,13 @@ import {message} from "antd";
 import {Helmet} from "react-helmet";
 import { motion } from "framer-motion";
 import {pageStyle, pageTransition, pageVariants} from "../config/animation";
-import RateMovieModalSync from "../components/movies/RateMovieModalSync";
+import RateMovieModal from "../components/movies/RateMovieModal";
 import MovieDescription from "../components/movies/MovieDescription";
+import Loading from "../components/partials/Loading";
 import {
-    getReviewByCustomerID,
-} from "../requests/reviewRequests";
-
-const customerID = localStorage.getItem("userID")
+    getReviewsByMovieID
+} from "../actions/reviewActions";
+import {connect} from "react-redux";
 
 class WatchSeasonPage extends Component {
 
@@ -31,17 +31,20 @@ class WatchSeasonPage extends Component {
         currentEpisode: "",
         currentEpisodeNum: 1,
         ratingEpisodeList: [],
-        subtitles: []
+        subtitles: [],
+        isAboutToEnd: false,
+        //episodeLoading: false
     }
 
-    async componentDidMount() {
+    async componentWillMount() {
         try {
             const seasonID = this.props.match.params.seasonID;
             const seriesID = localStorage.getItem("currentSeriesID");
             const currentUser = authenticationService.currentUserValue;
             
-            const loggedIn = currentUser;
             const episodeList = await getEpisodesBySeasonIDAxios(seasonID);
+            const currentlyReviewedID = this.state.currentEpisode._id || episodeList[0]._id;
+            this.props.getReviewsByMovieID(currentlyReviewedID);
             const seasonItem = await getSeasonByIDAxios(seasonID);
             const subStatus = await getSubStatus();
 
@@ -56,13 +59,11 @@ class WatchSeasonPage extends Component {
             await deleteWatchHistory(userID, seriesID);
             await addWatchHistory(userID, seriesID);
 
-            const reviews = await getReviewByCustomerID(customerID);
-            console.log("reviews");
-            console.log(reviews);
-
+            //const reviews = await getReviewByCustomerID(userID);
             for (let i = 0; i < episodeList.length; i++) {
                 const episodeItem = episodeList[i];
                 
+                /*
                 let review = {};
                 let filterReviews = reviews.filter(reviewItem => {
                     return reviewItem.movieID === episodeItem._id
@@ -72,51 +73,69 @@ class WatchSeasonPage extends Component {
                 } else {
                     review = filterReviews[0];
                 }
+                */
 
                 ratingEpisodeList.push(
                     {
                         episodeNum: episodeItem.episodeNum,
                         content: (
                             <div key={episodeItem._id}className="episode-details__rating">
-                                <RateMovieModalSync movieID={episodeItem._id} loggedIn={loggedIn} review={review} />
+                                <RateMovieModal isButton movieID={episodeItem._id} />
                             </div>
                         )
                     }
+                   /*
+                    {
+                        episodeNum: episodeItem.episodeNum,
+                        content: (
+                            <div key={episodeItem._id}className="episode-details__rating">
+                                <RateMovieModal movieID={episodeItem._id} />
+                            </div>
+                        )
+                    }
+                    */
                 )
             }
 
-            const subtitles = await getSubtitlesByEpisodeID(episodeList.filter(episodeItem => {
-                console.log(episodeItem.episodeNum === this.state.currentEpisodeNum)
+            const currentEpsiodeID = episodeList.filter(episodeItem => {
                 return episodeItem.episodeNum === this.state.currentEpisodeNum
-            })[0]._id);
-            console.log(episodeList.filter(episodeItem => {
-                console.log(episodeItem.episodeNum === this.state.currentEpisodeNum)
-                return episodeItem.episodeNum === this.state.currentEpisodeNum
-            })[0]._id);
-            console.log(subtitles)
-        
+            })[0]._id;
+            const subtitles = await getSubtitlesByEpisodeID(currentEpsiodeID);
+
             this.setState({
                 episodeList,
                 seasonItem,
                 currentEpisode: episodeList[0],
                 ratingEpisodeList,
                 subtitles
-            })
+            });
+
         } catch (error) {
             this.props.history.push("/error");
         }
     }
 
-    changeCurrentEpisode = (currentEpisode) => {
-        localStorage.setItem("ratingMovieID", currentEpisode._id);
+    changeCurrentEpisode = async (currentEpisode) => {
+        /*
         this.setState({
+            //episodeLoading: true,
+        })
+        */
+        localStorage.setItem("ratingMovieID", currentEpisode._id);
+        this.props.getReviewsByMovieID(currentEpisode._id);
+        const subtitles = await getSubtitlesByEpisodeID(currentEpisode._id);
+        this.setState({
+            subtitles,
             currentEpisode,
-            currentEpisodeNum: currentEpisode.episodeNum
+            currentEpisodeNum: currentEpisode.episodeNum,
+            //episodeLoading: false,
         })
     }
 
     renderEpisodeContainerTabs = () => {
-        const {episodeList, currentEpisodeNum} = this.state;
+        const {episodeList, currentEpisodeNum, 
+            //episodeLoading
+        } = this.state;
         const {changeCurrentEpisode} = this;
         const numberOfEp = episodeList.length;
         const numberOfTabs = Math.ceil(numberOfEp / 10);
@@ -138,14 +157,41 @@ class WatchSeasonPage extends Component {
             for (let j = epCounter; j < maxEp; j++) {
                 const currentEpisode = episodeList[j];
                 if (currentEpisodeNum === currentEpisode.episodeNum) {
+                    /*
+                    if (episodeLoading) {
+                        episodeTabs.push(
+                            <div key={currentEpisode._id} className="episode-tab loading__btn active" onClick={() => changeCurrentEpisode(currentEpisode)}>
+                                <div className="episode-tab__icon">
+                                    <Loading/>
+                                </div>
+                                <p>Episode {currentEpisode.episodeNum}</p>
+                            </div>
+                        )
+                    } else {
+                        episodeTabs.push(
+                            <div key={currentEpisode._id} className="episode-tab active" onClick={() => changeCurrentEpisode(currentEpisode)}>
+                                <div className="episode-tab__icon">
+                                    <i class="fas fa-play-circle"></i>
+                                </div>
+                                <p>Episode {currentEpisode.episodeNum}</p>
+                            </div>
+                        )
+                    }
+                    */
                     episodeTabs.push(
                         <div key={currentEpisode._id} className="episode-tab active" onClick={() => changeCurrentEpisode(currentEpisode)}>
+                            <div className="episode-tab__icon">
+                                <i class="fas fa-play-circle"></i>
+                            </div>
                             <p>Episode {currentEpisode.episodeNum}</p>
                         </div>
                     )
                 } else {
                     episodeTabs.push(
                         <div className="episode-tab" key={currentEpisode._id} onClick={() => changeCurrentEpisode(currentEpisode)}>
+                            <div className="episode-tab__icon">
+                                <i class="fas fa-play-circle"></i>
+                            </div>
                             <p>Episode {currentEpisode.episodeNum}</p>
                         </div>
                     )
@@ -166,8 +212,6 @@ class WatchSeasonPage extends Component {
             else {
                 tabHeaders.push(`Ep. ${beginEp} - Ep. ${maxEp}`);
             }
-            console.log("episodeTabs");
-            console.log(episodeTabs);
         }
 
         /*
@@ -182,8 +226,6 @@ class WatchSeasonPage extends Component {
 
         */
 
-       console.log(tabContents);
-
         /*
         const tabHeaders = episodeList.map(episodeItem => {
             const {episodeNum} = episodeItem;
@@ -194,15 +236,11 @@ class WatchSeasonPage extends Component {
 
         */
 
-       console.log(tabHeaders);
-
         return <TabGenerator tabContents={tabContents} tabHeaders={tabHeaders}/>
     }
 
     renderEpisodeListWatchItems = () => {
         const {episodeList, subtitles} = this.state;
-        console.log(episodeList);
-        console.log(subtitles);
         
         if (!episodeList || episodeList.length === 0) {
             return(<></>);
@@ -217,8 +255,6 @@ class WatchSeasonPage extends Component {
             )
         })
 
-        console.log(tabContents);
-
         const tabHeaders = episodeList.map(episodeItem => {
             const {episodeNum} = episodeItem;
             return (
@@ -226,15 +262,32 @@ class WatchSeasonPage extends Component {
             )
         })
 
-        console.log(tabHeaders);
-
         return <TabGenerator tabContents={tabContents} tabHeaders={tabHeaders}/>
     }
 
+    calculateRating = () => {
+        const {reviews, loading} = this.props;
+
+        if (!loading && reviews) {
+            let meanRating = 0;
+
+            for (let i = 0; i < reviews.length; i++) {
+                const reviewItem = reviews[i];
+                meanRating += reviewItem.grading;
+            }
+
+            if (reviews.length && reviews.length > 0) {
+                meanRating = meanRating / reviews.length;
+            }
+            return meanRating;
+        }
+
+        return 0;
+    }
+
     render() {
-        const {renderEpisodeListWatchItems, renderEpisodeContainerTabs} = this;
+        const {renderEpisodeContainerTabs} = this;
         const {seasonItem, currentEpisode, ratingEpisodeList, subtitles} = this.state;
-        const {rating} = currentEpisode;
         const ratingEpisodeItem = ratingEpisodeList.filter(item => {
             return item.episodeNum === currentEpisode.episodeNum
         })[0];
@@ -275,7 +328,7 @@ class WatchSeasonPage extends Component {
                                         <h1 className="details__title">
                                             {currentEpisode.name}
                                         </h1>
-                                        <span className="card__rate"><i className="fas fa-star" aria-hidden="true"></i> {rating.toFixed(1)}/10</span>
+                                        <span className="card__rate"><i className="fas fa-star" aria-hidden="true"></i> {this.calculateRating().toFixed(1)}/5</span>
                                     </div>
 
                                     <div className="episode-details-content__sub-header">
@@ -290,11 +343,12 @@ class WatchSeasonPage extends Component {
                                     </div>
                                 </div>
                             </div>
-                            <div className="col-12">
+                            <div className="col-12 episode-tabs-container">
                                 {renderEpisodeContainerTabs()}
                             </div>
                         </div>
                     </div>
+
                 </section>
             </>
             </motion.div>
@@ -302,4 +356,19 @@ class WatchSeasonPage extends Component {
     }
 }
 
-export default WatchSeasonPage;
+const mapDispatchToProps = (dispatch) => {
+    return {
+        getReviewsByMovieID: (movieID) => {
+            dispatch(getReviewsByMovieID(movieID))
+        },
+    }
+}
+
+const mapStateToProps = (state) => {
+    return {
+        reviews: state.reviewReducer.reviews,
+        loading: state.loadingReducer.loading
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(WatchSeasonPage);

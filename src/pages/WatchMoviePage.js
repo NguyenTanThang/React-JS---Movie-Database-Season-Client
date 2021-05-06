@@ -21,7 +21,7 @@ class WatchMoviePage extends Component {
         subtitles: []
     }
 
-    async componentDidMount() {
+    async componentWillMount() {
         try {
             const movieID = this.props.match.params.movieID;
 
@@ -38,9 +38,6 @@ class WatchMoviePage extends Component {
             const subtitles = await getSubtitlesByMovieID(movieID);
             await deleteWatchHistory(userID, movieID);
             await addWatchHistory(userID, movieID);
-
-            console.log("subtitles-WatchMoviePage")
-            console.log(subtitles)
 
             this.setState({
                 movieItem,

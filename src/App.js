@@ -9,7 +9,6 @@ import "./App.css";
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import IdleTimer from 'react-idle-timer'
-import {createNotification} from "./utils";
 import ScrollToTop from "./components/partials/ScrollToTop";
 
 /*
@@ -94,7 +93,6 @@ class App extends React.Component {
         isWatched = true;
       } else {
         this.handleResumeIdle();
-        console.log(this.idleTimer.getRemainingTime());
       }
     }
 
@@ -137,6 +135,7 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
+        
       <IdleTimer
           ref={ref => { this.idleTimer = ref }}
           timeout={1000 * 60 * 10}
@@ -162,18 +161,18 @@ class App extends React.Component {
               <Route path="/zalo-pay" component={ZaloPaymentPage}/>
               <Route path="/sign-up" component={SignUp}/>
               <Route path="/sign-in" component={SignIn}/>
-              <Route path="/change-password" component={ChangePassword}/>
+              <PrivateRoute path="/change-password" component={ChangePassword}/>
               <Route path="/forgot-password" component={ForgotPassword}/>
               <Route path="/reset-password/:token" component={ResetPassword}/>
               <Route path="/logout" component={Logout}/>
-              <Route path="/watch-later" component={WatchLater}/>
-              <Route path="/history" component={HistoryPage}/>
+              <PrivateRoute path="/watch-later" component={WatchLater}/>
+              <PrivateRoute path="/history" component={HistoryPage}/>
               <Route path="/season-list/:seriesID" component={SeasonListPage}/>
               <Route path="/movies-details/:movieID" render={props => <MovieDetailsPage key={props.match.params.movieID} {...props} />}/>
               <Route path="/series-details/:seriesID" render={props => <SeriesDetailsPage key={props.match.params.seriesID} {...props} />}/>
               <Route path="/season-details/:seasonID" render={props => <SeasonDetailsPage key={props.match.params.seasonID} {...props} />}/>
-              <Route path="/watch-movie/:movieID" component={WatchMoviePage} exact/>
-              <Route path="/watch-season/:seasonID" component={WatchSeasonPage} exact/>
+              <PrivateRoute path="/watch-movie/:movieID" component={WatchMoviePage} exact/>
+              <PrivateRoute path="/watch-season/:seasonID" component={WatchSeasonPage} exact/>
               <Route path="/loading" component={BigLoading} exact/>
               <Route component={NotFoundPage} />
             </Switch>

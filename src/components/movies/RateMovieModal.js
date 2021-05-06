@@ -12,8 +12,14 @@ import {
   editRating
 } from "../../requests/reviewRequests";
 import {getAuthStatus} from "../../requests/authRequests";
-import {message} from "antd";
+import {message, Tooltip} from "antd";
 import {withRouter} from "react-router-dom";
+import {
+  getReviewsByMovieID,
+  addReview,
+  editReview
+} from "../../actions/reviewActions";
+import {connect} from "react-redux";
 
 class RateMovieModal extends Component {
   state = { 
@@ -21,7 +27,9 @@ class RateMovieModal extends Component {
     grading: 0, 
     isRated: false, 
     reviewID: "" ,
-    loggedIn: ""
+    loggedIn: "",
+    loading: true,
+    value: this.props.value ? this.props.value : false
   };
 
   async componentDidMount() {
@@ -48,15 +56,17 @@ class RateMovieModal extends Component {
           grading: review.grading,
           isRated: true,
           reviewID: review._id,
-          loggedIn
+          loggedIn,
+          loading: false
         })
       }
     }
   }
 
   showModal = () => {
-    const {loggedIn} = this.state;
-    if (!loggedIn) {
+    const {loggedIn, loading} = this.state;
+
+    if (!loggedIn && !loading) {
       this.props.history.push("/sign-in");
       message.error("You can rate after logging in");
       return this.setState({
@@ -69,9 +79,9 @@ class RateMovieModal extends Component {
     });
   };
 
-  changeGrading = (e) => {
+  changeGrading = (grading) => {
     this.setState({
-        grading: e.target.value
+        grading
     })
   }
 
@@ -80,40 +90,102 @@ class RateMovieModal extends Component {
     const {movieID} = this.props;
     const {grading, isRated, reviewID} = this.state;
     const currentUser = authenticationService.currentUserValue;
+    if (grading === 0) {
+      return message.error("Please select a grade for the film");
+    }
     if (!currentUser) {
       return;
     }
     const customerID = currentUser.customerItem._id;
     if (isRated) {
-      await editRating(reviewID, {movieID, grading, customerID})
+      const updatedRating = await editRating(reviewID, {movieID, grading, customerID});
+      this.props.editReview(updatedRating);
       this.setState({
-        visible: false
+        visible: false,
+        isRated: true,
       })
     } else {
-      await addRating({movieID, grading, customerID})
+      const newRating = await addRating({movieID, grading, customerID});
+      this.props.addReview(newRating);
       this.setState({
-        visible: false
+        visible: false,
+        isRated: true,
+        reviewID: newRating._id
       })
     }
   }
 
   handleCancel = e => {
-    console.log(e);
     this.setState({
       visible: false,
     });
   };
 
-  render() {
-    const {changeGrading, onSubmit} = this;
+  on
+
+  renderStarWidget = () => {
+    const {changeGrading} = this;
     const {grading, isRated} = this.state;
+
+    const starInputs = () => {
+      let ans = [];
+      for (let index = 1; index <= 5; index++) {
+        if (index === grading && isRated) {
+          ans.push(
+            <React.Fragment key={`rate-${index}`}>
+              <input type="radio" onChange={() => changeGrading(index)} name="grading" id={`rate-${index}`} checked/>
+              <label htmlFor={`rate-${index}`} className="fas fa-star"></label>
+            </React.Fragment>
+          )
+        } else {
+          ans.push(
+            <React.Fragment key={`rate-${index}`}>
+              <input type="radio" onChange={() => changeGrading(index)} name="grading" id={`rate-${index}`}/>
+              <label htmlFor={`rate-${index}`} className="fas fa-star"></label>
+            </React.Fragment>
+          )
+        }
+      }
+      return ans.reverse();
+    }
+
+    return (
+      <div className="star-widget-container">
+        <div className="star-widget">
+          {starInputs()}
+          <div>
+            <header></header>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  render() {
+    const {changeGrading, onSubmit, renderStarWidget} = this;
+    const {grading, isRated} = this.state;
+    const {isButton} = this.props;
 
     return (
       <>
+      {/*
         <button className="section__btn" onClick={this.showModal}>
             <i className="fas fa-star fa-2x" aria-hidden="true" style={{paddingRight: "10px"}}></i>
             Rate Now
         </button>
+        */}
+        {isButton ? (
+          <button className="section__btn" onClick={this.showModal}>
+          <i className="fas fa-star fa-2x" aria-hidden="true" style={{paddingRight: "10px"}}></i>
+          Rate Now
+      </button>
+        ) : (
+      <Tooltip title={"Rate the film"}>
+          <li className="rating-button" onClick={this.showModal}>
+            <i className="fa fa-star" aria-hidden="true"></i>
+          </li>
+        </Tooltip>
+        )}
         <Modal
           title="Rate the Movie"
           visible={this.state.visible}
@@ -122,10 +194,13 @@ class RateMovieModal extends Component {
           okButtonProps={{style: {display: "none"}}}
         >
           <form onSubmit={onSubmit}>
+            {renderStarWidget()}
+            {/*
             <div className="form-group">
                 <label htmlFor="grading">Grading: {grading}/10</label>
                 <input name="grading" id="grading" type="range" className="grading-slider" onChange={changeGrading} min="0" max="10" value={grading}/>
             </div>
+            */}
             <button type="submit" className="section__btn">{isRated ? "RE-RATE" : "RATE"}</button>
           </form>
         </Modal>
@@ -134,4 +209,24 @@ class RateMovieModal extends Component {
   }
 }
 
-export default withRouter(RateMovieModal);
+const mapDispatchToProps = (dispatch) => {
+  return {
+      getReviewsByMovieID: (movieID) => {
+          dispatch(getReviewsByMovieID(movieID))
+      },
+      addReview: (newReview) => {
+          dispatch(addReview(newReview))
+      },
+      editReview: (updatedReview) => {
+          dispatch(editReview(updatedReview))
+      }
+  }
+}
+
+const mapStateToProps = (state) => {
+  return {
+      reviews: state.reviewReducer.reviews
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(RateMovieModal));
